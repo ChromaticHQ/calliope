@@ -1,0 +1,58 @@
+{
+  "name": "@chromatichq/calliope",
+  "version": "1.0.0",
+  "description": "An extensible, Gulp-based front-end toolchain designed for quick and fussless setup and maintenance.",
+  "main": "gulpfile.js",
+  "author": "Alfonso Gómez-Arzola",
+  "license": "MIT",
+  "dependencies": {
+    "breakpoint-sass": "^2.7.1",
+    "browser-sync": "^2.27.7",
+    "del": "^6.0.0",
+    "dotenv": "^10.0.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-recommended": "^4.1.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-changed": "^4.0.3",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint-new": "^1.1.0",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.0.0",
+    "gulp-sass-glob": "^1.1.0",
+    "gulp-stylelint": "^13.0.0",
+    "gulp-svgmin": "^3.0.0",
+    "gulp-terser": "^2.1.0",
+    "lodash.defaultsdeep": "^4.6.1",
+    "markdown-toc": "^1.2.0",
+    "merge-stream": "^2.0.0",
+    "modularscale-sass": "^3.0.8",
+    "node-sass": "^7.0.0",
+    "nodemon": "^2.0.15",
+    "stylelint": "^13.13.1",
+    "stylelint-config-property-sort-order-smacss": "^7.1.0",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-scss": "^3.21.0",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChromaticHQ/osprey.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChromaticHQ/osprey/issues"
+  },
+  "homepage": "https://github.com/ChromaticHQ/osprey#readme"
+}
