@@ -1,4 +1,8 @@
-// Grab argv array and env object from the process.
+/**
+ * @file
+ * Define configuration defaults to be overridden by downstream projects.
+ */
+
 const { argv, env } = process;
 const failLint = process.argv.indexOf('lint') > -1;
 
