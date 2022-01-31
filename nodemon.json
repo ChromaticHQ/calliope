@@ -1,0 +1,11 @@
+{
+  "exec": "gulp watch",
+  "watch": [
+    ".browserslistrc",
+    ".env",
+    "calliope.config.js",
+    "nodemon.json",
+    "package.json",
+    "yarn.lock"
+  ]
+}
