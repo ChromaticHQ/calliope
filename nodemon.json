@@ -6,6 +6,7 @@
     "calliope.config.js",
     "nodemon.json",
     "package.json",
+    "tasks/**/*",
     "yarn.lock"
   ]
 }
