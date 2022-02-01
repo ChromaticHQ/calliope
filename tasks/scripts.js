@@ -3,33 +3,29 @@
  * Gulp task to process client-side JavaScript.
  */
 
-const config = require('../config')();
-const { src, dest, parallel } = require('gulp');
 const concat = require('gulp-concat');
+const config = require('../config')();
 const eslint = require('gulp-eslint-new');
 const gulpIf = require('gulp-if');
+const { src, dest, parallel } = require('gulp');
 const terser = require('gulp-terser');
 
+const pipelineConfig = config.pipelines.scripts;
+// gulp-concat instantiation function requires a name to be passed in. In the
+// case of bundling being disabled, we need to pass it a dummy string.
+const bundleName = pipelineConfig.bundle || 'faux-bundle-name';
+
 function scripts(bundle) {
-  return src(config.pipelines.scripts.src, { sourcemaps: true })
-    // Lint only if we’re not bundling and linting is enabled.
-    .pipe(gulpIf(!bundle && config.pipelines.scripts.lint, eslint()))
-    .pipe(gulpIf(!bundle && config.pipelines.scripts.lint, eslint.format()))
-    .pipe(terser())
-
-    // Bundle the component scripts into one file for Fractal.js to consume.
-    .pipe(gulpIf(bundle, concat('fractal-bundle.js')))
-    // If bundled, save concatenated fractal-bundle.js file. Otherwise, save
-    // discrete component script files for Drupal to consume individually.
-    .pipe(dest(config.pipelines.scripts.dest, { sourcemaps: '.' }));
+  return src(pipelineConfig.src, { sourcemaps: true })
+    // Lint if linting is enabled.
+    .pipe(gulpIf(pipelineConfig.lint, eslint()))
+    .pipe(gulpIf(pipelineConfig.lint, eslint.format()))
+    // Compress/uglify if compression is enabled.
+    .pipe(gulpIf(pipelineConfig.compress, terser()))
+    // Concatenate script files into a bundle, if a bundle name is set.
+    .pipe(gulpIf(pipelineConfig.bundle, concat(bundleName)))
+    // Write results to disk.
+    .pipe(dest(pipelineConfig.dest, { sourcemaps: '.' }));
 }
 
-function discreteScripts() {
-  return scripts();
-}
-
-function bundledScripts() {
-  return scripts(true);
-}
-
-module.exports = parallel(discreteScripts, bundledScripts);
+module.exports = scripts;
