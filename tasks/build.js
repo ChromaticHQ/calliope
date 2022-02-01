@@ -16,7 +16,7 @@ const tasks = [
   clean,
   parallel(...pipelines.map(pipelineName => {
     // Try to load the task from the project’s custom tasks and task overrides.
-    let task = config.tasks[pipelineName];
+    let task = config.pipelineOverrides[pipelineName];
     // If the above attempt produced a module, use it.
     if (task) {
       // Found a task, so register and return it.

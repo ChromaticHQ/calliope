@@ -45,13 +45,13 @@ function config(report) {
   };
 
   // Create config object for custom tasks and task overrides.
-  const tasks = {};
+  const pipelineOverrides = {};
 
   Object.keys(pipelines).forEach(name => {
     // Try to load the task from the project’s own CWD first.
     try {
-      const task = require(path.resolve(process.cwd(), 'tasks', name));
-      tasks[name] = task;
+      const task = require(path.resolve(process.cwd(), 'calliope/pipelines', name));
+      pipelineOverrides[name] = task;
     }
     catch (error) {
       // If the issue is not that the module is missing, throw the error.
@@ -59,16 +59,16 @@ function config(report) {
     }
   });
 
-  if (report && Object.keys(tasks).length) {
-    log.info(chalk.green('✓ Found the following custom tasks:'));
-    Object.keys(tasks).forEach((task) => {
+  if (report && Object.keys(pipelineOverrides).length) {
+    log.info(chalk.green('✓ Found the following custom pipeline tasks:'));
+    Object.keys(pipelineOverrides).forEach((task) => {
       log.info(chalk.grey(`    - ${ task }`));
     });
   } else if (report) {
-    log.info(chalk.cyan('- No custom tasks found.'));
+    log.info(chalk.cyan('- No custom pipeline tasks found.'));
   }
 
-  return { pipelines, plugins, tasks };
+  return { pipelines, pipelineOverrides, plugins };
 }
 
 module.exports = config;
