@@ -3,10 +3,12 @@
  * Configuration objects used in Gulp tasks.
  */
 
+const chalk = require('chalk');
 const defaultsDeep = require('lodash.defaultsdeep');
 const defaults = require('./defaults');
 const { env } = process;
 const log = require('fancy-log');
+const path = require('path');
 
 function config(report) {
   // Load downstream configuration.
@@ -24,7 +26,7 @@ function config(report) {
     if (!pipelines[name]) delete pipelines[name];
   });
 
-  // Create config objects for tools and Gulp plugins.
+  // Create config object for tools and Gulp plugins.
   const plugins = defaultsDeep({}, downstream.plugins, defaults.plugins);
 
   // Allow Browsersync proxy value to be overridden via environment variable.
@@ -35,14 +37,38 @@ function config(report) {
   plugins.browsersync.callbacks = {
     ready: (error, bs) => {
       if (error) throw error;
-      log.info(`Browsersync is reverse proxying ${ bs.options.get('proxy').get('target') } at the following URLs:`);
+      log.info(chalk.green(`✓ Browsersync is reverse proxying ${ bs.options.get('proxy').get('target') } at the following URLs:`));
       bs.options.get('urls')._root.entries.forEach(pair => {
-        log.info(`    - ${pair[0].toUpperCase()}: ${pair[1]}`);
+        log.info(chalk.grey(`    - ${pair[0].toUpperCase()}: ${pair[1]}`));
       });
     },
   };
 
-  return { pipelines, plugins };
+  // Create config object for custom tasks and task overrides.
+  const tasks = {};
+
+  Object.keys(pipelines).forEach(name => {
+    // Try to load the task from the project’s own CWD first.
+    try {
+      const task = require(path.resolve(process.cwd(), 'tasks', name));
+      tasks[name] = task;
+    }
+    catch (error) {
+      // If the issue is not that the module is missing, throw the error.
+      if (error.code !== 'MODULE_NOT_FOUND') throw error;
+    }
+  });
+
+  if (report && Object.keys(tasks).length) {
+    log.info(chalk.green('✓ Found the following custom tasks:'));
+    Object.keys(tasks).forEach((task) => {
+      log.info(chalk.grey(`    - ${ task }`));
+    });
+  } else if (report) {
+    log.info(chalk.cyan('- No custom tasks found.'));
+  }
+
+  return { pipelines, plugins, tasks };
 }
 
 module.exports = config;
