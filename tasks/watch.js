@@ -4,9 +4,10 @@
  * using the tasks exposed by the `build` function.
  */
 
-const proxy = require('./proxy');
 const build = require('./build');
 const config = require('../config')();
+const path = require('path');
+const proxy = require('./proxy');
 const { series, watch } = require('gulp');
 
 // store pipelines for reuse
@@ -14,6 +15,12 @@ const pipelines = config.pipelines;
 
 // Create array of pipeline names from the pipeline dictionary.
 const pipelineNames = Object.keys(pipelines);
+
+// Create an array of accessory processes to be run alongside our watch tasks.
+// e.g. component libraries, APIs, stub servers, etc.
+const accessories = config.watchAccessories.map((name) => {
+  return require(path.resolve(process.cwd(), 'calliope/watchAccessories', name));
+});
 
 // Private task: programmatically create watchers.
 function watchSource(done) {
@@ -30,4 +37,4 @@ function watchSource(done) {
   done();
 }
 
-module.exports = series(build, watchSource, proxy);
+module.exports = series(build, watchSource, proxy, ...accessories);
