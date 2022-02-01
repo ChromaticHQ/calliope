@@ -51,6 +51,9 @@ exports.plugins = {
     open: false,
     // Use port 4000 to avoid collisions w/Fractal’s instance of BrowserSync.
     port: 4000,
+    ui: {
+      port: 4001,
+    },
   },
   nodemon: require('../nodemon.json'),
   sass: {
