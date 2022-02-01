@@ -22,7 +22,7 @@ function downstream(report) {
   }
   catch (error) {
     if (!error.message.match('ENOENT')) throw error;
-    report && log.info(chalk.yellow('! No calliope.config.js file found. Going with the defaults.'));
+    report && log.info(chalk.cyan('- No calliope.config.js file found. Going with the defaults.'));
   }
 
   return { pipelines, plugins };

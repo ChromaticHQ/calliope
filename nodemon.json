@@ -1,5 +1,5 @@
 {
-  "exec": "calliope watch",
+  "exec": "calliope watch --omit-setup-report",
   "watch": [
     ".browserslistrc",
     ".env",

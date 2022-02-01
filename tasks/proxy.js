@@ -5,6 +5,7 @@
 
 // Load dependencies.
 const bs = require('browser-sync').create();
+const chalk = require('chalk');
 const config = require('../config')();
 const log = require('fancy-log');
 
@@ -20,6 +21,6 @@ function proxy(done) {
   if (config.plugins.browsersync.proxy) {
     return bs.init(config.plugins.browsersync, done);
   }
-  log.info('No reverse proxy configured. Skipping the proxy task.');
+  log.info(chalk.cyan('- No reverse proxy configured. Skipping the proxy task.'));
   return done();
 }

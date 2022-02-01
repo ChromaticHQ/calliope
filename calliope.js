@@ -22,6 +22,6 @@ function calliope(command, ...args) {
 }
 
 // Attach configuration to the function for easy reference.
-calliope.config = require('./config')(true);
+calliope.config = require('./config')();
 
 module.exports = calliope;

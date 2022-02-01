@@ -17,7 +17,7 @@ function env(report) {
     Object.keys(options.parsed)
       .map(key => log.info(chalk.grey(`    ${key}: ${options.parsed[key]}`)));
   } else {
-    log.info(chalk.grey('! No personalization options detected via .env file.'));
+    log.info(chalk.cyan('- No personalization options detected via .env file.'));
   }
 }
 
