@@ -5,24 +5,17 @@
  */
 
 const config = require('../config');
-const { series, watch } = require('gulp');
+const { watch } = require('gulp');
 const nodemon = require('gulp-nodemon');
-const path = require('path');
-const watchTask = require('./watch');
 
 function start(done) {
   nodemon({
     ...(config.plugins.nodemon),
-    tasks: function (changedFiles) {
-      console.log(changedFiles);
-      const tasks = [];
-      if (!changedFiles) return tasks;
-      console.log(require.cache[changedFiles[0]]);
-      changedFiles.forEach(file => delete require.cache[file]);
-      console.log(require.cache[changedFiles[0]]);
-      return tasks;
-    },
     done: done,
+  }).on('restart', (changedFiles) => {
+    // Acknowledge changed files to the console.
+    console.log(`Detected changes:\n    - ${changedFiles.join('\n    - ')}`);
+    console.log('Restarting toolchian…');
   });
 }
 

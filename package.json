@@ -37,7 +37,6 @@
     "merge-stream": "^2.0.0",
     "modularscale-sass": "^3.0.8",
     "node-sass": "^7.0.0",
-    "nodemon": "^2.0.15",
     "stylelint": "^13.13.1",
     "stylelint-config-property-sort-order-smacss": "^7.1.0",
     "stylelint-config-standard": "^22.0.0",
