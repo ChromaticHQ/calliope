@@ -4,18 +4,22 @@
  * files to restart the watch tasks when appropriate.
  */
 
-const config = require('../config');
-const { watch } = require('gulp');
-const nodemon = require('gulp-nodemon');
+const config = require('../config')();
+const path = require('path');
+const spawn = require('child_process').spawn;
 
-function start(done) {
-  nodemon({
-    ...(config.plugins.nodemon),
-    done: done,
-  }).on('restart', (changedFiles) => {
-    // Acknowledge changed files to the console.
-    console.log(`Detected changes:\n    - ${changedFiles.join('\n    - ')}`);
-    console.log('Restarting toolchian…');
+function start() {
+  const nodemon = spawn('nodemon', [
+    '--config',
+    path.resolve(__dirname, '..', 'nodemon.json'),
+  ], {
+    stdio: [ 'inherit', 'inherit', 'inherit', 'ipc' ],
+  }).on('message', (event) => {
+    if (event.type === 'restart' && event.data && event.data.length) {
+      // Acknowledge changed files to the console.
+      console.log(`Detected changes:\n    - ${event.data.join('\n    - ')}`);
+      console.log('Restarting toolchian…');
+    }
   });
 }
 
