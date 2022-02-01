@@ -3,8 +3,11 @@
  * Gulp task to run all tasks from the build task register in config.
  */
 
-const config = require('../config');
+const chalk = require('chalk');
+const config = require('../config')();
 const clean = require('./clean');
+const gulp = require('gulp');
+const log = require('fancy-log');
 const { parallel, series } = require('gulp');
 const path = require('path');
 
@@ -33,10 +36,13 @@ const tasks = [
     catch (error) {
       // If the issue is not that the module is missing, throw the error.
       if (error.code !== 'MODULE_NOT_FOUND') throw error;
-      throw new Error(`Build task '${pipelineName}' was not found.\n       If you have a custom task with this name, be sure to add a module for it at 'tasks/${pipelineName}.js'.\n`);
+      log.error(chalk.redBright(`✕ ERROR: Configuration ${pipelineName} detected, but task file '${pipelineName}.js' cannot be found.`));
+      log.error(`    If you have a custom task with this name, be sure to add the module for it in your project at 'tasks/${pipelineName}.js'.`);
+      process.exit(1);
     }
 
-    // Found a task, so return it.
+    // Found a task, so register and return it.
+    gulp.task(pipelineName, task);
     return task;
   })),
 ];

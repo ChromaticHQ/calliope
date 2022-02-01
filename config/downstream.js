@@ -3,22 +3,29 @@
  * Load the downstream project’s configuration object.
  */
 
+const chalk = require('chalk');
 const log = require('fancy-log');
+const path = require('path');
 
-// Load pipelines and plugins from downstream config, falling back to empty
-// objects for each.
-let pipelines = {}, plugins = {};
+function downstream(report) {
+  // Load pipelines and plugins from downstream config, falling back to empty
+  // objects for each.
+  let pipelines = {}, plugins = {};
 
-try {
-  const downstream = require(`${ process.cwd() }/calliope.config.js`);
-  log.info('Using project config found in calliope.config.js.');
-  pipelines = downstream.pipelines || pipelines;
-  plugins = downstream.plugins || plugins;
+  try {
+    const downstreamPath = path.resolve(process.cwd(), 'calliope.config.js');
+    const downstream = require(downstreamPath);
+    report && log.info(chalk.green(`✓ Project config found!`));
+    report && log.info(chalk.grey(`    Using file ${downstreamPath}.`));
+    pipelines = downstream.pipelines || pipelines;
+    plugins = downstream.plugins || plugins;
+  }
+  catch (error) {
+    if (!error.message.match('ENOENT')) throw error;
+    report && log.info(chalk.yellow('! No calliope.config.js file found. Going with the defaults.'));
+  }
+
+  return { pipelines, plugins };
 }
-catch (error) {
-  if (!error.message.match('ENOENT')) throw error;
-  log.info('No calliope.config.js file found. Going with the defaults.');
-}
 
-exports.pipelines = pipelines;
-exports.plugins = plugins;
+module.exports = downstream;

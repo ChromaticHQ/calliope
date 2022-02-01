@@ -2,12 +2,16 @@
   "name": "@chromatichq/calliope",
   "version": "1.0.0",
   "description": "An extensible, Gulp-based front-end toolchain designed for quick and fussless setup and maintenance.",
-  "main": "gulpfile.js",
+  "main": "calliope.js",
+  "bin": {
+    "calliope": "./cli.js"
+  },
   "author": "Alfonso Gómez-Arzola",
   "license": "MIT",
   "dependencies": {
     "breakpoint-sass": "^2.7.1",
     "browser-sync": "^2.27.7",
+    "chalk": "^4.0.0",
     "del": "^6.0.0",
     "dotenv": "^10.0.0",
     "eslint-config-airbnb-base": "15.0.0",

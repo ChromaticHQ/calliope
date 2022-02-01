@@ -3,7 +3,7 @@
  * Gulp task to clean build directories.
  */
 
-const { pipelines } = require('../config');
+const { pipelines } = require('../config')();
 const del = require('del');
 
 // Delete all destination directories.

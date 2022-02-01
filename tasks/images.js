@@ -4,7 +4,7 @@
  */
 
 const changed = require('gulp-changed');
-const config = require('../config');
+const config = require('../config')();
 const { dest, src } = require('gulp');
 const gulpIf = require('gulp-if');
 const imagemin = require('gulp-imagemin');

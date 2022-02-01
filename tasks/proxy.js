@@ -5,7 +5,8 @@
 
 // Load dependencies.
 const bs = require('browser-sync').create();
-const config = require('../config');
+const config = require('../config')();
+const log = require('fancy-log');
 
 // Export task.
 module.exports = proxy;
@@ -19,6 +20,6 @@ function proxy(done) {
   if (config.plugins.browsersync.proxy) {
     return bs.init(config.plugins.browsersync, done);
   }
-  console.info('No reverse proxy configured. Skipping.');
+  log.info('No reverse proxy configured. Skipping the proxy task.');
   return done();
 }

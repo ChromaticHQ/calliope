@@ -3,7 +3,7 @@
  * Gulp task to process client-side JavaScript.
  */
 
-const config = require('../config');
+const config = require('../config')();
 const { src, dest, parallel } = require('gulp');
 const concat = require('gulp-concat');
 const eslint = require('gulp-eslint-new');

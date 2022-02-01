@@ -3,7 +3,7 @@
  * Gulp task to process stylesheets.
  */
 
-const config = require('../config');
+const config = require('../config')();
 const { dest, src } = require('gulp');
 const autoprefixer = require('gulp-autoprefixer');
 const gulpIf = require('gulp-if');

@@ -6,7 +6,7 @@
 
 const proxy = require('./proxy');
 const build = require('./build');
-const config = require('../config');
+const config = require('../config')();
 const { series, watch } = require('gulp');
 
 // store pipelines for reuse
