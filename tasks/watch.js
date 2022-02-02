@@ -4,11 +4,11 @@
  * using the tasks exposed by the `build` function.
  */
 
+const browsersync = require('./browsersync');
 const build = require('./build');
 const config = require('../config')();
 const gulp = require('gulp');
 const path = require('path');
-const proxy = require('./proxy');
 const { series, watch } = require('gulp');
 
 // store pipelines for reuse
@@ -40,4 +40,4 @@ function watchSource(done) {
   done();
 }
 
-module.exports = series(build, watchSource, proxy, ...daemons);
+module.exports = series(build, watchSource, browsersync, ...daemons);

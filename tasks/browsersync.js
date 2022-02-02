@@ -10,16 +10,16 @@ const config = require('../config')();
 const log = require('fancy-log');
 
 // Export task.
-module.exports = proxy;
+module.exports = browsersync;
 
 /*
  * Start Browsersync and reverse proxy.
  */
-function proxy(done) {
+function browsersync(done) {
   // If a reverse proxy URL is set, start a Browsersync instance, otherwise a
   // send message to the console.
-  if (config.plugins.browsersync.proxy) {
-    return bs.init(config.plugins.browsersync, done);
+  if (config.daemons.browsersync.proxy) {
+    return bs.init(config.daemons.browsersync, done);
   }
   log.info(chalk.cyan('- No reverse proxy configured. Skipping the proxy task.'));
   return done();

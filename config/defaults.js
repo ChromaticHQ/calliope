@@ -39,7 +39,7 @@ exports.pipelines = {
   },
 };
 
-exports.plugins = {
+exports.daemons = {
   browsersync: {
     // Watch build files for changes.
     files: [
@@ -57,6 +57,9 @@ exports.plugins = {
       port: 4001,
     },
   },
+};
+
+exports.plugins = {
   nodemon: require('../nodemon.json'),
   sass: {
     outputStyle: 'expanded',
