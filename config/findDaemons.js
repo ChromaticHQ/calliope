@@ -14,7 +14,7 @@ function findDaemons(report) {
   if (report && daemons.length) {
     log.info(chalk.green(`✓ Custom daemons found! `));
     log.info(chalk.grey('    The following custom Gulp tasks will run alongside watch tasks.'));
-    daemons.forEach((name) => log.info(chalk.grey(`      - ${name}`)));
+    daemons.forEach((daemon) => log.info(chalk.grey(`      - ${daemon.name}`)));
   } else if (report) {
     log.info(chalk.cyan('- No custom daemons found.'));
   }
