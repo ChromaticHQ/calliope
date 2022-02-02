@@ -21,6 +21,7 @@ exports.pipelines = {
   images: null,
   scripts: {
     bundle: false,
+    compress: true,
     lint: env.CALLIOPE_LINT_JS === 'true',
     src: [
       `${ paths.SRC }/scripts/**/*.js`,
