@@ -19,7 +19,7 @@ const pipelineNames = Object.keys(pipelines);
 
 // Create an array of daemon processes to be run alongside our watch tasks.
 // e.g. component libraries, APIs, stub servers, etc.
-const daemons = config.daemons.map((daemon) => {
+const daemons = config.custom.daemons.map((daemon) => {
   const task = require(daemon.path);
   gulp.task(daemon.name, task);
   return task;
