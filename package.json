@@ -4,7 +4,7 @@
   "description": "An extensible, Gulp-based front-end toolchain designed for quick and fussless setup and maintenance.",
   "main": "calliope.js",
   "bin": {
-    "calliope": "cli.js"
+    "calliope": "./cli.js"
   },
   "author": "Alfonso Gómez-Arzola",
   "license": "MIT",
