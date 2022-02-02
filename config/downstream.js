@@ -10,13 +10,14 @@ const path = require('path');
 function downstream(report) {
   // Load pipelines and plugins from downstream config, falling back to empty
   // objects for each.
-  let pipelines = {}, plugins = {};
+  let daemons = {}, pipelines = {}, plugins = {};
 
   try {
     const downstreamPath = path.resolve(process.cwd(), 'calliope.config.js');
     const downstream = require(downstreamPath);
     report && log.info(chalk.green(`✓ Project config found!`));
     report && log.info(chalk.grey(`    Using file ${downstreamPath}.`));
+    daemons = downstream.daemons || daemons;
     pipelines = downstream.pipelines || pipelines;
     plugins = downstream.plugins || plugins;
   }
@@ -25,7 +26,7 @@ function downstream(report) {
     report && log.info(chalk.cyan('- No calliope.config.js file found. Going with the defaults.'));
   }
 
-  return { pipelines, plugins };
+  return { daemons, pipelines, plugins };
 }
 
 module.exports = downstream;
