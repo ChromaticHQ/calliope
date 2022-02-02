@@ -19,8 +19,8 @@ const pipelineNames = Object.keys(pipelines);
 
 // Create an array of accessory processes to be run alongside our watch tasks.
 // e.g. component libraries, APIs, stub servers, etc.
-const accessories = config.watchAccessories.map((name) => {
-  const task = require(path.resolve(process.cwd(), 'calliope/watchAccessories', name));
+const accessories = config.daemons.map((name) => {
+  const task = require(path.resolve(process.cwd(), 'calliope/daemons', name));
   gulp.task(name, task);
   return task;
 });

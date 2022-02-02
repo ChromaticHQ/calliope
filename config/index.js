@@ -68,9 +68,9 @@ function config(report) {
     log.info(chalk.cyan('- No custom pipeline tasks found.'));
   }
 
-  const watchAccessories = require('./watchAccessories')(report);
+  const daemons = require('./findDaemons')(report);
 
-  return { pipelines, pipelineOverrides, plugins, watchAccessories };
+  return { daemons, pipelines, pipelineOverrides, plugins };
 }
 
 module.exports = config;
