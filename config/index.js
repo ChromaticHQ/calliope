@@ -68,7 +68,7 @@ function config(report) {
     log.info(chalk.cyan('- No custom pipeline tasks found.'));
   }
 
-  const daemons = require('./findDaemons')(report);
+  const daemons = require('./daemons')(report);
 
   return { daemons, pipelines, pipelineOverrides, plugins };
 }

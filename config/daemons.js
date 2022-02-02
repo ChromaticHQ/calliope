@@ -1,6 +1,6 @@
 /**
  * @file
- * Load the downstream project’s watch accessories, if any.
+ * Load the downstream project’s daemons, if any.
  */
 
 const chalk = require('chalk');
