@@ -6,6 +6,7 @@
 
 const build = require('./build');
 const config = require('../config')();
+const gulp = require('gulp');
 const path = require('path');
 const proxy = require('./proxy');
 const { series, watch } = require('gulp');
@@ -19,7 +20,9 @@ const pipelineNames = Object.keys(pipelines);
 // Create an array of accessory processes to be run alongside our watch tasks.
 // e.g. component libraries, APIs, stub servers, etc.
 const accessories = config.watchAccessories.map((name) => {
-  return require(path.resolve(process.cwd(), 'calliope/watchAccessories', name));
+  const task = require(path.resolve(process.cwd(), 'calliope/watchAccessories', name));
+  gulp.task(name, task);
+  return task;
 });
 
 // Private task: programmatically create watchers.
