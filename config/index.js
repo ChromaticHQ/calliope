@@ -16,7 +16,7 @@ function config(report) {
   // Load variables from `.env` file into the process environment variables.
   require('./environment')(report);
 
-  const daemons = defaultsDeep({}, downstream.daemons, defaults, daemons);
+  const daemons = defaultsDeep({}, downstream.daemons, defaults.daemons);
 
   // Allow Browsersync proxy value to be overridden via environment variable.
   daemons.browsersync.proxy = env.CALLIOPE_REVERSE_PROXY_URL === 'null' ? null :
