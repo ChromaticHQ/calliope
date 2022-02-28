@@ -16,7 +16,18 @@ const config = require('../config')();
  * are detected.
  */
 function lintScss() {
-  return src(config.pipelines.styles.src)
+  let fullSrc = Array.isArray(config.pipelines.styles.src) ?
+    config.pipelines.styles.src :
+    [ config.pipelines.styles.src ];
+
+  if (config.pipelines.styles.watch) {
+    const additionalSrc = Array.isArray(config.pipelines.styles.watch) ?
+      config.pipelines.styles.watch :
+      [ config.pipelines.styles.watch ];
+    fullSrc = fullSrc.concat(config.pipelines.styles.watch);
+  }
+
+  return src(fullSrc)
     .pipe(stylelint(config.plugins.stylelint))
 }
 
