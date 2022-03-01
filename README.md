@@ -69,7 +69,72 @@ Now running `yarn build` will do the same thing as `yarn calliope build`. You ca
 
 # Configuration
 
-Calliope works without additional configuration but should you need to configure how any of the default tasks behave, first create a `calliope.config.js` file in the same directory as your project’s `package.json`. See the `calliope.sample-config.js` file in this repository for details.
+Calliope works without additional configuration. Should you need to configure how any of the default tasks behave or add configuration for a custom task, you’ll be able to do so by creating a `calliope.config.js` file in the same directory as your project’s `package.json`. See the [`calliope.sample-config.js`] file in this repository for details on how to configure each individual task from your newly-created configuration file, or as a reference for creating your configuration object for a custom task.
+
+# Available Commands
+
+For the most part, you will be interacting with two commands: `build` and `start`. The `build` command runs all of the tasks defined as pipelines (see [Pipelines] below). The `start` command will run the `build` command, watch for changes in the project’s source files, and re-run the appropriate tasks when any changes are detected. In addition to watching for changes, the `start` command will also run any daemons available in your project.
+
+In addition to these built-in commands, any individual task can be invoked as a standalone command via Calliope’s CLI. Once your `package.json` has been set up according to the [Installation & Usage] section, you can run any task from the command line like so:
+
+```shell
+yarn calliope scripts
+```
+
+The command above would run the `scripts` task once by itself.
+
+
+# Default Tasks
+
+Calliope ships with a few basic tasks that most projects will need. This section provides an overview of these tasks and what they accomplish. For details on the configuration options available for each of the following tasks, see the [`calliope.sample-config.js`] file in this project’s repository.
+
+## Pipelines
+
+Your project’s build is defined by its pipeline tasks. These tasks are concerned with processing your project’s static assets (JS, CSS, images, etc) and are run every time you run the `build` or `start` commands.
+
+### `fonts` - Move Font Files
+
+The `fonts` task merely moves font files from your source directory to the destination directory without any additional processing.
+
+**`fonts` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`calliope.sample-config.js`] for configuration details.**
+
+### `images` - Optimize Images
+
+The `images` moves image files from the source directory to the destination directory. It also provides simple image optimization for SVGs via [`gulp-imagemin`](https://npmjs.com/package/gulp-imagemin).
+
+**`images` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`calliope.sample-config.js`] for configuration details.**
+
+### `scripts` - Optimize JavaScript
+
+The `scripts` task handles operations related to JavaScript processing and optimization. It provides linting, uglification/compression (via [`terser`](https://npmjs.com/package/terser)), and concatenation. All of these operations are configurable to some degree.
+
+By default, this task does not lint JS files, but linting can be enabled via an `.env` file. See [Developer Personalization] for details.
+
+### `styles` - Pre-process Stylesheets
+
+The `styles` task generates CSS from your project’s `.scss` files using [`node-sass`](https://npmjs.com/package/node-sass). It includes a few affordances, such as [`gulp-sass-glob`](https://npmjs.com/package/gulp-sass-glob), [`gulp-autoprefixer`](https://www.npmjs.com/package/gulp-autoprefixer), and [`gulp-clean-css`](https://www.npmjs.com/package/gulp-clean-css). This task generates both minified and expanded (i.e. not minified) CSS stylesheets. Minified stylesheets will be named after your SCSS files, and expanded stylesheets will have the suffix `-expanded` attached to the filename. So if your stylesheet is named `main.scss`, Calliope will produce two files: `main.css` and `main-expanded.css`.
+
+By default, this task does not lint SCSS files, but linting can be enabled via an `.env` file. See [Developer Personalization] for details.
+
+## Daemons
+
+Daemons are tasks that run alongside your watched tasks when you use the `start` command. They are typically servers designed to enhance or otherwise facilitate the development experience without necessarily impacting the outcome of your build.
+
+### `browsersync` - Reverse Proxy
+
+The `browsersync` task reverse proxies your project’s local URL, so that it may be accessed at <https://localhost:3000>. Using this reverse proxy during development saves time and effort by dynamically refreshing styles when styles change or auto-refreshing the page when JS or template files change.
+
+## Generic Tasks
+
+Generic tasks are tasks that are not part of the build and are not run alongside your watched tasks, but are nevertheless invoked independently throughout the development workflow in one way or another.
+
+### `lint` - Lint JS and SCSS
+
+The `lint` tasks uses [`gulp-eslint-new`](https://npmjs.com/package/gulp-eslint-new) and [`gulp-stylelint`](https://npmjs.com/package/gulp-stylelint) to lint your project’s JS and SCSS (respectively). It uses the `src` and (optional) `watch` settings of the `scripts` and `styles` configuration to determine which files should be linted, and relies on your project’s `.eslintrc.yml` and `.stylelintrc.yml` files to define the rules with which to lint your source files.
+
+# Developer Personalization
+
+In addition to the configuration options available in your project’s `calliope.config.js`, individual developers may modify parts of the tooling behavior according to their personal preferences. Developers may opt into JS and SCSS linting, and modify the reverse proxy’s URL (or opt out of reverse proxying altogether) by creating a `.env` file in their project and setting variables according to their needs. See the [`.env.sample`] file in this project’s repo for reference.
 
 # Customization
 
@@ -80,7 +145,7 @@ Calliope will serve the needs of most of our projects out of the box, but if you
 Calliope is just a fancy wrapper around Gulp, so all tasks that you may need to create will be just standard Gulp tasks. However, there are three different types of tasks within Calliope, some of which get special treatment.
 
 1. **Pipelines:** These are typically tasks that process static assets, e.g. compiling styles, compressing JavaScript, processing images, moving fonts around, etc. If your custom task or override is intended to be run as part of each build, it goes in `calliope/pipelines/`. In addition to creating custom pipelines, Calliope supports overriding its default pipelines if your project requires this. See [Overriding Default Pipelines] below for details.
-1. **Daemons:** Daemons are long-running processes that you want Calliope to run _alongside_ any watched tasks. Anytime you run `yarn calliope start`, Calliope will not only build assets and start watching for changes, but also run any daemons that may be available. If you need to run a service during development (a component library server, an API stubs server, etc.), it belongs in `calliope/daemons/`. While you may create custom daemons to run in parallel to build and watch tasks during development, the default reverse proxy daemon may not be overridden at this time.
+1. **Daemons:** Daemons are long-running processes that you want Calliope to run _alongside_ any watched tasks. Anytime you run `yarn calliope start`, Calliope will not only build assets and start watching for changes, but also run any daemons that may be available. If you need to run a service during development (a component library server, an API stubs server, etc.), it belongs in `calliope/daemons/`. While you may create custom daemons to run in parallel to build and watched tasks during development, the default reverse proxy daemon may not be overridden at this time.
 1. **Tasks:** These are generic tasks that may be used as needed. They are standard Gulp taks that are only run when you explicitly invoke them in the command line. e.g. if you have a `calliope/tasks/build-patterns.js` file in your project, you can use `yarn calliope build-patterns` to run it. You can create as many custom generic tasks as your project needs, but existing ones are not currently overrideable.
 
 ## Overriding Default Pipelines
@@ -166,6 +231,13 @@ const myCustomVar = process.env.CALLIOPE_MY_CUSTOM_VAR || 'some less fun fallbac
 
 See the `pipelines.scripts` and `pipelines.styles` objects in the `config/defaults.js` file in this project for other examples of how we currently use environment variables.
 
-It’s important to note that these personalization options should always be optional and there should always be a fallback in your configuration. You should also document any new environment variables in the Development Settings section of your project’s README for ease of reference, and add sample variable definitions in your project’s `.env.sample` file.
+It’s important to note that these personalization options should always be optional and there should always be a fallback in your configuration. You should also document any new environment variables in the Development Settings section of your project’s README for ease of reference and add sample variable definitions in your project’s [`.env.sample`] file.
 
+[Available Commands]: #available-commands
+[`calliope.sample-config.js`]: https://github.com/ChromaticHQ/calliope/blob/main/calliope.sample-config.js
+[Daemons]: #daemons
+[Developer Personalization]: #developer-personalization
+[`.env.sample`]: https://github.com/ChromaticHQ/calliope/blob/main/.env.sample
 [Overriding Default Pipelines]: #overriding-default-pipelines
+[Pipelines]: #pipelines
+[Generic Tasks]: #generic-tasks
