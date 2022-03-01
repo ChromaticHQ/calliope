@@ -10,6 +10,10 @@ const { cwd, exit } = process;
 const log = require('fancy-log');
 const { resolve } = require('path');
 
+const configPath = resolve(cwd(), 'calliope.config.js');
+const samplePath = resolve(__dirname, '../calliope.sample-config.js');
+const backupPath = resolve(cwd(), 'calliope.config-backup.js');
+
 function setup({ args }) {
   // By using COPYFILE_EXCL, the operation will fail if the destination file exists.
   const failIfExists = args.includes('--force') ? undefined : constants.COPYFILE_EXCL;
@@ -26,7 +30,7 @@ function setup({ args }) {
 
 function backupExistingConfigFile() {
   try {
-    copyFileSync(resolve(cwd(), 'calliope.config.js'), resolve(cwd(), 'calliope.config-backup.js'));
+    copyFileSync(configPath, backupPath);
     return true;
   }
   catch (error) {
@@ -39,7 +43,7 @@ function backupExistingConfigFile() {
 
 function copyConfigFile(failIfExists) {
   try {
-    copyFileSync(resolve(__dirname, '../calliope.sample-config.js'), resolve(cwd(), 'calliope.config.js'), failIfExists);
+    copyFileSync(samplePath, configPath, failIfExists);
   }
   catch (error) {
     if (error.code !== 'EEXIST') throw error;
