@@ -69,7 +69,7 @@ Now running `yarn build` will do the same thing as `yarn calliope build`. You ca
 
 # Configuration
 
-Calliope works without additional configuration but should you need to configure how any of the default tasks behave or add configuration for a custom task, you’ll be able to do so by creating a `calliope.config.js` file in the same directory as your project’s `package.json`. See the [`calliope.sample-config.js`] file in this repository for details on how to configure each individual task from your newly-created configuration file, or as a reference for creating your configuration object for a custom task.
+Calliope works without additional configuration. Should you need to configure how any of the default tasks behave or add configuration for a custom task, you’ll be able to do so by creating a `calliope.config.js` file in the same directory as your project’s `package.json`. See the [`calliope.sample-config.js`] file in this repository for details on how to configure each individual task from your newly-created configuration file, or as a reference for creating your configuration object for a custom task.
 
 # Available Commands
 
@@ -86,7 +86,7 @@ The command above would run the `scripts` task once by itself.
 
 # Default Tasks
 
-Calliope ships with a few basic tasks that most projects will need. This section provides an overview of these tasks and what they accomplish. For details of the configuration options available for each of the following tasks, see the [`calliope.sample-config.js`] file in this project’s repository.
+Calliope ships with a few basic tasks that most projects will need. This section provides an overview of these tasks and what they accomplish. For details on the configuration options available for each of the following tasks, see the [`calliope.sample-config.js`] file in this project’s repository.
 
 ## Pipelines
 
@@ -94,7 +94,7 @@ Your project’s build is defined by its pipeline tasks. These tasks are concern
 
 ### `fonts` - Move Font Files
 
-The `fonts` task merely moves font files from your source directory to the destination directory withour any additional processing.
+The `fonts` task merely moves font files from your source directory to the destination directory without any additional processing.
 
 **`fonts` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`calliope.sample-config.js`] for configuration details.**
 
@@ -231,7 +231,7 @@ const myCustomVar = process.env.CALLIOPE_MY_CUSTOM_VAR || 'some less fun fallbac
 
 See the `pipelines.scripts` and `pipelines.styles` objects in the `config/defaults.js` file in this project for other examples of how we currently use environment variables.
 
-It’s important to note that these personalization options should always be optional and there should always be a fallback in your configuration. You should also document any new environment variables in the Development Settings section of your project’s README for ease of reference, and add sample variable definitions in your project’s [`.env.sample`] file.
+It’s important to note that these personalization options should always be optional and there should always be a fallback in your configuration. You should also document any new environment variables in the Development Settings section of your project’s README for ease of reference and add sample variable definitions in your project’s [`.env.sample`] file.
 
 [Available Commands]: #available-commands
 [`calliope.sample-config.js`]: https://github.com/ChromaticHQ/calliope/blob/main/calliope.sample-config.js
