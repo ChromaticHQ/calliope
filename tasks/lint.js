@@ -7,27 +7,27 @@
 const { series, src } = require('gulp');
 
 // Load dependencies.
-const stylelint = require('gulp-stylelint');
-const eslint = require('gulp-eslint-new');
 const config = require('../config')();
+const eslint = require('gulp-eslint-new');
+const flattenDeep = require('lodash.flattendeep');
+const stylelint = require('gulp-stylelint');
 
 /**
  * Lint all SCSS files inside the `./src/scss/` directory. Fail if any errors
  * are detected.
  */
 function lintScss() {
-  let fullSrc = Array.isArray(config.pipelines.styles.src) ?
-    config.pipelines.styles.src :
-    [ config.pipelines.styles.src ];
+  const fullSrc = [ config.pipelines.styles.src ];
 
+  // If configuration includes additional files to watch, add them to the array
+  // of strings.
   if (config.pipelines.styles.watch) {
-    const additionalSrc = Array.isArray(config.pipelines.styles.watch) ?
-      config.pipelines.styles.watch :
-      [ config.pipelines.styles.watch ];
-    fullSrc = fullSrc.concat(config.pipelines.styles.watch);
+    fullSrc.push(config.pipelines.styles.watch);
   }
 
-  return src(fullSrc)
+  // Since `src` and `watch` values can be strings or arrays, flatten them
+  // before passing them to Gulp.
+  return src(flattenDeep(fullSrc))
     .pipe(stylelint(config.plugins.stylelint))
 }
 
