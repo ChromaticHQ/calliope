@@ -34,7 +34,8 @@ exports.pipelines = {
      * may be a path to a single file or a glob matching one or more files, or
      * an array of said strings.
      *
-     * Uncomment the next few lines and edit them as necessary. */
+     * Uncomment the next few lines and edit them as necessary.
+     */
     // src: [
     //   `${ paths.SRC }/fonts/**/*`,
     // ],
@@ -44,7 +45,8 @@ exports.pipelines = {
      *
      * The directory to which font files will be moved.
      *
-     * Uncomment the next line and edit it as necessary. */
+     * Uncomment the next line and edit it as necessary.
+     */
     // dest: `${ paths.DEST }/fonts`,
   },
   images: {
@@ -55,7 +57,8 @@ exports.pipelines = {
      * may be a path to a single file or a glob matching one or more files, or
      * an array of said strings.
      *
-     * Uncomment the next few lines and edit them as necessary. */
+     * Uncomment the next few lines and edit them as necessary.
+     */
     // src: [
     //   `${ paths.SRC }/images/**/*`,
     // ],
@@ -65,7 +68,8 @@ exports.pipelines = {
      *
      * The directory to which processed image files will be saved.
      *
-     * Uncomment the next line and edit it as necessary. */
+     * Uncomment the next line and edit it as necessary.
+     */
     dest: `${ paths.DEST }/images`,
   },
   scripts: {
@@ -79,7 +83,8 @@ exports.pipelines = {
      * files, instead processing and saving each one to the build directory
      * individually.
      *
-     * Uncomment the next line to enable bundling. */
+     * Uncomment the next line to enable bundling.
+     */
     // bundle: true,
 
     /**
@@ -90,7 +95,8 @@ exports.pipelines = {
      * JavaScript files. If set to `false`, your JavaScript will not be
      * compressed or uglified.
      *
-     * Uncomment the next line to disable compression. */
+     * Uncomment the next line to disable compression.
+     */
     // compress: false,
 
     /**
@@ -104,7 +110,8 @@ exports.pipelines = {
      * It is highly recommended that this be kept as-is, since it’s important
      * for developers to be able to configure their development environment as
      * they wish. That said, if your project needs to change this value,
-     * uncomment the next line and edit it as needed. */
+     * uncomment the next line and edit it as needed.
+     */
     // lint: env.CALLIOPE_LINT_JS === 'true',
 
     /**
@@ -114,7 +121,8 @@ exports.pipelines = {
      * source. It may be a path to a single file or a glob matching one or more
      * files, or an array of said strings.
      *
-     * Uncomment the next few lines and edit them as necessary. */
+     * Uncomment the next few lines and edit them as necessary.
+     */
     // src: [
     //   `${ paths.SRC }/scripts/**/*.js`,
     //   `${ paths.SRC }/components/**/*.js`,
@@ -126,7 +134,8 @@ exports.pipelines = {
      *
      * The directory to which generated JavaScript files will be saved.
      *
-     * Uncomment the next line and edit it as necessary. */
+     * Uncomment the next line and edit it as necessary.
+     */
     // dest: `${ paths.DEST }/scripts`,
   },
   styles: {
@@ -141,7 +150,8 @@ exports.pipelines = {
      * It is highly recommended that this be kept as-is, since it’s important
      * for developers to be able to configure their development environment as
      * they wish. That said, if your project needs to change this value,
-     * uncomment the next line and edit it as needed. */
+     * uncomment the next line and edit it as needed.
+     */
     // lint: env.CALLIOPE_LINT_SCSS === 'true',
 
     /**
@@ -151,7 +161,8 @@ exports.pipelines = {
      * may be a path to a single file or a glob matching one or more files, or
      * an array of said strings.
      *
-     * Uncomment the next few lines and edit them as necessary. */
+     * Uncomment the next few lines and edit them as necessary.
+     */
     // src: [
     //   `${ paths.SRC }/styles/**/*.scss`,
     // ],
@@ -167,7 +178,8 @@ exports.pipelines = {
      * task, but not necessarily processed individually themselves (e.g.
      * stylesheet partials).
      *
-     * Uncomment the next few lines and edit them as necessary. */
+     * Uncomment the next few lines and edit them as necessary.
+     */
     // watch: [
     //   `${ paths.SRC }/components/**/*.scss`,
     // ],
@@ -176,7 +188,8 @@ exports.pipelines = {
      * dest - String
      *
      * The directory to which generated CSS files will be saved.
-     * Uncomment the next line and edit it as necessary. */
+     * Uncomment the next line and edit it as necessary.
+     */
     // dest: `${ paths.DEST }/styles`,
   },
 };
@@ -189,7 +202,8 @@ exports.daemons = {
      * An absolute URL representing a development environment of your project.
      * Browsersync will reverse proxy this URL during development.
      *
-     * Uncomment the next line and edit it as necessary. */
+     * Uncomment the next line and edit it as necessary.
+     */
     // proxy: 'http://myproject.lndo.site',
   },
 };
