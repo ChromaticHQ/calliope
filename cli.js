@@ -4,7 +4,8 @@
 // calliope). This gives us everything that comes after those two, which is
 // what we care about.
 const args = process.argv.slice(2);
-const omitSetupReport = args.includes('--omit-setup-report');
+const isInit = args[0] === 'init';
+const omitSetupReport = args.includes('--omit-setup-report') || isInit;
 
 const chalk = require('chalk');
 const log = require('fancy-log');
@@ -13,7 +14,9 @@ const greeting = ` You’re using ${ package.name } v${ package.version }. `;
 const greetingBg = 'bgYellow';
 const greetingFg = 'black'
 
-if (!omitSetupReport) {
+// Report library version number if reporting is not omitted, or if this is the
+// init command.
+if (!omitSetupReport || isInit) {
   log.info(chalk.bold.visible[greetingBg][greetingFg]('-'.repeat(greeting.length)));
   log.info(chalk.bold.visible[greetingBg][greetingFg](greeting));
   log.info(chalk.bold.visible[greetingBg][greetingFg]('-'.repeat(greeting.length)));
