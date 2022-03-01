@@ -1,6 +1,6 @@
 {
   "name": "@chromatichq/calliope",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An extensible, Gulp-based front-end toolchain designed for quick and fussless setup and maintenance.",
   "main": "calliope.js",
   "bin": {
