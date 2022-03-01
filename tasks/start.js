@@ -1,7 +1,8 @@
 /*
  * @file
- * Gulp task to start our watch tasks and watch for tooling and configuration
- * files to restart the watch tasks when appropriate.
+ * Task to start our watch tasks and watch for tooling and
+ * configuration files to restart the watch tasks when
+ * appropriate.
  */
 
 const config = require('../config')();
