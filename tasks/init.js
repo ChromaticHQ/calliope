@@ -14,7 +14,7 @@ const { resolve } = require('path');
 const backupPath = resolve(cwd(), 'calliope.config-backup.js');
 const configPath = resolve(cwd(), 'calliope.config.js');
 const packagePath = resolve(cwd(), 'package.json');
-const samplePath = resolve(__dirname, '../calliope.sample-config.js');
+const samplePath = resolve(__dirname, '../samples/calliope.config-sample.js');
 
 // Declare an array to keep track of exceptions.
 let exceptions = [];
