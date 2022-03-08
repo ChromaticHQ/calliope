@@ -11,16 +11,30 @@ const log = require('fancy-log');
 const { resolve } = require('path');
 
 // Declare some names and paths.
-const backupName = 'calliope.config-backup.js';
-const configName = 'calliope.config.js';
-const packageName = 'package.json';
-const sampleName = 'calliope.config-sample.js';
-const backupPath = resolve(cwd(), backupName);
-const configPath = resolve(cwd(), configName);
-const packagePath = resolve(cwd(), packageName);
-const samplePath = resolve(__dirname, '../samples', sampleName);
+const names = {
+  config: 'calliope.config.js',
+  configBackup: 'calliope.config-backup.js',
+  configSample: 'calliope.config-sample.js',
+  env: '.env',
+  envBackup: '.env-backup',
+  envSample: '.env-sample',
+  package: 'package.json',
+};
+const paths = {
+  downstream: {
+    config: resolve(cwd(), names.config),
+    configBackup: resolve(cwd(), names.configBackup),
+    env: resolve(cwd(), names.env),
+    envBackup: resolve(cwd(), names.envBackup),
+    package: resolve(cwd(), names.package),
+  },
+  boilerplate: {
+    config: resolve(__dirname, '../boilerplate', names.configSample),
+    env: resolve(__dirname, '../boilerplate', names.envSample),
+  },
+};
 
-// Declare an array to keep track of exceptions.
+// Keep track of exceptions in an array.
 let exceptions = [];
 
 /**
@@ -33,16 +47,17 @@ function setup({ args }) {
   };
   let foundExistingConfigFile;
   if (force.config) {
-    foundExistingConfigFile = backupExistingConfigFile();
+    foundExistingConfigFile = backupExistingFile({ type: 'config' });
   }
-  if (copyConfigFile(force.config)) {
-    log.info(chalk.green(`✓ A new ${configName} file has been created!`));
+  const configFileResult = copyFile({ force, type: 'config' });
+  if (configFileResult) {
+    log.info(chalk.green(`✓ A new ${names.config} file has been created!`));
     if (foundExistingConfigFile) {
-      log.info(chalk.grey(`    Your old config file was saved to ${backupName}.`));
+      log.info(chalk.grey(`    Your old config file was saved to ${names.configBackup}.`));
     }
   }
   if (updatePackageFile(args)) {
-    log.info(chalk.green(`✓ Your project’s ${packageName} file has been updated.`));
+    log.info(chalk.green(`✓ Your project’s ${names.package} file has been updated.`));
   }
   exit(exceptions.length);
 }
@@ -53,7 +68,7 @@ function setup({ args }) {
 function updatePackageFile(args) {
   try {
     // The require() function automatically parses JSON into a JS object.
-    const package = require(packagePath);
+    const package = require(paths.downstream.package);
     // If package.scripts is not defined, define it as an empty object.
     package.scripts = package.scripts || {};
     // Add initial calliope script, pre-installing dependencies first. This is
@@ -67,7 +82,7 @@ function updatePackageFile(args) {
     package.scripts.test = 'yarn lint';
     // Write updated package object as a JSON string padded with 2 spaces and a
     // trailing newline character. This is the format that npm and Yarn use.
-    writeFileSync(packagePath, `${JSON.stringify(package, null, 2)}\n`);
+    writeFileSync(paths.downstream.package, `${JSON.stringify(package, null, 2)}\n`);
     return true;
   }
   catch (error) {
@@ -76,12 +91,12 @@ function updatePackageFile(args) {
     // spawnSync fail. yarn init creates the file, but the file is never found
     // on the next run, so it just keeps looping.
     if (error.code === 'MODULE_NOT_FOUND') {
-      log.error(chalk.red(`✕ No ${packageName} file was found. Some potential solutions:`));
-      log.error(chalk.cyan(`    - Starting from scratch? Run \`yarn add --dev @chromatichq/calliope\` to create ${packageName} and install Calliope on your project.`));
-      log.error(chalk.cyan(`    - If you already have a ${packageName} file, make sure you are running this command in the directory where that file is located.`));
+      log.error(chalk.red(`✕ No ${names.package} file was found. Some potential solutions:`));
+      log.error(chalk.cyan(`    - Starting from scratch? Run \`yarn add --dev @chromatichq/calliope\` to create ${names.package} and install Calliope on your project.`));
+      log.error(chalk.cyan(`    - If you already have a ${names.package} file, make sure you are running this command in the directory where that file is located.`));
       exceptions.push('read package.json');
     } else {
-      log.error(chalk.red(`✕ There was an error updating your ${packageName} file.`));
+      log.error(chalk.red(`✕ There was an error updating your ${names.package} file.`));
       log.error(chalk.cyan(`    ${ error.toString() }`));
       exceptions.push('update package.json');
     }
@@ -92,9 +107,9 @@ function updatePackageFile(args) {
 /**
  * Backup an existing calliope.config.js file.
  */
-function backupExistingConfigFile() {
+function backupExistingFile({ type }) {
   try {
-    copyFileSync(configPath, backupPath);
+    copyFileSync(paths.downstream[type], paths.downstream[`${type}Backup`]);
     return true;
   }
   catch (error) {
@@ -106,19 +121,19 @@ function backupExistingConfigFile() {
 }
 
 /**
- * Copy sample config file to the downstream project.
+ * Copy sample file to the downstream project.
  */
-function copyConfigFile(forceConfig) {
+function copyFile({ force, type }) {
   try {
     // By using COPYFILE_EXCL, the operation will fail if the destination file exists.
-    copyFileSync(samplePath, configPath, forceConfig ? undefined : constants.COPYFILE_EXCL);
+    copyFileSync(paths.boilerplate[type], paths.downstream[type], force[type] ? undefined : constants.COPYFILE_EXCL);
     return true;
   }
   catch (error) {
     if (error.code !== 'EEXIST') throw error;
-    log.info(chalk.red(`✕ Your project already has a ${configName} file.`));
-    log.info(chalk.cyan('    Use --force-config if you want to replace it. (Don’t worry, I’ll back it up first.)'));
-    exceptions.push('copy calliope.config.js');
+    log.info(chalk.red(`✕ Your project already has a ${names[type]} file.`));
+    log.info(chalk.cyan(`    Use --force-${type} to replace it. (Don’t worry, I’ll back it up first.)`));
+    exceptions.push(`copy ${type}`);
     return false;
   }
 }
