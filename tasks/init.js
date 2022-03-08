@@ -27,13 +27,15 @@ let exceptions = [];
  * Set up a new project.
  */
 function setup({ args }) {
-  // By using COPYFILE_EXCL, the operation will fail if the destination file exists.
-  const failIfExists = args.includes('--force') ? undefined : constants.COPYFILE_EXCL;
+  const force = {
+    config: args.includes('--force-config') || args.includes('--force'),
+    env: args.includes('--force-env') || args.includes('--force'),
+  };
   let foundExistingConfigFile;
-  if (!failIfExists) {
+  if (force.config) {
     foundExistingConfigFile = backupExistingConfigFile();
   }
-  if (copyConfigFile(failIfExists)) {
+  if (copyConfigFile(force.config)) {
     log.info(chalk.green(`✓ A new ${configName} file has been created!`));
     if (foundExistingConfigFile) {
       log.info(chalk.grey(`    Your old config file was saved to ${backupName}.`));
@@ -106,9 +108,10 @@ function backupExistingConfigFile() {
 /**
  * Copy sample config file to the downstream project.
  */
-function copyConfigFile(failIfExists) {
+function copyConfigFile(forceConfig) {
   try {
-    copyFileSync(samplePath, configPath, failIfExists);
+    // By using COPYFILE_EXCL, the operation will fail if the destination file exists.
+    copyFileSync(samplePath, configPath, forceConfig ? undefined : constants.COPYFILE_EXCL);
     return true;
   }
   catch (error) {
