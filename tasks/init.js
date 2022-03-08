@@ -10,11 +10,15 @@ const { cwd, exit } = process;
 const log = require('fancy-log');
 const { resolve } = require('path');
 
-// Declare some paths.
-const backupPath = resolve(cwd(), 'calliope.config-backup.js');
-const configPath = resolve(cwd(), 'calliope.config.js');
-const packagePath = resolve(cwd(), 'package.json');
-const samplePath = resolve(__dirname, '../samples/calliope.config-sample.js');
+// Declare some names and paths.
+const backupName = 'calliope.config-backup.js';
+const configName = 'calliope.config.js';
+const packageName = 'package.json';
+const sampleName = 'calliope.config-sample.js';
+const backupPath = resolve(cwd(), backupName);
+const configPath = resolve(cwd(), configName);
+const packagePath = resolve(cwd(), packageName);
+const samplePath = resolve(__dirname, '../samples', sampleName);
 
 // Declare an array to keep track of exceptions.
 let exceptions = [];
@@ -30,13 +34,13 @@ function setup({ args }) {
     foundExistingConfigFile = backupExistingConfigFile();
   }
   if (copyConfigFile(failIfExists)) {
-    log.info(chalk.green('✓ A new calliope.config.js file has been created!'));
+    log.info(chalk.green(`✓ A new ${configName} file has been created!`));
     if (foundExistingConfigFile) {
-      log.info(chalk.grey('    Your old config file was saved to calliope.config-backup.js.'));
+      log.info(chalk.grey(`    Your old config file was saved to ${backupName}.`));
     }
   }
   if (updatePackageFile(args)) {
-    log.info(chalk.green('✓ Your project’s package.json file has been updated.'));
+    log.info(chalk.green(`✓ Your project’s ${packageName} file has been updated.`));
   }
   exit(exceptions.length);
 }
@@ -70,12 +74,12 @@ function updatePackageFile(args) {
     // spawnSync fail. yarn init creates the file, but the file is never found
     // on the next run, so it just keeps looping.
     if (error.code === 'MODULE_NOT_FOUND') {
-      log.error(chalk.red('✕ No package.json file was found. Some potential solutions:'));
-      log.error(chalk.cyan('    - Starting from scratch? Run `yarn add --dev @chromatichq/calliope` to create package.json and install Calliope on your project.'));
-      log.error(chalk.cyan('    - If you already have a package.json file, make sure you are running this command in the directory where that file is located.'));
+      log.error(chalk.red(`✕ No ${packageName} file was found. Some potential solutions:`));
+      log.error(chalk.cyan(`    - Starting from scratch? Run \`yarn add --dev @chromatichq/calliope\` to create ${packageName} and install Calliope on your project.`));
+      log.error(chalk.cyan(`    - If you already have a ${packageName} file, make sure you are running this command in the directory where that file is located.`));
       exceptions.push('read package.json');
     } else {
-      log.error(chalk.red('✕ There was an error updating your package.json file.'));
+      log.error(chalk.red(`✕ There was an error updating your ${packageName} file.`));
       log.error(chalk.cyan(`    ${ error.toString() }`));
       exceptions.push('update package.json');
     }
@@ -109,8 +113,8 @@ function copyConfigFile(failIfExists) {
   }
   catch (error) {
     if (error.code !== 'EEXIST') throw error;
-    log.info(chalk.red('✕ Your project already has a calliope.config.js file.'));
-    log.info(chalk.cyan('    Use --force if you want to replace it. (Don’t worry, I’ll back it up first.)'));
+    log.info(chalk.red(`✕ Your project already has a ${configName} file.`));
+    log.info(chalk.cyan('    Use --force-config if you want to replace it. (Don’t worry, I’ll back it up first.)'));
     exceptions.push('copy calliope.config.js');
     return false;
   }
