@@ -15,7 +15,9 @@ const names = {
   config: 'calliope.config.js',
   configBackup: 'calliope.config-backup.js',
   configSample: 'calliope.config-sample.js',
-  env: '.env',
+  // The destination .env file is a sample file as well, intended to be tracked
+  // in downstream projects for devs to use locally.
+  env: '.env-sample',
   envBackup: '.env-backup',
   envSample: '.env-sample',
   package: 'package.json',
@@ -54,6 +56,17 @@ function setup({ args }) {
     log.info(chalk.green(`✓ A new ${names.config} file has been created!`));
     if (foundExistingConfigFile) {
       log.info(chalk.grey(`    Your old config file was saved to ${names.configBackup}.`));
+    }
+  }
+  let foundExistingEnvFile;
+  if (force.env) {
+    foundExistingEnvFile = backupExistingFile({ type: 'env' });
+  }
+  const envFileResult = copyFile({ force, type: 'env' });
+  if (envFileResult) {
+    log.info(chalk.green(`✓ A new ${names.env} file has been created!`));
+    if (foundExistingEnvFile) {
+      log.info(chalk.grey(`    Your old config file was saved to ${names.envBackup}.`));
     }
   }
   if (updatePackageFile(args)) {
