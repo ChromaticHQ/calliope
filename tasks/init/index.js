@@ -14,21 +14,17 @@ const { updatePackageFile } = require('./package');
 // Declare some names and paths.
 const names = {
   config: 'calliope.config.js',
-  configBackup: 'calliope.config-backup.js',
   configSample: 'calliope.config-sample.js',
   // The destination .env file is a sample file as well, intended to be tracked
   // in downstream projects for devs to use locally.
   env: '.env-sample',
-  envBackup: '.env-sample-backup',
   envSample: '.env-sample',
   package: 'package.json',
 };
 const paths = {
   downstream: {
     config: resolve(cwd(), names.config),
-    configBackup: resolve(cwd(), names.configBackup),
     env: resolve(cwd(), names.env),
-    envBackup: resolve(cwd(), names.envBackup),
     package: resolve(cwd(), names.package),
   },
   boilerplate: {

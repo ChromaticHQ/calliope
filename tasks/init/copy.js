@@ -3,6 +3,7 @@
  * Handle operations pertaining to copying files to downstream projects.
  */
 
+const { parse, resolve } = require('path');
 const chalk = require('chalk');
 const { constants, copyFileSync } = require('fs');
 const log = require('fancy-log');
@@ -39,8 +40,11 @@ function copyBoilerplateFile({ force, names, paths, type }) {
  * Backup an existing file in the downstream project.
  */
 function backupExistingFile({ names, paths, type }) {
+  const parsedPath = parse(paths.downstream[type]);
+  const backupFilename = `${ parsedPath.name }-backup${ parsedPath.ext }`;
+  const backupPath = resolve(parsedPath.dir, backupFilename);
   try {
-    copyFileSync(paths.downstream[type], paths.downstream[`${type}Backup`]);
+    copyFileSync(paths.downstream[type], backupPath);
     return true;
   }
   catch (error) {
