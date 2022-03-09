@@ -27,11 +27,7 @@ execSync('yarn init -y', { cwd, stdio });
 
 // Assert clean init with existing manifest.
 // Run init command and assert that everything is fine.
-assert.ok(execSync(initCmd, { cwd, stdio }));
-assert.ok(
-  existsSync(resolve(cwd, 'calliope.config.js')),
-  `Expected calliope.config.js to exist in ${ cwd }.`,
-);
+execSync(initCmd, { cwd, stdio });
 // Assert that generated files match boilerplates.
 assert.equal(readFileSync(resolve(cwd, 'calliope.config.js')).toString(), boilerplates.config);
 assert.equal(readFileSync(resolve(cwd, '.env-sample')).toString(), boilerplates.env);
@@ -51,7 +47,7 @@ execSync('rm package.json', { cwd, stdio });
 
 // Assert errors when nothing can be done.
 try {
-  assert.ok(execSync(initCmd, { cwd, stdio }));
+  execSync(initCmd, { cwd, stdio });
 }
 catch (error) {
   // Assert that the exit code matches the number of errors expected.
@@ -60,18 +56,9 @@ catch (error) {
     error.message, /No package.json file was found/,
     'Expected an error message for non-existent package.json file.'
   );
-  assert.match(
-    error.message, /Your project already has a calliope.config.js file/,
-    'Expected an error message for existing calliope.config.js file.'
-  );
-  assert.match(
-    error.message, /Your project already has a .env-sample file/,
-    'Expected an error message for existing .env-sample file.'
-  );
-  assert.match(
-    error.message, /Your project already has a .eslintrc.yml file/,
-    'Expected an error message for existing .eslintrc.yml file.'
-  );
+  assertFileExistsError(error, 'calliope.config.js');
+  assertFileExistsError(error, '.env-sample');
+  assertFileExistsError(error, '.eslintrc.yml');
 }
 
 // Create new manifest file.
@@ -83,18 +70,9 @@ try {
 }
 catch (error) {
   assert.equal(error.status, maxErrors - 1);
-  assert.match(
-    error.message, /Your project already has a calliope.config.js file/,
-    'Expected an error message for existing calliope.config.js file.'
-  );
-  assert.match(
-    error.message, /Your project already has a .env-sample file/,
-    'Expected an error message for existing .env-sample file.'
-  );
-  assert.match(
-    error.message, /Your project already has a .eslintrc.yml file/,
-    'Expected an error message for existing .eslintrc.yml file.'
-  );
+  assertFileExistsError(error, 'calliope.config.js');
+  assertFileExistsError(error, '.env-sample');
+  assertFileExistsError(error, '.eslintrc.yml');
 }
 
 // Modify existing config and store its contents.
@@ -107,18 +85,9 @@ try {
 }
 catch (error) {
   assert.equal(error.status, maxErrors - 2);
-  assert.match(
-    error.message, /Your project already has a .env-sample file/,
-    'Expected an error message for existing .env-sample file.'
-  );
-  assert.match(
-    error.message, /Your project already has a .eslintrc.yml file/,
-    'Expected an error message for existing .eslintrc.yml file.'
-  );
-  assert.ok(
-    existsSync(resolve(cwd, 'calliope.config-backup.js')),
-    `Expected calliope.config-backup.js to exist in ${ cwd }.`,
-  );
+  assertFileExistsError(error, '.env-sample');
+  assertFileExistsError(error, '.eslintrc.yml');
+  assertFileExists('calliope.config-backup.js');
   // Assert the contents of the new config file and its backup.
   const backupConfig = readFileSync(resolve(cwd, 'calliope.config-backup.js'))
     .toString();
@@ -138,18 +107,9 @@ try {
 }
 catch (error) {
   assert.equal(error.status, maxErrors - 2);
-  assert.match(
-    error.message, /Your project already has a calliope.config.js file/,
-    'Expected an error message for existing calliope.config.js file.'
-  );
-  assert.match(
-    error.message, /Your project already has a .eslintrc.yml file/,
-    'Expected an error message for existing .eslintrc.yml file.'
-  );
-  assert.ok(
-    existsSync(resolve(cwd, '.env-sample-backup')),
-    `Expected .env-sample-backup to exist in ${ cwd }.`,
-  );
+  assertFileExistsError(error, 'calliope.config.js');
+  assertFileExistsError(error, '.eslintrc.yml');
+  assertFileExists('.env-sample-backup');
   // Assert the contents of the new env file and its backup.
   const backupEnv = readFileSync(resolve(cwd, '.env-sample-backup')).toString();
   const newEnv = readFileSync(resolve(cwd, '.env-sample')).toString();
@@ -167,38 +127,38 @@ try {
 }
 catch (error) {
   assert.equal(error.status, maxErrors - 2);
-  assert.match(
-    error.message, /Your project already has a calliope.config.js file/,
-    'Expected an error message for existing calliope.config.js file.'
-  );
-  assert.match(
-    error.message, /Your project already has a .env-sample file/,
-    'Expected an error message for existing .env-sample file.'
-  );
-  assert.ok(
-    existsSync(resolve(cwd, '.eslintrc-backup.yml')),
-    `Expected .eslintrc.yml to exist in ${ cwd }.`,
-  );
+  assertFileExistsError(error, 'calliope.config.js');
+  assertFileExistsError(error, '.env-sample');
+  assertFileExists('.eslintrc-backup.yml');
+  // Assert the contents of the new env file and its backup.
+  const backupEslint = readFileSync(resolve(cwd, '.eslintrc-backup.yml')).toString();
+  const newEslint = readFileSync(resolve(cwd, '.eslintrc.yml')).toString();
+  assert.equal(backupEslint, prevEslint);
+  assert.equal(newEslint, boilerplates.eslint);
 }
 
 // Remove old backup files.
 execSync('rm calliope.config-backup.js .env-sample-backup .eslintrc-backup.yml', { cwd, stdio });
 
 // Assert init with --force.
-try {
-  execSync(`${ initCmd } --force`, { cwd, stdio });
-  assert.ok(
-    existsSync(resolve(cwd, 'calliope.config-backup.js')),
-    `Expected calliope.config-backup.js to exist in ${ cwd }.`,
-  );
-  assert.ok(
-    existsSync(resolve(cwd, '.env-sample-backup')),
-    `Expected .env-sample-backup to exist in ${ cwd }.`,
-  );
-}
-catch (error) {
-  assert.fail(error.message);
-}
+execSync(`${ initCmd } --force`, { cwd, stdio });
+assertFileExists('calliope.config-backup.js');
+assertFileExists('.env-sample-backup');
+assertFileExists('.eslintrc-backup.yml');
 
 // All assertions appear to have passed, so delete the testing directory.
 rmdirSync(cwd, { recursive: true });
+
+function assertFileExistsError(error, filename) {
+  assert.match(
+    error.message, new RegExp(`Your project already has a ${ filename } file`),
+    `Expected an error message for existing ${ filename } file.`
+  );
+}
+
+function assertFileExists(filename) {
+  assert.ok(
+    existsSync(resolve(cwd, filename)),
+    `Expected ${ filename } to exist in ${ cwd }.`,
+  );
+}
