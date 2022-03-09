@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - uses: actions/checkout@v2.4.0
+
       - uses: ChromaticHQ/javascript-lockfile-check-action@v1.2.1
         with:
           package-manager: yarn
