@@ -19,15 +19,17 @@ const names = {
   env: '.env-sample',
   eslint: '.eslintrc.yml',
   package: 'package.json',
+  stylelint: '.stylelintrc.yml',
 };
 const paths = {
   config: resolve(cwd(), names.config),
   env: resolve(cwd(), names.env),
   eslint: resolve(cwd(), names.eslint),
   package: resolve(cwd(), names.package),
+  stylelint: resolve(cwd(), names.stylelint),
 };
 const filesToCopy = [
-  'config', 'env', 'eslint',
+  'config', 'env', 'eslint', 'stylelint',
 ];
 
 /**

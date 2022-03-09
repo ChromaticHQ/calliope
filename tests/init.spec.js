@@ -19,6 +19,7 @@ const files = {
   config: 'calliope.config.js',
   env: '.env-sample',
   eslint: '.eslintrc.yml',
+  stylelint: '.stylelintrc.yml',
 };
 // Total number of possible errors is equal to the number of boilerplates
 // available to copy plus one error to account for non-existent manifest error.
