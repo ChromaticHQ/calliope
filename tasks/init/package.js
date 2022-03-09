@@ -15,7 +15,7 @@ exports.updatePackageFile = updatePackageFile;
 function updatePackageFile({ args, names, paths }) {
   try {
     // The require() function automatically parses JSON into a JS object.
-    const package = require(paths.downstream.package);
+    const package = require(paths.package);
     // If package.scripts is not defined, define it as an empty object.
     package.scripts = package.scripts || {};
     // Add initial calliope script, pre-installing dependencies first. This is
@@ -29,7 +29,7 @@ function updatePackageFile({ args, names, paths }) {
     package.scripts.test = 'yarn lint';
     // Write updated package object as a JSON string padded with 2 spaces and a
     // trailing newline character. This is the format that npm and Yarn use.
-    writeFileSync(paths.downstream.package, `${JSON.stringify(package, null, 2)}\n`);
+    writeFileSync(paths.package, `${JSON.stringify(package, null, 2)}\n`);
     log.info(chalk.green(`✓ Your project’s ${names.package} file has been updated.`));
     return true;
   }

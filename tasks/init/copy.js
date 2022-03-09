@@ -19,9 +19,14 @@ function copyBoilerplateFile({ force, names, paths, type }) {
     foundExistingFile = backupExistingFile({ names, paths, type });
   }
   try {
+    const parsedPath = parse(resolve(__dirname, '../../boilerplate', names[type]));
+    const boilerplateFilename = names[type].match(/-sample/) ?
+      names[type] :
+      `${ parsedPath.name }-sample${ parsedPath.ext }`;
+    const boilerplatePath = resolve(parsedPath.dir, boilerplateFilename);
     // When using COPYFILE_EXCL, the operation will fail if the destination
     // file exists.
-    copyFileSync(paths.boilerplate[type], paths.downstream[type], force[type] ? undefined : constants.COPYFILE_EXCL);
+    copyFileSync(boilerplatePath, paths[type], force[type] ? undefined : constants.COPYFILE_EXCL);
     log.info(chalk.green(`✓ A new ${names[type]} file has been created!`));
     if (foundExistingFile) {
       log.info(chalk.grey(`    Your old file was saved to ${names[`${ type }Backup`]}.`));
@@ -40,11 +45,11 @@ function copyBoilerplateFile({ force, names, paths, type }) {
  * Backup an existing file in the downstream project.
  */
 function backupExistingFile({ names, paths, type }) {
-  const parsedPath = parse(paths.downstream[type]);
+  const parsedPath = parse(paths[type]);
   const backupFilename = `${ parsedPath.name }-backup${ parsedPath.ext }`;
   const backupPath = resolve(parsedPath.dir, backupFilename);
   try {
-    copyFileSync(paths.downstream[type], backupPath);
+    copyFileSync(paths[type], backupPath);
     return true;
   }
   catch (error) {

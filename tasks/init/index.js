@@ -14,23 +14,15 @@ const { updatePackageFile } = require('./package');
 // Declare some names and paths.
 const names = {
   config: 'calliope.config.js',
-  configSample: 'calliope.config-sample.js',
   // The destination .env file is a sample file as well, intended to be tracked
   // in downstream projects for devs to use locally.
   env: '.env-sample',
-  envSample: '.env-sample',
   package: 'package.json',
 };
 const paths = {
-  downstream: {
-    config: resolve(cwd(), names.config),
-    env: resolve(cwd(), names.env),
-    package: resolve(cwd(), names.package),
-  },
-  boilerplate: {
-    config: resolve(__dirname, '../../boilerplate', names.configSample),
-    env: resolve(__dirname, '../../boilerplate', names.envSample),
-  },
+  config: resolve(cwd(), names.config),
+  env: resolve(cwd(), names.env),
+  package: resolve(cwd(), names.package),
 };
 const filesToCopy = [
   'config', 'env',
