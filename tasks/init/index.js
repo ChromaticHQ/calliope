@@ -35,10 +35,10 @@ function init({ args }) {
   // Count exceptions.
   let exceptions = 0;
 
-  const force = {
-    config: args.includes('--force-config') || args.includes('--force'),
-    env: args.includes('--force-env') || args.includes('--force'),
-  };
+  const force = {};
+  filesToCopy.forEach((type) => {
+    force[type] = args.includes(`--force-${ type }`) || args.includes('--force');
+  });
 
   filesToCopy.forEach((type) => {
     if (!copyBoilerplateFile({ force, names, paths, type })) exceptions++;
