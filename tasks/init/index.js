@@ -31,8 +31,8 @@ const paths = {
     package: resolve(cwd(), names.package),
   },
   boilerplate: {
-    config: resolve(__dirname, '../boilerplate', names.configSample),
-    env: resolve(__dirname, '../boilerplate', names.envSample),
+    config: resolve(__dirname, '../../boilerplate', names.configSample),
+    env: resolve(__dirname, '../../boilerplate', names.envSample),
   },
 };
 
@@ -42,7 +42,7 @@ let exceptions = [];
 /**
  * Set up a new project.
  */
-function setup({ args }) {
+function init({ args }) {
   const force = {
     config: args.includes('--force-config') || args.includes('--force'),
     env: args.includes('--force-env') || args.includes('--force'),
@@ -151,4 +151,4 @@ function copyFile({ force, type }) {
   }
 }
 
-module.exports = setup;
+module.exports = init;
