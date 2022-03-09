@@ -1,19 +1,13 @@
 const assert = require('assert');
 const { execSync } = require('child_process');
 const { existsSync, mkdtempSync, readFileSync, rmdirSync } = require('fs');
-const { resolve } = require('path');
-// Path to cli relative to tmp directory.
+const { parse, resolve } = require('path');
+// Path to cli relative to tmp working directory.
 const cli = '../../../cli.js';
 // Create tmp directory.
 const cwd = mkdtempSync(resolve(__dirname, 'tmp/init-'));
 const initCmd = `${ cli } init`;
-const maxErrors = 4;
 const stdio = 'pipe';
-const boilerplates = {
-  config: readFileSync(resolve(__dirname, '../boilerplate', 'calliope.config-sample.js')).toString(),
-  env: readFileSync(resolve(__dirname, '../boilerplate', '.env-sample')).toString(),
-  eslint: readFileSync(resolve(__dirname, '../boilerplate', '.eslintrc-sample.yml')).toString(),
-};
 const expectedPackageCommands = {
   calliope: 'yarn install && calliope',
   build: 'yarn calliope build',
@@ -21,6 +15,18 @@ const expectedPackageCommands = {
   lint: 'yarn calliope lint',
   test: 'yarn lint',
 };
+const files = {
+  config: 'calliope.config.js',
+  env: '.env-sample',
+  eslint: '.eslintrc.yml',
+};
+// Total number of possible errors is equal to the number of boilerplates
+// available to copy plus one error to account for non-existent manifest error.
+const maxErrors = Object.keys(files).length + 1;
+
+/**
+ * HAPPY PATH.
+ */
 
 // Create a manifest file.
 execSync('yarn init -y', { cwd, stdio });
@@ -28,10 +34,13 @@ execSync('yarn init -y', { cwd, stdio });
 // Assert clean init with existing manifest.
 // Run init command and assert that everything is fine.
 execSync(initCmd, { cwd, stdio });
-// Assert that generated files match boilerplates.
-assert.equal(readFileSync(resolve(cwd, 'calliope.config.js')).toString(), boilerplates.config);
-assert.equal(readFileSync(resolve(cwd, '.env-sample')).toString(), boilerplates.env);
-assert.equal(readFileSync(resolve(cwd, '.eslintrc.yml')).toString(), boilerplates.eslint);
+// Assert that generated files match the boilerplates.
+Object.keys(files).map((type) => files[type]).forEach((filename) => {
+  assert.equal(
+    readFileSync(resolve(cwd, filename)).toString(),
+    readFileSync(resolve(__dirname, '../boilerplate', sampleFilename(filename))),
+  );
+});
 // Load the updated manifest and assert that all expected scripts are correct.
 const { scripts } = require(resolve(cwd, 'package.json'));
 Object.keys(expectedPackageCommands).forEach((command) => {
@@ -41,6 +50,10 @@ Object.keys(expectedPackageCommands).forEach((command) => {
     `Expected calliope command in package.json scripts to be '${ expectedPackageCommands[command] }', but found '${ scripts[command] }' in ${ cwd }/package.json.`,
   );
 });
+
+/**
+ * NOTHING CAN BE DONE.
+ */
 
 // Remove manifest file.
 execSync('rm package.json', { cwd, stdio });
@@ -56,10 +69,14 @@ catch (error) {
     error.message, /No package.json file was found/,
     'Expected an error message for non-existent package.json file.'
   );
-  assertFileExistsError(error, 'calliope.config.js');
-  assertFileExistsError(error, '.env-sample');
-  assertFileExistsError(error, '.eslintrc.yml');
+  Object.keys(files).map((type) => files[type]).forEach((filename) => {
+    assertFileExistsError(error, filename);
+  });
 }
+
+/**
+ * CANNOT COPY ANY FILES.
+ */
 
 // Create new manifest file.
 execSync('yarn init -y', { cwd, stdio });
@@ -70,84 +87,65 @@ try {
 }
 catch (error) {
   assert.equal(error.status, maxErrors - 1);
-  assertFileExistsError(error, 'calliope.config.js');
-  assertFileExistsError(error, '.env-sample');
-  assertFileExistsError(error, '.eslintrc.yml');
+  Object.keys(files).map((type) => files[type]).forEach((filename) => {
+    assertFileExistsError(error, filename);
+  });
 }
 
-// Modify existing config and store its contents.
-execSync('echo "\n// This is the old file, which should be backed up." >> calliope.config.js', { cwd, stdio });
-const prevConfig = readFileSync(resolve(cwd, 'calliope.config.js')).toString();
+/**
+ * FORCE SINGLE FILE.
+ */
 
-// Assert init with --force-config flag.
-try {
-  execSync(`${ initCmd } --force-config`, { cwd, stdio });
-}
-catch (error) {
-  assert.equal(error.status, maxErrors - 2);
-  assertFileExistsError(error, '.env-sample');
-  assertFileExistsError(error, '.eslintrc.yml');
-  assertFileExists('calliope.config-backup.js');
-  // Assert the contents of the new config file and its backup.
-  const backupConfig = readFileSync(resolve(cwd, 'calliope.config-backup.js'))
-    .toString();
-  const newConfig = readFileSync(resolve(cwd, 'calliope.config.js'))
-    .toString();
-  assert.equal(backupConfig, prevConfig);
-  assert.equal(newConfig, boilerplates.config);
-}
+Object.keys(files).forEach((type) => {
+  // Modify existing file and store its contents.
+  execSync(`echo "\n// This is the old file, which should be backed up." >> ${ files[type] }`, { cwd, stdio });
+  const prevFile = readFileSync(resolve(cwd, files[type])).toString();
+  // Assert init with --force-config flag.
+  try {
+    execSync(`${ initCmd } --force-${ type }`, { cwd, stdio });
+  }
+  catch (error) {
+    // Assert total number of errors is maximum possible number minus two:
+    //   1. The missing manifest error, which should not occur.
+    //   2. The existing file error for the file currently being tested, which
+    //      we’ve forced.
+    assert.equal(error.status, maxErrors - 2);
+    // Assert that we get errors for the files *not* being forced in this run.
+    Object.keys(files).filter((t) => t !== type).forEach((t) => {
+      assertFileExistsError(error, files[t]);
+    });
+    assertFileExists(backupFilename(files[type]));
+    // Assert the contents of the new config file and its backup.
+    const backupFile = readFileSync(resolve(cwd, backupFilename(files[type])))
+      .toString();
+    const newFile = readFileSync(resolve(cwd, files[type])).toString();
+    assert.equal(backupFile, prevFile);
+    assert.equal(newFile, readFileSync(resolve(__dirname, '../boilerplate', sampleFilename(files[type]))).toString());
+  }
+});
 
-// Modify existing env and store its contents.
-execSync('echo "\n# This is the old file, which should be backed up." >> .env-sample', { cwd, stdio });
-const prevEnv = readFileSync(resolve(cwd, '.env-sample')).toString();
-
-// Assert init with --force-env flag.
-try {
-  execSync(`${ initCmd } --force-env`, { cwd, stdio });
-}
-catch (error) {
-  assert.equal(error.status, maxErrors - 2);
-  assertFileExistsError(error, 'calliope.config.js');
-  assertFileExistsError(error, '.eslintrc.yml');
-  assertFileExists('.env-sample-backup');
-  // Assert the contents of the new env file and its backup.
-  const backupEnv = readFileSync(resolve(cwd, '.env-sample-backup')).toString();
-  const newEnv = readFileSync(resolve(cwd, '.env-sample')).toString();
-  assert.equal(backupEnv, prevEnv);
-  assert.equal(newEnv, boilerplates.env);
-}
-
-// Modify existing eslintrc and store its contents.
-execSync('echo "\n// This is the old file, which should be backed up." >> .eslintrc.yml', { cwd, stdio });
-const prevEslint = readFileSync(resolve(cwd, '.eslintrc.yml')).toString();
-
-// Assert init with --force-eslint flag.
-try {
-  execSync(`${ initCmd } --force-eslint`, { cwd, stdio });
-}
-catch (error) {
-  assert.equal(error.status, maxErrors - 2);
-  assertFileExistsError(error, 'calliope.config.js');
-  assertFileExistsError(error, '.env-sample');
-  assertFileExists('.eslintrc-backup.yml');
-  // Assert the contents of the new env file and its backup.
-  const backupEslint = readFileSync(resolve(cwd, '.eslintrc-backup.yml')).toString();
-  const newEslint = readFileSync(resolve(cwd, '.eslintrc.yml')).toString();
-  assert.equal(backupEslint, prevEslint);
-  assert.equal(newEslint, boilerplates.eslint);
-}
+/**
+ * FORCE ALL FILES.
+ */
 
 // Remove old backup files.
-execSync('rm calliope.config-backup.js .env-sample-backup .eslintrc-backup.yml', { cwd, stdio });
+execSync(`rm ${ Object.keys(files).map((type) => files[type]).join(' ') }`, { cwd, stdio });
 
 // Assert init with --force.
 execSync(`${ initCmd } --force`, { cwd, stdio });
-assertFileExists('calliope.config-backup.js');
-assertFileExists('.env-sample-backup');
-assertFileExists('.eslintrc-backup.yml');
+Object.keys(files).map((type) => files[type])
+  .forEach(assertFileExists);
+
+/**
+ * CLEANUP.
+ */
 
 // All assertions appear to have passed, so delete the testing directory.
 rmdirSync(cwd, { recursive: true });
+
+/**
+ * HELPER FUNCTIONS.
+ */
 
 function assertFileExistsError(error, filename) {
   assert.match(
@@ -161,4 +159,15 @@ function assertFileExists(filename) {
     existsSync(resolve(cwd, filename)),
     `Expected ${ filename } to exist in ${ cwd }.`,
   );
+}
+
+function backupFilename(filename) {
+  const parsedFilename = parse(filename);
+  return `${ parsedFilename.name }-backup${ parsedFilename.ext }`;
+}
+
+function sampleFilename(filename) {
+  if (filename.match(/-sample/)) return filename;
+  const parsedFilename = parse(filename);
+  return `${ parsedFilename.name }-sample${ parsedFilename.ext }`;
 }
