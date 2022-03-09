@@ -36,6 +36,9 @@ const paths = {
     env: resolve(__dirname, '../../boilerplate', names.envSample),
   },
 };
+const filesToCopy = [
+  'config', 'env',
+];
 
 /**
  * Set up a new project.
@@ -49,8 +52,10 @@ function init({ args }) {
     env: args.includes('--force-env') || args.includes('--force'),
   };
 
-  if (!copyBoilerplateFile({ force, names, paths, type: 'config' })) exceptions++;
-  if (!copyBoilerplateFile({ force, names, paths, type: 'env' })) exceptions++;
+  filesToCopy.forEach((type) => {
+    if (!copyBoilerplateFile({ force, names, paths, type })) exceptions++;
+  });
+
   if (!updatePackageFile({ args, names, paths })) exceptions++;
 
   exit(exceptions);
