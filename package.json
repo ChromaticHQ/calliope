@@ -52,7 +52,7 @@
   "devDependencies": {},
   "scripts": {
     "update-readme-toc": "markdown-toc -i README.md",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/index.js"
   },
   "repository": {
     "type": "git",

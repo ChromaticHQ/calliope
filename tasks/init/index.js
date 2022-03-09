@@ -18,7 +18,7 @@ const names = {
   // The destination .env file is a sample file as well, intended to be tracked
   // in downstream projects for devs to use locally.
   env: '.env-sample',
-  envBackup: '.env-backup',
+  envBackup: '.env-sample-backup',
   envSample: '.env-sample',
   package: 'package.json',
 };
