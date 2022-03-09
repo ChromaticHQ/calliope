@@ -1,0 +1,13 @@
+---
+extends: default
+
+rules:
+  line-length: disable
+
+ignore: |
+  .platform/local/
+  drupal-config/
+  drush/Commands/contrib/
+  node_modules/
+  vendor/
+  web/
