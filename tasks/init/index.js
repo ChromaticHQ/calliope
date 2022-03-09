@@ -144,8 +144,8 @@ function copyFile({ force, type }) {
   }
   catch (error) {
     if (error.code !== 'EEXIST') throw error;
-    log.info(chalk.red(`✕ Your project already has a ${names[type]} file.`));
-    log.info(chalk.cyan(`    Use --force-${type} to replace it. (Don’t worry, I’ll back it up first.)`));
+    log.error(chalk.red(`✕ Your project already has a ${names[type]} file.`));
+    log.error(chalk.cyan(`    Use --force-${type} to replace it. (Don’t worry, I’ll back it up first.)`));
     exceptions.push(`copy ${type}`);
     return false;
   }
