@@ -9,6 +9,9 @@ const { constants, copyFileSync, readFileSync, writeFileSync } = require('fs');
 const { cwd, exit } = process;
 const log = require('fancy-log');
 const { resolve } = require('path');
+
+// Load helper modules.
+const { backupExistingFile } = require('./backup');
 const { updatePackageFile } = require('./package');
 
 // Declare some names and paths.
@@ -50,7 +53,7 @@ function init({ args }) {
   };
   let foundExistingConfigFile;
   if (force.config) {
-    foundExistingConfigFile = backupExistingFile({ type: 'config' });
+    foundExistingConfigFile = backupExistingFile({ names, paths, type: 'config' });
   }
   const configFileResult = copyFile({ force, type: 'config' });
   if (configFileResult) {
@@ -61,7 +64,7 @@ function init({ args }) {
   }
   let foundExistingEnvFile;
   if (force.env) {
-    foundExistingEnvFile = backupExistingFile({ type: 'env' });
+    foundExistingEnvFile = backupExistingFile({ names, paths, type: 'env' });
   }
   const envFileResult = copyFile({ force, type: 'env' });
   if (envFileResult) {
@@ -77,22 +80,6 @@ function init({ args }) {
     exceptions.push(error.message);
   }
   exit(exceptions.length);
-}
-
-/**
- * Backup an existing calliope.config.js file.
- */
-function backupExistingFile({ type }) {
-  try {
-    copyFileSync(paths.downstream[type], paths.downstream[`${type}Backup`]);
-    return true;
-  }
-  catch (error) {
-    if (error.code !== 'ENOENT') throw error;
-    // Looks like there is no calliope.config.js to backup,
-    // so do nothing.
-    return false;
-  }
 }
 
 /**
