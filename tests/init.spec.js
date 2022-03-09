@@ -7,11 +7,12 @@ const cli = '../../../cli.js';
 // Create tmp directory.
 const cwd = mkdtempSync(resolve(__dirname, 'tmp/init-'));
 const initCmd = `${ cli } init`;
-const maxErrors = 3;
+const maxErrors = 4;
 const stdio = 'pipe';
 const boilerplates = {
   config: readFileSync(resolve(__dirname, '../boilerplate', 'calliope.config-sample.js')).toString(),
   env: readFileSync(resolve(__dirname, '../boilerplate', '.env-sample')).toString(),
+  eslint: readFileSync(resolve(__dirname, '../boilerplate', '.eslintrc-sample.yml')).toString(),
 };
 const expectedPackageCommands = {
   calliope: 'yarn install && calliope',
@@ -34,6 +35,7 @@ assert.ok(
 // Assert that generated files match boilerplates.
 assert.equal(readFileSync(resolve(cwd, 'calliope.config.js')).toString(), boilerplates.config);
 assert.equal(readFileSync(resolve(cwd, '.env-sample')).toString(), boilerplates.env);
+assert.equal(readFileSync(resolve(cwd, '.eslintrc.yml')).toString(), boilerplates.eslint);
 // Load the updated manifest and assert that all expected scripts are correct.
 const { scripts } = require(resolve(cwd, 'package.json'));
 Object.keys(expectedPackageCommands).forEach((command) => {
@@ -66,6 +68,10 @@ catch (error) {
     error.message, /Your project already has a .env-sample file/,
     'Expected an error message for existing .env-sample file.'
   );
+  assert.match(
+    error.message, /Your project already has a .eslintrc.yml file/,
+    'Expected an error message for existing .eslintrc.yml file.'
+  );
 }
 
 // Create new manifest file.
@@ -85,6 +91,10 @@ catch (error) {
     error.message, /Your project already has a .env-sample file/,
     'Expected an error message for existing .env-sample file.'
   );
+  assert.match(
+    error.message, /Your project already has a .eslintrc.yml file/,
+    'Expected an error message for existing .eslintrc.yml file.'
+  );
 }
 
 // Modify existing config and store its contents.
@@ -100,6 +110,10 @@ catch (error) {
   assert.match(
     error.message, /Your project already has a .env-sample file/,
     'Expected an error message for existing .env-sample file.'
+  );
+  assert.match(
+    error.message, /Your project already has a .eslintrc.yml file/,
+    'Expected an error message for existing .eslintrc.yml file.'
   );
   assert.ok(
     existsSync(resolve(cwd, 'calliope.config-backup.js')),
@@ -128,6 +142,10 @@ catch (error) {
     error.message, /Your project already has a calliope.config.js file/,
     'Expected an error message for existing calliope.config.js file.'
   );
+  assert.match(
+    error.message, /Your project already has a .eslintrc.yml file/,
+    'Expected an error message for existing .eslintrc.yml file.'
+  );
   assert.ok(
     existsSync(resolve(cwd, '.env-sample-backup')),
     `Expected .env-sample-backup to exist in ${ cwd }.`,
@@ -139,8 +157,32 @@ catch (error) {
   assert.equal(newEnv, boilerplates.env);
 }
 
+// Modify existing eslintrc and store its contents.
+execSync('echo "\n// This is the old file, which should be backed up." >> .eslintrc.yml', { cwd, stdio });
+const prevEslint = readFileSync(resolve(cwd, '.eslintrc.yml')).toString();
+
+// Assert init with --force-eslint flag.
+try {
+  execSync(`${ initCmd } --force-eslint`, { cwd, stdio });
+}
+catch (error) {
+  assert.equal(error.status, maxErrors - 2);
+  assert.match(
+    error.message, /Your project already has a calliope.config.js file/,
+    'Expected an error message for existing calliope.config.js file.'
+  );
+  assert.match(
+    error.message, /Your project already has a .env-sample file/,
+    'Expected an error message for existing .env-sample file.'
+  );
+  assert.ok(
+    existsSync(resolve(cwd, '.eslintrc-backup.yml')),
+    `Expected .eslintrc.yml to exist in ${ cwd }.`,
+  );
+}
+
 // Remove old backup files.
-execSync('rm calliope.config-backup.js .env-sample-backup', { cwd, stdio });
+execSync('rm calliope.config-backup.js .env-sample-backup .eslintrc-backup.yml', { cwd, stdio });
 
 // Assert init with --force.
 try {

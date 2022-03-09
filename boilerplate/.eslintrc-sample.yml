@@ -1,0 +1,50 @@
+---
+# Make eslint look no further up the project tree.
+root: true
+
+# Use the standard config.
+extends: airbnb-base
+
+# Tell eslint to account for Node.js globals.
+env:
+  browser: true
+  node: true
+
+# Tell eslint about custom globals.
+globals:
+  Drupal: true
+  Hammer: true
+  MediaElementPlayer: true
+  objectFitImages: true
+  Wallop: true
+  Waypoint: true
+
+rules:
+  # Override airbnb’s default, since functions are hoisted.
+  no-use-before-define:
+    - error
+    - functions: false
+  func-names:
+    - error
+    - as-needed
+  no-param-reassign:
+    - error
+    - props: false
+  wrap-iife:
+    - error
+    - inside
+  no-unused-vars:
+    - error
+    - args: none
+  # Rest parameters are not supported in older browsers.
+  prefer-rest-params:
+    - off
+  # Template literals are not supported in older browsers.
+  prefer-template:
+    - off
+  no-plusplus:
+    - error
+    - allowForLoopAfterthoughts: true
+  prefer-arrow-callback:
+    - off
+  strict: 0

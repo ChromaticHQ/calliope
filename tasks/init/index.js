@@ -17,15 +17,17 @@ const names = {
   // The destination .env file is a sample file as well, intended to be tracked
   // in downstream projects for devs to use locally.
   env: '.env-sample',
+  eslint: '.eslintrc.yml',
   package: 'package.json',
 };
 const paths = {
   config: resolve(cwd(), names.config),
   env: resolve(cwd(), names.env),
+  eslint: resolve(cwd(), names.eslint),
   package: resolve(cwd(), names.package),
 };
 const filesToCopy = [
-  'config', 'env',
+  'config', 'env', 'eslint',
 ];
 
 /**
