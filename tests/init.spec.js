@@ -25,29 +25,24 @@ const expectedPackageCommands = {
 execSync('yarn init -y', { cwd, stdio });
 
 // Assert clean init with existing manifest.
-try {
-  // Run init command and assert that everything is fine.
-  assert.ok(execSync(initCmd, { cwd, stdio }));
-  assert.ok(
-    existsSync(resolve(cwd, 'calliope.config.js')),
-    `Expected calliope.config.js to exist in ${ cwd }.`,
+// Run init command and assert that everything is fine.
+assert.ok(execSync(initCmd, { cwd, stdio }));
+assert.ok(
+  existsSync(resolve(cwd, 'calliope.config.js')),
+  `Expected calliope.config.js to exist in ${ cwd }.`,
+);
+// Assert that generated files match boilerplates.
+assert.equal(readFileSync(resolve(cwd, 'calliope.config.js')).toString(), boilerplates.config);
+assert.equal(readFileSync(resolve(cwd, '.env-sample')).toString(), boilerplates.env);
+// Load the updated manifest and assert that all expected scripts are correct.
+const { scripts } = require(resolve(cwd, 'package.json'));
+Object.keys(expectedPackageCommands).forEach((command) => {
+  assert.equal(
+    scripts[command],
+    expectedPackageCommands[command],
+    `Expected calliope command in package.json scripts to be '${ expectedPackageCommands[command] }', but found '${ scripts[command] }' in ${ cwd }/package.json.`,
   );
-  // Assert that generated files match boilerplates.
-  assert.equal(readFileSync(resolve(cwd, 'calliope.config.js')).toString(), boilerplates.config);
-  assert.equal(readFileSync(resolve(cwd, '.env-sample')).toString(), boilerplates.env);
-  // Load the updated manifest and assert that all expected scripts are correct.
-  const { scripts } = require(resolve(cwd, 'package.json'));
-  Object.keys(expectedPackageCommands).forEach((command) => {
-    assert.equal(
-      scripts[command],
-      expectedPackageCommands[command],
-      `Expected calliope command in package.json scripts to be '${ expectedPackageCommands[command] }', but found '${ scripts[command] }' in ${ cwd }/package.json.`,
-    );
-  });
-}
-catch (error) {
-  assert.fail(error.message);
-}
+});
 
 // Remove manifest file.
 execSync('rm package.json', { cwd, stdio });

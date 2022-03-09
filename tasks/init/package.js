@@ -30,6 +30,7 @@ function updatePackageFile({ args, names, paths }) {
     // Write updated package object as a JSON string padded with 2 spaces and a
     // trailing newline character. This is the format that npm and Yarn use.
     writeFileSync(paths.downstream.package, `${JSON.stringify(package, null, 2)}\n`);
+    log.info(chalk.green(`✓ Your project’s ${names.package} file has been updated.`));
     return true;
   }
   catch (error) {
@@ -41,12 +42,11 @@ function updatePackageFile({ args, names, paths }) {
       log.error(chalk.red(`✕ No ${names.package} file was found. Some potential solutions:`));
       log.error(chalk.cyan(`    - Starting from scratch? Run \`yarn add --dev @chromatichq/calliope\` to create ${names.package} and install Calliope on your project.`));
       log.error(chalk.cyan(`    - If you already have a ${names.package} file, make sure you are running this command in the directory where that file is located.`));
-      throw new Error('read package.json');
     } else {
       log.error(chalk.red(`✕ There was an error updating your ${names.package} file.`));
       log.error(chalk.cyan(`    ${ error.toString() }`));
-      throw new Error('update package.json');
     }
+    return false;
   }
 }
 

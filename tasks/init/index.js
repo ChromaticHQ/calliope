@@ -4,14 +4,11 @@
  * documentation.
  */
 
-const chalk = require('chalk');
-const { constants, copyFileSync, readFileSync, writeFileSync } = require('fs');
 const { cwd, exit } = process;
-const log = require('fancy-log');
 const { resolve } = require('path');
 
 // Load helper modules.
-const { backupExistingFile } = require('./backup');
+const { copyBoilerplateFile } = require('./copy');
 const { updatePackageFile } = require('./package');
 
 // Declare some names and paths.
@@ -40,64 +37,23 @@ const paths = {
   },
 };
 
-// Keep track of exceptions in an array.
-let exceptions = [];
-
 /**
  * Set up a new project.
  */
 function init({ args }) {
+  // Count exceptions.
+  let exceptions = 0;
+
   const force = {
     config: args.includes('--force-config') || args.includes('--force'),
     env: args.includes('--force-env') || args.includes('--force'),
   };
-  let foundExistingConfigFile;
-  if (force.config) {
-    foundExistingConfigFile = backupExistingFile({ names, paths, type: 'config' });
-  }
-  const configFileResult = copyFile({ force, type: 'config' });
-  if (configFileResult) {
-    log.info(chalk.green(`✓ A new ${names.config} file has been created!`));
-    if (foundExistingConfigFile) {
-      log.info(chalk.grey(`    Your old config file was saved to ${names.configBackup}.`));
-    }
-  }
-  let foundExistingEnvFile;
-  if (force.env) {
-    foundExistingEnvFile = backupExistingFile({ names, paths, type: 'env' });
-  }
-  const envFileResult = copyFile({ force, type: 'env' });
-  if (envFileResult) {
-    log.info(chalk.green(`✓ A new ${names.env} file has been created!`));
-    if (foundExistingEnvFile) {
-      log.info(chalk.grey(`    Your old config file was saved to ${names.envBackup}.`));
-    }
-  }
-  try {
-    updatePackageFile({ args, names, paths });
-    log.info(chalk.green(`✓ Your project’s ${names.package} file has been updated.`));
-  } catch (error) {
-    exceptions.push(error.message);
-  }
-  exit(exceptions.length);
-}
 
-/**
- * Copy sample file to the downstream project.
- */
-function copyFile({ force, type }) {
-  try {
-    // By using COPYFILE_EXCL, the operation will fail if the destination file exists.
-    copyFileSync(paths.boilerplate[type], paths.downstream[type], force[type] ? undefined : constants.COPYFILE_EXCL);
-    return true;
-  }
-  catch (error) {
-    if (error.code !== 'EEXIST') throw error;
-    log.error(chalk.red(`✕ Your project already has a ${names[type]} file.`));
-    log.error(chalk.cyan(`    Use --force-${type} to replace it. (Don’t worry, I’ll back it up first.)`));
-    exceptions.push(`copy ${type}`);
-    return false;
-  }
+  if (!copyBoilerplateFile({ force, names, paths, type: 'config' })) exceptions++;
+  if (!copyBoilerplateFile({ force, names, paths, type: 'env' })) exceptions++;
+  if (!updatePackageFile({ args, names, paths })) exceptions++;
+
+  exit(exceptions);
 }
 
 module.exports = init;
