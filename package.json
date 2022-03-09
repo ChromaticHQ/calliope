@@ -52,7 +52,7 @@
   "devDependencies": {},
   "scripts": {
     "update-readme-toc": "markdown-toc -i README.md",
-    "test": "node tests/index.js"
+    "test": "yarn install && node tests/index.js"
   },
   "repository": {
     "type": "git",
