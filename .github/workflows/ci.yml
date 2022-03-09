@@ -1,0 +1,66 @@
+---
+name: Tests and Code Analysis
+on:  # yamllint disable-line rule:truthy
+  # Trigger the workflow on pushes to the primary branch and all pull requests.
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - name: Shellcheck
+        run: |
+          find . -name '*.sh' -not -path "*/node_modules/*" -not -path "*/vendor/*" -not -path "*/web/*" \
+          | xargs shellcheck -x
+
+  yaml-lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - name: YAML lint
+        uses: ibiqlik/action-yamllint@v3.1
+        with:
+          config_file: .yamllint.yml
+
+  lockfile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: ChromaticHQ/javascript-lockfile-check-action@v1.2.1
+        with:
+          package-manager: yarn
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        node: [ 14, 15, 16, 17 ]
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2.1.7
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Run tests
+        run: yarn test
