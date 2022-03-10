@@ -13,9 +13,11 @@ An extensible, Gulp-based front-end toolchain designed for quick and fussless se
 
 - [System Requirements](#system-requirements)
 - [Introduction](#introduction)
-- [Installation & Usage](#installation--usage)
-- [Configuration](#configuration)
+  * [Quick Start Guide](#quick-start-guide)
 - [Available Commands](#available-commands)
+  * [`yarn build` - Build Production-ready Assets Once](#yarn-build---build-production-ready-assets-once)
+  * [`yarn start` - Build Production-ready Assets & Watch For Changes](#yarn-start---build-production-ready-assets--watch-for-changes)
+  * [`yarn calliope TASK` - Run Arbitrary Tasks](#yarn-calliope-task---run-arbitrary-tasks)
 - [Default Tasks](#default-tasks)
   * [Pipelines](#pipelines)
     + [`fonts` - Move Font Files](#fonts---move-font-files)
@@ -26,6 +28,7 @@ An extensible, Gulp-based front-end toolchain designed for quick and fussless se
     + [`browsersync` - Reverse Proxy](#browsersync---reverse-proxy)
   * [Generic Tasks](#generic-tasks)
     + [`lint` - Lint JS and SCSS](#lint---lint-js-and-scss)
+- [Configuration](#configuration)
 - [Developer Personalization](#developer-personalization)
 - [Customization](#customization)
   * [Custom Task Types](#custom-task-types)
@@ -41,7 +44,7 @@ An extensible, Gulp-based front-end toolchain designed for quick and fussless se
 # System Requirements
 
 In order to use this tool, you must have each of the following installed in your system:
-- [Node.js](https://nodejs.org/en/) v14+
+- [Node.js](https://nodejs.org/en/) v12+
 - [Yarn](https://yarnpkg.com/) v1+
 
 ---
@@ -52,55 +55,72 @@ Calliope is a front-end task runner based on Gulp. It is designed to provide rea
 
 This tool also exposes a simple API for customization. Default tasks can be overridden and custom tasks can be registered to be run in a variety of scenarios.
 
-# Installation & Setup
+## Quick Start Guide
 
-You can install Calliope in your project with the following command in the directory from which you intend to run your front-end tooling (assuming you’re using Yarn):
+Get Calliope up and running in three easy steps!
 
-```shell
-yarn add @chromatichq/calliope
-```
+1. **Install Calliope.**
 
-Next, set up calliope by running the `init` command, like so:
+    Run the following command wherever you intend to run your front-end tooling:
 
-```shell
-npx @chromatichq/calliope init
-```
+    ```shell
+    yarn add @chromatichq/calliope
+    ```
 
-_(Note the use of `npx` in the command above. This tool ships with your Node installation and there is no Yarn equivalent for it. It is only used for this `init` command.)_
+1. **Jump start your project.**
 
-The `init` command will do a few things for you:
+    Set up calliope by running the `init` command, like so:
 
-- Create a `calliope.config.js` file in the directory where Calliope is installed.
-- Create an `.env-sample` file for team members to use as a reference when configuring their development environment.
-- Create a `.gitignore` file.
-- Create `.eslintrc.yml` and `.stylelintrc.yml` files based on the rules we typically use at Chromatic.
-- Create a `README.md` as a starter for your theme or project with basic information about basic Calliope commands.
-- Update your project’s `package.json` file to add common commands to be invoked with Yarn (e.g. `build`, `start`, etc.).
+    ```shell
+    npx @chromatichq/calliope init
+    ```
 
-By default, the `init` command will not overwrite any files whose names may collide with the files detailed above. If any of those files already exist when you run this command, you will see messages indicating that files were found and instructions on how to overwrite them. In addition to this, Calliope allows you to pick and choose which of these files you want with the `--only-*` flags (`--only-config` or `--only-stylelint`, for instance). Run `npx @chromatichq/calliope init --help` for additional details on these options.
+    Note the use of `npx` in the command above. `npx` ships with your Node installation and there is no Yarn equivalent for it. We only use `npx` for this `init` command.
 
-## Manual
+    <details>
+    <summary><i>What does the `init` command do?</i></summary>
 
-# Configuration
+    The `init` command will do a few things for you:
 
-Calliope works out of the box without configuration. Should you need to configure how any of the default tasks behave or add configuration for a custom task, you’ll be able to do so by creating a `calliope.config.js` file in the same directory as your project’s `package.json`. See the [`boilerplate/calliope.config-sample.js`] file in this repository for details on how to configure each individual task from your newly-created configuration file, or as a reference for creating your configuration object for a custom task.
+    - Create a `calliope.config.js` file in the directory where Calliope is installed.
+    - Create an `.env-sample` file for team members to use as a reference when configuring their development environment.
+    - Create a `.gitignore` file.
+    - Create `.eslintrc.yml` and `.stylelintrc.yml` files based on the rules we typically use at Chromatic.
+    - Create a `README.md` as a starter for your theme or project with basic information about basic Calliope commands.
+    - Update your project’s `package.json` file to add common commands to be invoked with Yarn (e.g. `build`, `start`, etc.).
+
+    By default, the `init` command will not overwrite any files whose names may collide with the files detailed above. If any of those files already exist when you run this command, you will see messages indicating that files were found and instructions on how to overwrite them. In addition to this, Calliope allows you to pick and choose which of these files you want with the `--only-*` flags (`--only-config` or `--only-stylelint`, for instance). Run `npx @chromatichq/calliope init --help` for additional details on these options.
+    </details>
+
+1. **Configure your toolchain.**
+
+    Open your newly created `calliope.config.js` file and make any changes that your project requires, if any. If this is a new project, the first (and possibly _only_) thing to update would be Browsersync’s `proxy` configuration, which you’ll want to modify to be your project’s development URL (typically, a Lando URL). Refer to the code comments in the `calliope.config.js` file for additional details of all configuration options.
+
+That’s it! You’re ready to start generating front-end assets for your project. See [Available Commands] for details on the commands available out of the box.
 
 # Available Commands
 
-For the most part, you will be interacting with two commands: `build` and `start`. The `build` command runs all of the tasks defined as pipelines (see [Pipelines] below). The `start` command will run the `build` command, watch for changes in the project’s source files, and re-run the appropriate tasks when any changes are detected. In addition to watching for changes, the `start` command will also run any daemons available in your project.
+For the most part, you will be interacting with commands: `build` and `start`.
 
-In addition to these built-in commands, any individual task can be invoked as a standalone command via Calliope’s CLI. Once your `package.json` has been set up according to the [Installation & Usage] section, you can run any task from the command line like so:
+## `yarn build` - Build Production-ready Assets Once
+
+The `build` command runs all of the tasks defined as pipelines (see [Pipelines] below).
+
+## `yarn start` - Build Production-ready Assets & Watch For Changes
+
+The `start` command will run the `build` command, watch for changes in the project’s source files, and re-run the appropriate tasks when any changes are detected. In addition to watching for changes, the `start` command will also run any daemons available in your project. (See the [Daemons] section for details).
+
+## `yarn calliope TASK` - Run Arbitrary Tasks
+
+In addition to the built-in commands detailed above, any individual task can be invoked as a standalone command via Calliope’s CLI. If your `package.json` has been set up correctly (as it should be if you ran the `init` command), you should be able to run any task as needed. For example, the command below would run the `scripts` task once by itself:
 
 ```shell
 yarn calliope scripts
 ```
 
-The command above would run the `scripts` task once by itself.
-
-
 # Default Tasks
 
-Calliope ships with a few basic tasks that most projects will need. This section provides an overview of these tasks and what they accomplish. For details on the configuration options available for each of the following tasks, see the [`boilerplate/calliope.config-sample.js`] file in this project’s repository.
+Calliope ships with a few basic tasks that most projects will need. This section provides an overview of these tasks and what they accomplish. For details on the configuration options available for each of the following tasks, see the [`calliope.config-sample.js`] file in this project’s repository.
 
 ## Pipelines
 
@@ -110,13 +130,13 @@ Your project’s build is defined by its pipeline tasks. These tasks are concern
 
 The `fonts` task merely moves font files from your source directory to the destination directory without any additional processing.
 
-**`fonts` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`boilerplate/calliope.config-sample.js`] for configuration details.**
+**`fonts` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`calliope.config-sample.js`] for configuration details.**
 
 ### `images` - Optimize Images
 
 The `images` moves image files from the source directory to the destination directory. It also provides simple image optimization for SVGs via [`gulp-imagemin`](https://npmjs.com/package/gulp-imagemin).
 
-**`images` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`boilerplate/calliope.config-sample.js`] for configuration details.**
+**`images` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`calliope.config-sample.js`] for configuration details.**
 
 ### `scripts` - Optimize JavaScript
 
@@ -146,9 +166,13 @@ Generic tasks are tasks that are not part of the build and are not run alongside
 
 The `lint` tasks uses [`gulp-eslint-new`](https://npmjs.com/package/gulp-eslint-new) and [`gulp-stylelint`](https://npmjs.com/package/gulp-stylelint) to lint your project’s JS and SCSS (respectively). It uses the `src` and (optional) `watch` settings of the `scripts` and `styles` configuration to determine which files should be linted, and relies on your project’s `.eslintrc.yml` and `.stylelintrc.yml` files to define the rules with which to lint your source files.
 
+# Configuration
+
+Calliope works out of the box without much configuration, outside of setting your project’s development URL for the Browsersync `proxy`. Should you need to configure how any of the default tasks behave or add configuration for a custom task, refer to the code comments in your `calliope.config.js` (if you used the `init` command) or just reference the [`calliope.config-sample.js`] file in this repository. The file contains details on how to configure each individual task, and serves as a reference for creating configuration for a custom task, if needed.
+
 # Developer Personalization
 
-In addition to the configuration options available in your project’s `calliope.config.js`, individual developers may modify parts of the tooling behavior according to their personal preferences. Developers may opt into JS and SCSS linting, and modify the reverse proxy’s URL (or opt out of reverse proxying altogether) by creating a `.env` file in their project and setting variables according to their needs. See the [`.env.sample`] file in this project’s repo for reference.
+In addition to the configuration options available in your project’s `calliope.config.js`, individual developers may modify parts of the tooling behavior according to their personal preferences. Developers may opt into JS and SCSS linting, and modify the reverse proxy’s URL (or opt out of reverse proxying altogether) by creating a `.env` file in their project and setting variables according to their needs. See the [`.env-sample`] file in this project’s repo for reference.
 
 # Customization
 
@@ -245,13 +269,13 @@ const myCustomVar = process.env.CALLIOPE_MY_CUSTOM_VAR || 'some less fun fallbac
 
 See the `pipelines.scripts` and `pipelines.styles` objects in the `config/defaults.js` file in this project for other examples of how we currently use environment variables.
 
-It’s important to note that these personalization options should always be optional and there should always be a fallback in your configuration. You should also document any new environment variables in the Development Settings section of your project’s README for ease of reference and add sample variable definitions in your project’s [`.env.sample`] file.
+It’s important to note that these personalization options should always be optional and there should always be a fallback in your configuration. You should also document any new environment variables in the Development Settings section of your project’s README for ease of reference and add sample variable definitions in your project’s [`.env-sample`] file.
 
 [Available Commands]: #available-commands
-[`boilerplate/calliope.config-sample.js`]: https://github.com/ChromaticHQ/calliope/blob/main/boilerplate/calliope.config-sample.js
+[`calliope.config-sample.js`]: https://github.com/ChromaticHQ/calliope/blob/main/boilerplate/calliope.config-sample.js
 [Daemons]: #daemons
 [Developer Personalization]: #developer-personalization
-[`.env.sample`]: https://github.com/ChromaticHQ/calliope/blob/main/.env.sample
+[`.env-sample`]: https://github.com/ChromaticHQ/calliope/blob/main/boilerplate/.env-sample
 [Overriding Default Pipelines]: #overriding-default-pipelines
 [Pipelines]: #pipelines
 [Generic Tasks]: #generic-tasks
