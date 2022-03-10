@@ -51,11 +51,25 @@ function init({ args }) {
     force[type] = args.includes(`--force-${ type }`) || args.includes('--force');
   });
 
-  filesToCopy.forEach((type) => {
+  // If there are any `--only-*` flags, populate a new array of files to copy
+  // with only _those_ files.
+  const onlyFilesToProcess = args.filter((arg) => arg.match(/--only-/))
+    .map((arg) => arg.replace(/--only-/, ''));
+  // Set only files to be forced.
+  onlyFilesToProcess.forEach((type) => force[type] = true);
+
+  // If there are “only files”, copy only those. Otherwise, copy all files.
+  (onlyFilesToProcess.length ? onlyFilesToProcess : filesToCopy).forEach((type) => {
+    // If file is package, do nothing. That is handled separately.
+    if (type === 'package') return;
     if (!copyBoilerplateFile({ force, names, paths, type })) exceptions++;
   });
 
-  if (!updatePackageFile({ args, names, paths })) exceptions++;
+  // Update package.json only if no --only-* flags were passed, OR they were
+  // and --only-package was one of them.
+  if (!onlyFilesToProcess.length || onlyFilesToProcess.includes('package')) {
+    if (!updatePackageFile({ args, names, paths })) exceptions++;
+  }
 
   exit(exceptions);
 }

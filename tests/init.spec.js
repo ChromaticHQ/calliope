@@ -35,8 +35,8 @@ const maxErrors = Object.keys(files).length + 1;
 execSync('yarn init -y', { cwd, stdio });
 
 // Assert clean init with existing manifest.
-// Run init command and assert that everything is fine.
 execSync(initCmd, { cwd, stdio });
+
 // Assert that generated files match the boilerplates.
 Object.keys(files).map((type) => files[type]).forEach((filename) => {
   assert.equal(
@@ -44,6 +44,7 @@ Object.keys(files).map((type) => files[type]).forEach((filename) => {
     readFileSync(resolve(__dirname, '../boilerplate', sampleFilename(filename))),
   );
 });
+
 // Load the updated manifest and assert that all expected scripts are correct.
 const { scripts } = require(resolve(cwd, 'package.json'));
 Object.keys(expectedPackageCommands).forEach((command) => {
@@ -142,6 +143,54 @@ Object.keys(files).map((type) => backupFilename(files[type]))
   .forEach(assertFileExists);
 
 /**
+ * ONLY SOME FILES.
+ */
+
+const onlyFilesToCopy = ['config', 'env'];
+const filesNotToCopy = Object.keys(files).filter((type) => !onlyFilesToCopy.includes(type));
+
+// Remove old files (including backups).
+execSync(`rm ${
+  filesNotToCopy.map((type) => files[type]).join(' ')
+} ${
+  Object.keys(files).map((type) => backupFilename(files[type])).join(' ')
+}`, { cwd, stdio });
+
+// Assert init with --only-*.
+execSync(`${ initCmd } --only-config --only-env`, { cwd, stdio });
+onlyFilesToCopy.forEach((type) => {
+  assertFileExists(files[type]);
+  assertFileExists(backupFilename(files[type]));
+});
+filesNotToCopy.forEach(assertFileDoesNotExist);
+
+/**
+ * ONLY PACKAGE UPDATE.
+ */
+
+// Remove old files (including backups).
+execSync(`rm -rf package.json ${
+  Object.keys(files).map((type) => files[type]).join(' ')
+} ${
+  Object.keys(files).map((type) => backupFilename(files[type])).join(' ')
+}`, { cwd, stdio });
+
+// Create a manifest file.
+execSync('yarn init -y', { cwd, stdio });
+
+// Assert init with --only-package.
+execSync(`${ initCmd } --only-package`, { cwd, stdio });
+Object.keys(files).forEach((type) => assertFileDoesNotExist(files[type]));
+const updatedPackage = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
+Object.keys(expectedPackageCommands).forEach((command) => {
+  assert.equal(
+    updatedPackage.scripts[command],
+    expectedPackageCommands[command],
+    `Expected calliope command in package.json scripts to be '${ expectedPackageCommands[command] }', but found '${ updatedPackage.scripts[command] }' in ${ cwd }/package.json.`,
+  );
+});
+
+/**
  * CLEANUP.
  */
 
@@ -163,6 +212,13 @@ function assertFileExists(filename) {
   assert.ok(
     existsSync(resolve(cwd, filename)),
     `Expected ${ filename } to exist in ${ cwd }.`,
+  );
+}
+
+function assertFileDoesNotExist(filename) {
+  assert.ok(
+    !existsSync(resolve(cwd, filename)),
+    `Expected ${ filename } not to exist in ${ cwd }.`,
   );
 }
 
