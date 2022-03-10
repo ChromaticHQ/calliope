@@ -10,6 +10,7 @@ const { resolve } = require('path');
 // Load helper modules.
 const { copyBoilerplateFile } = require('./copy');
 const { updatePackageFile } = require('./package');
+const { printHelp } = require('./help');
 
 // Declare some names and paths.
 const names = {
@@ -40,6 +41,8 @@ const filesToCopy = [
  * Set up a new project.
  */
 function init({ args }) {
+  if (args.includes('--help')) return printHelp(filesToCopy);
+
   // Count exceptions.
   let exceptions = 0;
 
