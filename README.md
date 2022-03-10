@@ -81,7 +81,7 @@ Now running `yarn build` will do the same thing as `yarn calliope build`. You ca
 
 # Configuration
 
-Calliope works without additional configuration. Should you need to configure how any of the default tasks behave or add configuration for a custom task, you’ll be able to do so by creating a `calliope.config.js` file in the same directory as your project’s `package.json`. See the [`samples/calliope.config-sample.js`] file in this repository for details on how to configure each individual task from your newly-created configuration file, or as a reference for creating your configuration object for a custom task.
+Calliope works without additional configuration. Should you need to configure how any of the default tasks behave or add configuration for a custom task, you’ll be able to do so by creating a `calliope.config.js` file in the same directory as your project’s `package.json`. See the [`boilerplate/calliope.config-sample.js`] file in this repository for details on how to configure each individual task from your newly-created configuration file, or as a reference for creating your configuration object for a custom task.
 
 # Available Commands
 
@@ -98,7 +98,7 @@ The command above would run the `scripts` task once by itself.
 
 # Default Tasks
 
-Calliope ships with a few basic tasks that most projects will need. This section provides an overview of these tasks and what they accomplish. For details on the configuration options available for each of the following tasks, see the [`samples/calliope.config-sample.js`] file in this project’s repository.
+Calliope ships with a few basic tasks that most projects will need. This section provides an overview of these tasks and what they accomplish. For details on the configuration options available for each of the following tasks, see the [`boilerplate/calliope.config-sample.js`] file in this project’s repository.
 
 ## Pipelines
 
@@ -108,13 +108,13 @@ Your project’s build is defined by its pipeline tasks. These tasks are concern
 
 The `fonts` task merely moves font files from your source directory to the destination directory without any additional processing.
 
-**`fonts` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`samples/calliope.config-sample.js`] for configuration details.**
+**`fonts` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`boilerplate/calliope.config-sample.js`] for configuration details.**
 
 ### `images` - Optimize Images
 
 The `images` moves image files from the source directory to the destination directory. It also provides simple image optimization for SVGs via [`gulp-imagemin`](https://npmjs.com/package/gulp-imagemin).
 
-**`images` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`samples/calliope.config-sample.js`] for configuration details.**
+**`images` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`boilerplate/calliope.config-sample.js`] for configuration details.**
 
 ### `scripts` - Optimize JavaScript
 
@@ -246,7 +246,7 @@ See the `pipelines.scripts` and `pipelines.styles` objects in the `config/defaul
 It’s important to note that these personalization options should always be optional and there should always be a fallback in your configuration. You should also document any new environment variables in the Development Settings section of your project’s README for ease of reference and add sample variable definitions in your project’s [`.env.sample`] file.
 
 [Available Commands]: #available-commands
-[`samples/calliope.config-sample.js`]: https://github.com/ChromaticHQ/calliope/blob/main/samples/calliope.config-sample.js
+[`boilerplate/calliope.config-sample.js`]: https://github.com/ChromaticHQ/calliope/blob/main/boilerplate/calliope.config-sample.js
 [Daemons]: #daemons
 [Developer Personalization]: #developer-personalization
 [`.env.sample`]: https://github.com/ChromaticHQ/calliope/blob/main/.env.sample
