@@ -17,9 +17,9 @@ const greetingFg = 'black'
 // Report library version number if reporting is not omitted, or if this is the
 // init command.
 if (!omitSetupReport || isInit) {
-  log.info(chalk.bold.visible[greetingBg][greetingFg]('-'.repeat(greeting.length)));
-  log.info(chalk.bold.visible[greetingBg][greetingFg](greeting));
-  log.info(chalk.bold.visible[greetingBg][greetingFg]('-'.repeat(greeting.length)));
+  console.log(chalk.bold.visible[greetingBg][greetingFg]('-'.repeat(greeting.length)));
+  console.log(chalk.bold.visible[greetingBg][greetingFg](greeting));
+  console.log(chalk.bold.visible[greetingBg][greetingFg]('-'.repeat(greeting.length)));
 }
 
 // Confirm config loads w/o issues and report custom config and dev options to
