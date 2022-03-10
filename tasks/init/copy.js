@@ -24,12 +24,13 @@ function copyBoilerplateFile({ force, names, paths, type }) {
       names[type] :
       `${ parsedPath.name }-sample${ parsedPath.ext }`;
     const boilerplatePath = resolve(parsedPath.dir, boilerplateFilename);
+    const backupFilename = `${ parsedPath.name }-backup${ parsedPath.ext }`;
     // When using COPYFILE_EXCL, the operation will fail if the destination
     // file exists.
     copyFileSync(boilerplatePath, paths[type], force[type] ? undefined : constants.COPYFILE_EXCL);
     log.info(chalk.green(`✓ A new ${names[type]} file has been created!`));
     if (foundExistingFile) {
-      log.info(chalk.grey(`    Your old file was saved to ${names[`${ type }Backup`]}.`));
+      log.info(chalk.grey(`    Your old file was saved to ${ backupFilename }.`));
     }
     return true;
   }
