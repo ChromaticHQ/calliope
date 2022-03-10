@@ -19,6 +19,7 @@ const files = {
   config: 'calliope.config.js',
   env: '.env-sample',
   eslint: '.eslintrc.yml',
+  readme: 'README.md',
   stylelint: '.stylelintrc.yml',
 };
 // Total number of possible errors is equal to the number of boilerplates

@@ -19,6 +19,7 @@ const names = {
   env: '.env-sample',
   eslint: '.eslintrc.yml',
   package: 'package.json',
+  readme: 'README.md',
   stylelint: '.stylelintrc.yml',
 };
 const paths = {
@@ -26,10 +27,11 @@ const paths = {
   env: resolve(cwd(), names.env),
   eslint: resolve(cwd(), names.eslint),
   package: resolve(cwd(), names.package),
+  readme: resolve(cwd(), names.readme),
   stylelint: resolve(cwd(), names.stylelint),
 };
 const filesToCopy = [
-  'config', 'env', 'eslint', 'stylelint',
+  'config', 'env', 'eslint', 'readme', 'stylelint',
 ];
 
 /**
