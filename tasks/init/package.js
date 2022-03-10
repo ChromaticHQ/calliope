@@ -49,4 +49,3 @@ function updatePackageFile({ args, names, paths }) {
     return false;
   }
 }
-
