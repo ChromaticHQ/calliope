@@ -40,7 +40,7 @@ An extensible, Gulp-based front-end toolchain designed for quick and fussless se
 
 # System Requirements
 
-In order to use this theme, you must have each of the following installed in your system:
+In order to use this tool, you must have each of the following installed in your system:
 - [Node.js](https://nodejs.org/en/) v14+
 - [Yarn](https://yarnpkg.com/) v1+
 
@@ -52,36 +52,38 @@ Calliope is a front-end task runner based on Gulp. It is designed to provide rea
 
 This tool also exposes a simple API for customization. Default tasks can be overridden and custom tasks can be registered to be run in a variety of scenarios.
 
-# Installation & Usage
+# Installation & Setup
 
-You can install Calliope in your project with the following command (assuming you’re using Yarn):
+You can install Calliope in your project with the following command in the directory from which you intend to run your front-end tooling (assuming you’re using Yarn):
 
 ```shell
 yarn add @chromatichq/calliope
 ```
 
-In your project’s `package.json` file, find the `scripts` object and add the following:
+Next, set up calliope by running the `init` command, like so:
 
-```json
-"scripts": {
-  "calliope": "yarn install && calliope"
-},
+```shell
+npx @chromatichq/calliope init
 ```
 
-This will allow you to use `yarn calliope COMMAND` to run any of the tasks available in the toolchain, with the added benefit of installing dependencies before doing so. For example, to run the `build` task, you would run `yarn calliope build`. You can take this one step further and add a dedicated `build` script in `package.json`, like so:
+_(Note the use of `npx` in the command above. This tool ships with your Node installation and there is no Yarn equivalent for it. It is only used for this `init` command.)_
 
-```json
-"scripts": {
-  "calliope": "yarn install && calliope",
-  "build": "yarn calliope build"
-},
-```
+The `init` command will do a few things for you:
 
-Now running `yarn build` will do the same thing as `yarn calliope build`. You can do the same for any other tasks commonly used in your project.
+- Create a `calliope.config.js` file in the directory where Calliope is installed.
+- Create an `.env-sample` file for team members to use as a reference when configuring their development environment.
+- Create a `.gitignore` file.
+- Create `.eslintrc.yml` and `.stylelintrc.yml` files based on the rules we typically use at Chromatic.
+- Create a `README.md` as a starter for your theme or project with basic information about basic Calliope commands.
+- Update your project’s `package.json` file to add common commands to be invoked with Yarn (e.g. `build`, `start`, etc.).
+
+By default, the `init` command will not overwrite any files whose names may collide with the files detailed above. If any of those files already exist when you run this command, you will see messages indicating that files were found and instructions on how to overwrite them. In addition to this, Calliope allows you to pick and choose which of these files you want with the `--only-*` flags (`--only-config` or `--only-stylelint`, for instance). Run `npx @chromatichq/calliope init --help` for additional details on these options.
+
+## Manual
 
 # Configuration
 
-Calliope works without additional configuration. Should you need to configure how any of the default tasks behave or add configuration for a custom task, you’ll be able to do so by creating a `calliope.config.js` file in the same directory as your project’s `package.json`. See the [`boilerplate/calliope.config-sample.js`] file in this repository for details on how to configure each individual task from your newly-created configuration file, or as a reference for creating your configuration object for a custom task.
+Calliope works out of the box without configuration. Should you need to configure how any of the default tasks behave or add configuration for a custom task, you’ll be able to do so by creating a `calliope.config.js` file in the same directory as your project’s `package.json`. See the [`boilerplate/calliope.config-sample.js`] file in this repository for details on how to configure each individual task from your newly-created configuration file, or as a reference for creating your configuration object for a custom task.
 
 # Available Commands
 
