@@ -51,7 +51,6 @@
   },
   "devDependencies": {},
   "scripts": {
-    "lint": "eslint ./",
     "test": "yarn install && node tests/index.js",
     "update-readme-toc": "markdown-toc -i README.md",
     "update-boilerplate-readme-toc": "markdown-toc -i boilerplate/README-sample.md"
