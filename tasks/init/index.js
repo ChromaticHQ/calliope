@@ -18,6 +18,7 @@ const names = {
   // in downstream projects for devs to use locally.
   env: '.env-sample',
   eslint: '.eslintrc.yml',
+  gitignore: '.gitignore',
   package: 'package.json',
   readme: 'README.md',
   stylelint: '.stylelintrc.yml',
@@ -26,12 +27,13 @@ const paths = {
   config: resolve(cwd(), names.config),
   env: resolve(cwd(), names.env),
   eslint: resolve(cwd(), names.eslint),
+  gitignore: resolve(cwd(), names.gitignore),
   package: resolve(cwd(), names.package),
   readme: resolve(cwd(), names.readme),
   stylelint: resolve(cwd(), names.stylelint),
 };
 const filesToCopy = [
-  'config', 'env', 'eslint', 'readme', 'stylelint',
+  'config', 'env', 'eslint', 'gitignore', 'readme', 'stylelint',
 ];
 
 /**

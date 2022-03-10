@@ -19,6 +19,7 @@ const files = {
   config: 'calliope.config.js',
   env: '.env-sample',
   eslint: '.eslintrc.yml',
+  gitignore: '.gitignore',
   readme: 'README.md',
   stylelint: '.stylelintrc.yml',
 };
