@@ -132,11 +132,13 @@ Object.keys(files).forEach((type) => {
  */
 
 // Remove old backup files.
-execSync(`rm ${ Object.keys(files).map((type) => files[type]).join(' ') }`, { cwd, stdio });
+execSync(`rm ${
+  Object.keys(files).map((type) => backupFilename(files[type])).join(' ')
+}`, { cwd, stdio });
 
 // Assert init with --force.
 execSync(`${ initCmd } --force`, { cwd, stdio });
-Object.keys(files).map((type) => files[type])
+Object.keys(files).map((type) => backupFilename(files[type]))
   .forEach(assertFileExists);
 
 /**
