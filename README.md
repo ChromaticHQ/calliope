@@ -67,7 +67,7 @@ Get Calliope up and running in three easy steps!
     yarn add @chromatichq/calliope
     ```
 
-1. **Jump start your project.**
+1. **Jump-start your project.**
 
     Set up calliope by running the `init` command, like so:
 
