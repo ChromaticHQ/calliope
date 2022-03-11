@@ -28,6 +28,8 @@ function config(report) {
     ready: (error, bs) => {
       if (error) throw error;
       log.info(chalk.green(`✓ Browsersync is reverse proxying ${bs.options.get('proxy').get('target')} at the following URLs:`));
+      /* eslint-disable-next-line no-underscore-dangle -- We don’t get to
+       * choose how Browsersync names its props. */
       bs.options.get('urls')._root.entries.forEach((pair) => {
         log.info(chalk.grey(`    - ${pair[0].toUpperCase()}: ${pair[1]}`));
       });
