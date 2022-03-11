@@ -47,10 +47,10 @@ describe('init Command', () => {
       });
 
       // Assert that each command is added to the downstream package.json file.
-      Object.keys(expectedPackageCommands).forEach((command) => {
-        it(`Adds a ${command} script to package.json.`, () => {
+      Object.keys(expectedPackageCommands).forEach((scriptCmd) => {
+        it(`Adds a ${scriptCmd} script to package.json.`, () => {
           const packageFile = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
-          assertManifestIsUpdated({ cwd, command, packageFile });
+          assertManifestIsUpdated({ cwd, scriptCmd, packageFile });
         });
       });
     });
@@ -160,8 +160,7 @@ describe('init Command', () => {
         // Assert that we get errors for the files *not* forced in this run.
         Object.keys(files).filter((t) => t !== type).forEach((t) => {
           it(`Includes an error for the ${files[t]} file.`, () => {
-            const filename = files[t];
-            assertFileExistsError({ error, filename });
+            assertFileExistsError({ error, filename: files[t] });
           });
         });
       });
@@ -250,10 +249,10 @@ describe('init Command', () => {
         after(() => deleteTemporaryWorkingDirectory(cwd));
 
         // Assert that each command is added to the downstream package.json file.
-        Object.keys(expectedPackageCommands).forEach((command) => {
-          it(`Adds a ${command} script to package.json.`, () => {
+        Object.keys(expectedPackageCommands).forEach((scriptCmd) => {
+          it(`Adds a ${scriptCmd} script to package.json.`, () => {
             const packageFile = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
-            assertManifestIsUpdated({ cwd, command, packageFile });
+            assertManifestIsUpdated({ cwd, scriptCmd, packageFile });
           });
         });
 
@@ -340,10 +339,10 @@ describe('init Command', () => {
         after(() => deleteTemporaryWorkingDirectory(cwd));
 
         // Assert that each command is added to the downstream package.json file.
-        Object.keys(expectedPackageCommands).forEach((command) => {
-          it(`Adds a ${command} script to package.json.`, () => {
+        Object.keys(expectedPackageCommands).forEach((scriptCmd) => {
+          it(`Adds a ${scriptCmd} script to package.json.`, () => {
             const packageFile = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
-            assertManifestIsUpdated({ cwd, command, packageFile });
+            assertManifestIsUpdated({ cwd, scriptCmd, packageFile });
           });
         });
 
@@ -383,12 +382,12 @@ function assertBoilerplateIsCopied({ cwd, filename }) {
   );
 }
 
-function assertManifestIsUpdated({ cwd, command, packageFile }) {
+function assertManifestIsUpdated({ cwd, scriptCmd, packageFile }) {
   const { scripts } = packageFile;
   assert.equal(
-    scripts[command],
-    expectedPackageCommands[command],
-    `Expected ${command} script to be '${expectedPackageCommands[command]}', but found '${scripts[command]}' in ${cwd}/package.json.`,
+    scripts[scriptCmd],
+    expectedPackageCommands[scriptCmd],
+    `Expected ${scriptCmd} script to be '${expectedPackageCommands[scriptCmd]}', but found '${scripts[scriptCmd]}' in ${cwd}/package.json.`,
   );
 }
 

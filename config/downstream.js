@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const log = require('fancy-log');
 const path = require('path');
 
-function downstream(report) {
+function getDownstream(report) {
   // Load pipelines and plugins from downstream config, falling back to empty
   // objects for each.
   let daemons = {}; let pipelines = {}; let
@@ -29,4 +29,4 @@ function downstream(report) {
   return { daemons, pipelines, plugins };
 }
 
-module.exports = downstream;
+module.exports = getDownstream;
