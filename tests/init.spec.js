@@ -31,35 +31,25 @@ describe('init Command', () => {
     describe('in a clean directory w/package.json', () => {
       const command = `${ cli } init`;
       let cwd;
-      let package;
       before(() => {
         cwd = createTemporaryWorkingDirectory();
         createManifestFile(cwd);
         execSync(command, { cwd, stdio });
-        package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
       });
       after(() => deleteTemporaryWorkingDirectory(cwd));
 
       // Assert that each boilerplate file is copied to the downstream project.
       Object.keys(files).map((type) => files[type]).forEach((filename) => {
         it(`Copies ${ filename } to the downstream project.`, () => {
-          assertFileExists(cwd, filename);
-          assert.equal(
-            readFileSync(resolve(cwd, filename)).toString(),
-            readFileSync(resolve(__dirname, '../boilerplate', sampleFilename(filename))),
-          );
+          assertBoilerplateIsCopied({ cwd, filename });
         });
       });
 
       // Assert that each command is added to the downstream package.json file.
       Object.keys(expectedPackageCommands).forEach((command) => {
         it(`Adds a ${ command } script to package.json.`, () => {
-          const { scripts } = package;
-          assert.equal(
-            scripts[command],
-            expectedPackageCommands[command],
-            `Expected ${ command } script to be '${ expectedPackageCommands[command] }', but found '${ scripts[command] }' in ${ cwd }/package.json.`,
-          );
+          const package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
+          assertManifestIsUpdated({ cwd, command, package });
         });
       });
     });
@@ -94,7 +84,8 @@ describe('init Command', () => {
       // Assert an error exists for each boilerplate file.
       Object.keys(files).forEach((type) => {
         it(`Includes an error for the ${ files[type] } file`, () => {
-          assertFileExistsError(error, files[type]);
+          const filename = files[type];
+          assertFileExistsError({ error, filename });
         });
       });
     });
@@ -120,7 +111,8 @@ describe('init Command', () => {
       // Assert an error exists for each boilerplate file.
       Object.keys(files).forEach((type) => {
         it(`Includes an error for the ${ files[type] } file`, () => {
-          assertFileExistsError(error, files[type]);
+          const filename = files[type];
+          assertFileExistsError({ error, filename });
         });
       });
     });
@@ -132,6 +124,7 @@ describe('init Command', () => {
         const command = `${ cli } init --force-${ type }`;
         let cwd;
         let error;
+        const filename = files[type];
         let prevFile;
         before(() => {
           cwd = createTemporaryWorkingDirectory();
@@ -140,10 +133,10 @@ describe('init Command', () => {
           execSync(command, { cwd, stdio });
           // Modify existing file and store its contents for later comparison.
           execSync(
-            `echo "\n// This is the old file, which should be backed up." >> ${ files[type] }`,
+            `echo "\n// This is the old file, which should be backed up." >> ${ filename }`,
             { cwd, stdio }
           );
-          prevFile = readFileSync(resolve(cwd, files[type])).toString();
+          prevFile = readFileSync(resolve(cwd, filename)).toString();
           // Execute command again, catch the resulting error, and store it.
           try { execSync(command, { cwd, stdio }); } catch (err) { error = err }
         });
@@ -154,29 +147,19 @@ describe('init Command', () => {
           assert.equal(error.status, maxErrors - 2);
         });
 
-        it(`Overwrites the ${ files[type] } file with the contents of the ${ sampleFilename(files[type]) } boilerplate.`, () => {
-          const newFile = readFileSync(resolve(cwd, files[type])).toString();
-          const boilerplate = readFileSync(
-              resolve(__dirname, '../boilerplate', sampleFilename(files[type]))
-            ).toString();
-          assert.equal(newFile, boilerplate);
+        it(`Overwrites the ${ filename } file with the contents of the ${ sampleFilename(filename) } boilerplate.`, () => {
+          assertBoilerplateIsCopied({ cwd, filename });
         });
 
-        it(`Creates a ${ backupFilename(files[type]) } file that matches the original ${ files[type] } file.`, () => {
-          assertFileExists(cwd, backupFilename(files[type]));
-          // Read the newly-created backup file.
-          const backupFile = readFileSync(
-            resolve(cwd, backupFilename(files[type]))
-          ).toString();
-          // Compare newly-created backup file with original file as it existed
-          // before it was overwritten.
-          assert.equal(backupFile, prevFile);
+        it(`Creates a ${ backupFilename(filename) } file that matches the original ${ filename } file.`, () => {
+          assertBackupFileCreated({ cwd, filename, prevFile });
         });
 
         // Assert that we get errors for the files *not* forced in this run.
         Object.keys(files).filter((t) => t !== type).forEach((t) => {
           it(`Includes an error for the ${ files[t] } file.`, () => {
-            assertFileExistsError(error, files[t]);
+            const filename = files[t];
+            assertFileExistsError({ error, filename });
           });
         });
       });
@@ -213,14 +196,7 @@ describe('init Command', () => {
 
       Object.keys(files).forEach((type) => {
         it(`Creates a ${ backupFilename(files[type]) } file that matches the original ${ files[type] } file.`, () => {
-          assertFileExists(cwd, backupFilename(files[type]));
-          // Read the newly-created backup file.
-          const backupFile = readFileSync(
-            resolve(cwd, backupFilename(files[type]))
-          ).toString();
-          // Compare newly-created backup file with original file as it existed
-          // before it was overwritten.
-          assert.equal(backupFile, prevFiles[type]);
+          assertBackupFileCreated({ cwd, filename: files[type], prevFile: prevFiles[type] });
         });
 
         it(`Overwrites the ${ files[type] } file with the contents of the ${ sampleFilename(files[type]) } boilerplate.`, () => {
@@ -242,6 +218,7 @@ describe('init Command', () => {
           let filesNotToCopy = Object.keys(files).filter((t) => t !== type);
           let cwd;
           let error;
+          const filename = files[type];
           before(() => {
             cwd = createTemporaryWorkingDirectory();
             createManifestFile(cwd);
@@ -250,13 +227,13 @@ describe('init Command', () => {
           });
           after(() => deleteTemporaryWorkingDirectory(cwd));
 
-          it(`Copies ${ files[type] } to the downstream project.`, () => {
-            assertFileExists(cwd, files[type]);
+          it(`Copies ${ filename } to the downstream project.`, () => {
+            assertFileExists({ cwd, filename });
           });
 
           filesNotToCopy.forEach((t) => {
             it(`Does not copy ${ files[t] } to the downstream project.`, () => {
-              assertFileDoesNotExist(cwd, files[t]);
+              assertFileDoesNotExist({ cwd, filename: files[t] });
             });
           });
         });
@@ -265,30 +242,24 @@ describe('init Command', () => {
       describe('--only-package', () => {
         const command = `${ cli } init --only-package`;
         let cwd;
-        let package;
         before(() => {
           cwd = createTemporaryWorkingDirectory();
           createManifestFile(cwd);
           execSync(command, { cwd, stdio });
-          package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
         });
         after(() => deleteTemporaryWorkingDirectory(cwd));
 
         // Assert that each command is added to the downstream package.json file.
         Object.keys(expectedPackageCommands).forEach((command) => {
           it(`Adds a ${ command } script to package.json.`, () => {
-            const { scripts } = package;
-            assert.equal(
-              scripts[command],
-              expectedPackageCommands[command],
-              `Expected ${ command } script to be '${ expectedPackageCommands[command] }', but found '${ scripts[command] }' in ${ cwd }/package.json.`,
-            );
+            const package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
+            assertManifestIsUpdated({ cwd, command, package });
           });
         });
 
         Object.keys(files).forEach((type) => {
           it(`Does not copy ${ files[type] } to the downstream project.`, () => {
-            assertFileDoesNotExist(cwd, files[type]);
+            assertFileDoesNotExist({ cwd, filename: files[type] });
           });
         });
       });
@@ -301,6 +272,7 @@ describe('init Command', () => {
           let filesNotToCopy = Object.keys(files).filter((t) => t !== type);
           let cwd;
           let error;
+          const filename = files[type];
           const prevFiles = {};
           before(() => {
             cwd = createTemporaryWorkingDirectory();
@@ -321,20 +293,16 @@ describe('init Command', () => {
           });
           after(() => deleteTemporaryWorkingDirectory(cwd));
 
-          it(`Copies ${ files[type] } to the downstream project.`, () => {
-            assertFileExists(cwd, files[type]);
+          it(`Copies ${ filename } to the downstream project.`, () => {
+            assertFileExists({ cwd, filename });
             assert.equal(
-              readFileSync(resolve(cwd, files[type])).toString(),
-              readFileSync(resolve(__dirname, '../boilerplate', sampleFilename(files[type]))).toString(),
+              readFileSync(resolve(cwd, filename)).toString(),
+              readFileSync(resolve(__dirname, '../boilerplate', sampleFilename(filename))).toString(),
             );
           });
 
-          it(`Creates a ${ backupFilename(files[type]) } file that matches the original ${ files[type] } file.`, () => {
-            assertFileExists(cwd, backupFilename(files[type]));
-            assert.equal(
-              readFileSync(resolve(cwd, backupFilename(files[type]))).toString(),
-              prevFiles[type],
-            );
+          it(`Creates a ${ backupFilename(filename) } file that matches the original ${ filename } file.`, () => {
+            assertBackupFileCreated({ cwd, filename, prevFile: prevFiles[type] });
           });
 
           filesNotToCopy.forEach((t) => {
@@ -343,7 +311,7 @@ describe('init Command', () => {
                 readFileSync(resolve(cwd, files[t])),
                 prevFiles[t],
               );
-              assertFileDoesNotExist(cwd, backupFilename(files[t]));
+              assertFileDoesNotExist({ cwd, filename: backupFilename(files[t]) });
             });
           });
         });
@@ -353,7 +321,6 @@ describe('init Command', () => {
         const command = `${ cli } init --only-package`;
         let cwd;
         let error;
-        let package;
         const prevFiles = {};
         before(() => {
           cwd = createTemporaryWorkingDirectory();
@@ -371,19 +338,14 @@ describe('init Command', () => {
           });
           // Execute command once, catching and storing any resulting error.
           try { execSync(command, { cwd, stdio }); } catch (err) { error = err }
-          package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
         });
         after(() => deleteTemporaryWorkingDirectory(cwd));
 
         // Assert that each command is added to the downstream package.json file.
         Object.keys(expectedPackageCommands).forEach((command) => {
           it(`Adds a ${ command } script to package.json.`, () => {
-            const { scripts } = package;
-            assert.equal(
-              scripts[command],
-              expectedPackageCommands[command],
-              `Expected ${ command } script to be '${ expectedPackageCommands[command] }', but found '${ scripts[command] }' in ${ cwd }/package.json.`,
-            );
+            const package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
+            assertManifestIsUpdated({ cwd, command, package });
           });
         });
 
@@ -393,7 +355,7 @@ describe('init Command', () => {
               readFileSync(resolve(cwd, files[type])),
               prevFiles[type],
             );
-            assertFileDoesNotExist(cwd, backupFilename(files[type]));
+            assertFileDoesNotExist({ cwd, filename: backupFilename(files[type]) });
           });
         });
       });
@@ -401,43 +363,75 @@ describe('init Command', () => {
   });
 });
 
-// Helper functions.
-function createTemporaryWorkingDirectory() {
-  return mkdtempSync(resolve(__dirname, 'tmp/init-'));
+// Common assertions.
+
+function assertBackupFileCreated({ cwd, filename, prevFile}) {
+  assertFileExists({ cwd, filename: backupFilename(filename) });
+  // Read the newly-created backup file.
+  const backupFile = readFileSync(
+    resolve(cwd, backupFilename(filename))
+  ).toString();
+  // Compare newly-created backup file with original file as it existed
+  // before it was overwritten.
+  assert.equal(backupFile, prevFile);
 }
 
-function deleteTemporaryWorkingDirectory(cwd) {
-  return rmdirSync(cwd, { recursive: true });
+function assertBoilerplateIsCopied({ cwd, filename }) {
+  assertFileExists({ cwd, filename });
+  assert.equal(
+    readFileSync(resolve(cwd, filename)).toString(),
+    readFileSync(resolve(__dirname, '../boilerplate', sampleFilename(filename))),
+    `Expected the contents of ${ filename } in ${ cwd } to be identical to the contents of ${ sampleFilename(filename) }.`,
+  );
 }
 
-function createManifestFile(cwd) {
-  return execSync('yarn init -y', { cwd, stdio });
+function assertManifestIsUpdated({ cwd, command, package }) {
+  const { scripts } = package;
+  assert.equal(
+    scripts[command],
+    expectedPackageCommands[command],
+    `Expected ${ command } script to be '${ expectedPackageCommands[command] }', but found '${ scripts[command] }' in ${ cwd }/package.json.`,
+  );
 }
 
-function assertFileExistsError(error, filename) {
+function assertFileExistsError({ error, filename }) {
   assert.match(
     error.message, new RegExp(`Your project already has a ${ filename } file`),
     `Expected an error message for existing ${ filename } file.`
   );
 }
 
-function assertFileExists(cwd, filename) {
+function assertFileExists({ cwd, filename }) {
   assert.ok(
     existsSync(resolve(cwd, filename)),
     `Expected ${ filename } to exist in ${ cwd }.`,
   );
 }
 
-function assertFileDoesNotExist(cwd, filename) {
+function assertFileDoesNotExist({ cwd, filename }) {
   assert.ok(
     !existsSync(resolve(cwd, filename)),
     `Expected ${ filename } not to exist in ${ cwd }.`,
   );
 }
 
+// Helper functions.
+
 function backupFilename(filename) {
   const parsedFilename = parse(filename);
   return `${ parsedFilename.name }-backup${ parsedFilename.ext }`;
+}
+
+function createManifestFile(cwd) {
+  return execSync('yarn init -y', { cwd, stdio });
+}
+
+function createTemporaryWorkingDirectory() {
+  return mkdtempSync(resolve(__dirname, 'tmp/init-'));
+}
+
+function deleteTemporaryWorkingDirectory(cwd) {
+  return rmdirSync(cwd, { recursive: true });
 }
 
 function sampleFilename(filename) {
