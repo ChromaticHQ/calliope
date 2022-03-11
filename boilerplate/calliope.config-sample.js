@@ -70,7 +70,7 @@ exports.pipelines = {
      *
      * Uncomment the next line and edit it as necessary.
      */
-    dest: `${ paths.DEST }/images`,
+    dest: `${paths.DEST}/images`,
   },
   scripts: {
     /**

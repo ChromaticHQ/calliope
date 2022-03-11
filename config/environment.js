@@ -13,9 +13,9 @@ function env(report) {
   if (!report) return;
   // If options were found, log them to the console.
   if (options.parsed && Object.keys(options.parsed).length > 0) {
-    log.info(chalk.green(`✓ Personalization options detected via .env file:`));
+    log.info(chalk.green('✓ Personalization options detected via .env file:'));
     Object.keys(options.parsed)
-      .map(key => log.info(chalk.grey(`    ${key}: ${options.parsed[key]}`)));
+      .map((key) => log.info(chalk.grey(`    ${key}: ${options.parsed[key]}`)));
   } else {
     log.info(chalk.cyan('- No personalization options detected via .env file.'));
   }

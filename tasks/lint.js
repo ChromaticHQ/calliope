@@ -1,6 +1,6 @@
 /*
  * @file
- * Create task to lint scss and js. 
+ * Create task to lint scss and js.
  */
 
 // Load Gulp methods.
@@ -17,7 +17,7 @@ const stylelint = require('gulp-stylelint');
  * are detected.
  */
 function lintScss() {
-  const fullSrc = [ config.pipelines.styles.src ];
+  const fullSrc = [config.pipelines.styles.src];
 
   // If configuration includes additional files to watch, add them to the array
   // of strings.
@@ -28,7 +28,7 @@ function lintScss() {
   // Since `src` and `watch` values can be strings or arrays, flatten them
   // before passing them to Gulp.
   return src(flattenDeep(fullSrc))
-    .pipe(stylelint(config.plugins.stylelint))
+    .pipe(stylelint(config.plugins.stylelint));
 }
 
 /**
@@ -54,5 +54,5 @@ if (config.pipelines.scripts && config.pipelines.styles) {
 } else {
   module.exports = () => {
     throw new Error('No script or style pipelines found for linting.');
-  }
+  };
 }

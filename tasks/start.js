@@ -6,14 +6,14 @@
 
 const config = require('../config')();
 const path = require('path');
-const spawn = require('child_process').spawn;
+const { spawn } = require('child_process');
 
 function start() {
   const nodemon = spawn('nodemon', [
     '--config',
     path.resolve(__dirname, '..', 'nodemon.json'),
   ], {
-    stdio: [ 'inherit', 'inherit', 'inherit', 'ipc' ],
+    stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
   }).on('message', (event) => {
     if (event.type === 'restart' && event.data && event.data.length) {
       // Acknowledge changed files to the console.

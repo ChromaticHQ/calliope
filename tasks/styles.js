@@ -24,10 +24,10 @@ function styles() {
     .pipe(sassGlob())
     .pipe(sass(config.plugins.sass).on('error', sass.logError))
     .pipe(autoprefixer())
-    .pipe(rename(path => path.basename += '-expanded'))
+    .pipe(rename((path) => path.basename += '-expanded'))
     .pipe(dest(output))
     .pipe(cleanCss())
-    .pipe(rename(path => path.basename = path.basename.replace('-expanded', '')))
+    .pipe(rename((path) => path.basename = path.basename.replace('-expanded', '')))
     .pipe(dest(output, { sourcemaps: '.' }));
 }
 

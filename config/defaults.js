@@ -14,7 +14,7 @@ const paths = {
   DEST: 'build',
   // settings
   CONF: 'toolchain',
-}
+};
 
 exports.pipelines = {
   fonts: null,
@@ -24,18 +24,18 @@ exports.pipelines = {
     compress: true,
     lint: env.CALLIOPE_LINT_JS === 'true',
     src: [
-      `${ paths.SRC }/scripts/**/*.js`,
-      `${ paths.SRC }/components/**/*.js`,
-      `!${ paths.SRC }/components/**/*.config.js`,
+      `${paths.SRC}/scripts/**/*.js`,
+      `${paths.SRC}/components/**/*.js`,
+      `!${paths.SRC}/components/**/*.config.js`,
     ],
-    dest: `${ paths.DEST }/scripts`,
+    dest: `${paths.DEST}/scripts`,
   },
   styles: {
     lint: env.CALLIOPE_LINT_SCSS === 'true',
     src: [
-      `${ paths.SRC }/styles/**/*.scss`,
+      `${paths.SRC}/styles/**/*.scss`,
     ],
-    dest: `${ paths.DEST }/styles`,
+    dest: `${paths.DEST}/styles`,
   },
 };
 
@@ -43,7 +43,7 @@ exports.daemons = {
   browsersync: {
     // Watch build files for changes.
     files: [
-      `${ paths.DEST }/**/*`,
+      `${paths.DEST}/**/*`,
       './templates/**/*',
     ],
     // We log ready state manually (see `callbacks` above).

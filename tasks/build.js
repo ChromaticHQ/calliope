@@ -5,16 +5,16 @@
 
 const chalk = require('chalk');
 const config = require('../config')();
-const clean = require('./clean');
 const gulp = require('gulp');
 const log = require('fancy-log');
 const { parallel, series } = require('gulp');
+const clean = require('./clean');
 
 // Create array of build task names from build task register.
 const pipelines = Object.keys(config.pipelines);
 const tasks = [
   clean,
-  parallel(...pipelines.map(pipelineName => {
+  parallel(...pipelines.map((pipelineName) => {
     // Try to load the task from the project’s custom tasks and task overrides.
     let task = config.custom.pipelines[pipelineName];
     // If the above attempt produced a module, use it.
@@ -28,8 +28,7 @@ const tasks = [
     // tasks in calliope.
     try {
       task = require(`./${pipelineName}`);
-    }
-    catch (error) {
+    } catch (error) {
       // If the issue is not that the module is missing, throw the error.
       if (error.code !== 'MODULE_NOT_FOUND') throw error;
       log.error(chalk.redBright(`✕ ERROR: Configuration ${pipelineName} detected, but task file '${pipelineName}.js' cannot be found.`));

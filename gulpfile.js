@@ -10,4 +10,5 @@ exports.watch = require('./tasks/watch');
 
 // Register custom tasks from the downstream project.
 const config = require('./config')();
+
 config.custom.tasks.forEach((file) => exports[file.name] = require(file.path));
