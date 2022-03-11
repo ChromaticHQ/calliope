@@ -5,6 +5,8 @@
  */
 
 const config = require('../config')();
+const chalk = require('chalk');
+const log = require('fancy-log');
 const path = require('path');
 const { spawn } = require('child_process');
 
@@ -17,8 +19,8 @@ function start() {
   }).on('message', (event) => {
     if (event.type === 'restart' && event.data && event.data.length) {
       // Acknowledge changed files to the console.
-      console.log(`Detected changes:\n    - ${event.data.join('\n    - ')}`);
-      console.log('Restarting toolchian…');
+      log.info(chalk.cyan(`! Detected changes:\n    - ${event.data.join('\n    - ')}`));
+      log.info(chalk.cyan('✓ Restarting toolchian…'));
     }
   });
 }

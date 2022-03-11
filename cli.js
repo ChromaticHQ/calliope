@@ -17,6 +17,7 @@ const greetingFg = 'black'
 // Report library version number if reporting is not omitted, or if this is the
 // init command.
 if (!omitSetupReport || isInit) {
+  /* eslint-disable no-console */
   console.log(chalk.bold.visible[greetingBg][greetingFg]('-'.repeat(greeting.length)));
   console.log(chalk.bold.visible[greetingBg][greetingFg](greeting));
   console.log(chalk.bold.visible[greetingBg][greetingFg]('-'.repeat(greeting.length)));

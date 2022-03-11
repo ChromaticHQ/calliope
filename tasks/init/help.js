@@ -3,8 +3,10 @@
  * Handle init command with --help flag.
  */
 
+/* eslint-disable no-console -- We use console.log directly here for
+  * simplicity. */
+
 const chalk = require('chalk');
-const log = require('fancy-log');
 
 exports.printHelp = printHelp;
 
