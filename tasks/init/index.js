@@ -73,7 +73,7 @@ function init({ args }) {
     if (!updatePackageFile({ args, names, paths })) exceptions += 1;
   }
 
-  exit(exceptions);
+  return exit(exceptions);
 }
 
 module.exports = init;
