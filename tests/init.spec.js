@@ -48,8 +48,8 @@ describe('init Command', () => {
       // Assert that each command is added to the downstream package.json file.
       Object.keys(expectedPackageCommands).forEach((command) => {
         it(`Adds a ${ command } script to package.json.`, () => {
-          const package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
-          assertManifestIsUpdated({ cwd, command, package });
+          const packageFile = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
+          assertManifestIsUpdated({ cwd, command, packageFile });
         });
       });
     });
@@ -252,8 +252,8 @@ describe('init Command', () => {
         // Assert that each command is added to the downstream package.json file.
         Object.keys(expectedPackageCommands).forEach((command) => {
           it(`Adds a ${ command } script to package.json.`, () => {
-            const package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
-            assertManifestIsUpdated({ cwd, command, package });
+            const packageFile = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
+            assertManifestIsUpdated({ cwd, command, packageFile });
           });
         });
 
@@ -344,8 +344,8 @@ describe('init Command', () => {
         // Assert that each command is added to the downstream package.json file.
         Object.keys(expectedPackageCommands).forEach((command) => {
           it(`Adds a ${ command } script to package.json.`, () => {
-            const package = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
-            assertManifestIsUpdated({ cwd, command, package });
+            const packageFile = JSON.parse(readFileSync(resolve(cwd, 'package.json')));
+            assertManifestIsUpdated({ cwd, command, packageFile });
           });
         });
 
@@ -385,8 +385,8 @@ function assertBoilerplateIsCopied({ cwd, filename }) {
   );
 }
 
-function assertManifestIsUpdated({ cwd, command, package }) {
-  const { scripts } = package;
+function assertManifestIsUpdated({ cwd, command, packageFile }) {
+  const { scripts } = packageFile;
   assert.equal(
     scripts[command],
     expectedPackageCommands[command],
