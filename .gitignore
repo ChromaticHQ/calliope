@@ -1,5 +1,9 @@
-// Dependencies directory.
+# Dependencies directory.
 node_modules/
 
-// Scratch pads, notes, etc.
+# Scratch pads, notes, etc.
 /scratch*
+
+# Working directories used for tests.
+/tests/tmp/*
+!/tests/tmp/.gitkeep

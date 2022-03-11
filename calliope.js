@@ -7,6 +7,9 @@
 function calliope(command, ...args) {
   // Extract command from list of args.
   switch(command) {
+    case 'init':
+      require('./tasks/init')({ args });
+      break;
     case 'start':
       require('./tasks/start')();
       break;

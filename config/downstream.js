@@ -22,7 +22,7 @@ function downstream(report) {
     plugins = downstream.plugins || plugins;
   }
   catch (error) {
-    if (!error.message.match('ENOENT')) throw error;
+    if (error.code !== 'MODULE_NOT_FOUND') throw error;
     report && log.info(chalk.cyan('- No calliope.config.js file found. Going with the defaults.'));
   }
 

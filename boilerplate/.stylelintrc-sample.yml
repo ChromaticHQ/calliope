@@ -1,0 +1,25 @@
+---
+extends: ["stylelint-config-standard", "stylelint-config-property-sort-order-smacss"]
+plugins:
+  - stylelint-scss
+rules:
+  # Disabled in favor of scss/at-rule-no-unknown.
+  at-rule-no-unknown: null
+  # Disabled given the need for deeply nested selectors for menu.
+  no-descending-specificity: null
+  scss/at-rule-no-unknown: true
+  # Disabled to allow for IE11 hack.
+  no-duplicate-selectors: null
+  selector-type-no-unknown: [
+    true,
+    ignoreTypes: ["_", "x"]
+  ]
+  length-zero-no-unit: null
+  font-family-no-missing-generic-family-keyword: [
+    true,
+    ignoreFontFamilies: ['object-fit: cover;']
+  ]
+  declaration-property-value-disallowed-list:
+    outline:
+      - '0'
+      - 'none'
