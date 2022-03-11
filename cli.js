@@ -14,7 +14,7 @@ const omitSetupReport = args.includes('--omit-setup-report') || isInit;
 
 const greeting = ` You’re using ${packageFile.name} v${packageFile.version}. `;
 const greetingBg = 'bgYellow';
-const greetingFg = 'black'
+const greetingFg = 'black';
 
 // Report library version number if reporting is not omitted, or if this is the
 // init command.
