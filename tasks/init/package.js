@@ -32,8 +32,7 @@ function updatePackageFile({ args, names, paths }) {
     writeFileSync(paths.package, `${JSON.stringify(packageFile, null, 2)}\n`);
     log.info(chalk.green(`✓ Your project’s ${names.package} file has been updated.`));
     return true;
-  }
-  catch (error) {
+  } catch (error) {
     // TODO: Find a way to auto-create package.jsonm and auto-install the
     // @chromatichq/calliope package. So far, all attempts with execSync and
     // spawnSync fail. yarn init creates the file, but the file is never found
@@ -44,7 +43,7 @@ function updatePackageFile({ args, names, paths }) {
       log.error(chalk.cyan(`    - If you already have a ${names.package} file, make sure you are running this command in the directory where that file is located.`));
     } else {
       log.error(chalk.red(`✕ There was an error updating your ${names.package} file.`));
-      log.error(chalk.cyan(`    ${ error.toString() }`));
+      log.error(chalk.cyan(`    ${error.toString()}`));
     }
     return false;
   }
