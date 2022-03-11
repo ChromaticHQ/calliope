@@ -1,0 +1,32 @@
+---
+# Make eslint look no further up the project tree.
+root: true
+
+# Use the standard config.
+extends: airbnb-base
+
+# Tell eslint to account for Node.js globals.
+env:
+  browser: false
+  node: true
+
+ignorePatterns:
+  - tests/tmp/**/*
+
+rules:
+  # Override airbnb’s default, since functions are hoisted.
+  no-use-before-define:
+    - error
+    - functions: false
+  func-names:
+    - error
+    - as-needed
+  no-param-reassign:
+    - error
+    - props: false
+  no-unused-vars:
+    - error
+    - args: none
+  no-plusplus:
+    - error
+    - allowForLoopAfterthoughts: true
