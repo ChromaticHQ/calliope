@@ -17,16 +17,18 @@ rules:
   func-names:
     - error
     - as-needed
+  global-require: 0
   import/no-dynamic-require: 0
-  no-use-before-define:
-    - error
-    - functions: false
   no-param-reassign:
     - error
     - props: false
-  no-unused-vars:
-    - error
-    - args: none
   no-plusplus:
     - error
     - allowForLoopAfterthoughts: true
+  no-return-assign: 0
+  no-unused-vars:
+    - error
+    - args: none
+  no-use-before-define:
+    - error
+    - functions: false
