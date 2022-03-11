@@ -64,13 +64,13 @@ function init({ args }) {
     if (type === 'package') return;
     if (!copyBoilerplateFile({
       force, names, paths, type,
-    })) exceptions++;
+    })) exceptions += 1;
   });
 
   // Update package.json only if no --only-* flags were passed, OR they were
   // and --only-package was one of them.
   if (!onlyFilesToProcess.length || onlyFilesToProcess.includes('package')) {
-    if (!updatePackageFile({ args, names, paths })) exceptions++;
+    if (!updatePackageFile({ args, names, paths })) exceptions += 1;
   }
 
   exit(exceptions);
