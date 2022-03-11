@@ -3,7 +3,6 @@
  * Gulp task to process stylesheets.
  */
 
-const config = require('../config')();
 const { dest, src } = require('gulp');
 const autoprefixer = require('gulp-autoprefixer');
 const gulpIf = require('gulp-if');
@@ -12,6 +11,8 @@ const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('node-sass'));
 const sassGlob = require('gulp-sass-glob');
 const stylelint = require('gulp-stylelint');
+
+const config = require('../config')();
 
 // cache destination
 const intake = config.pipelines.styles.src;

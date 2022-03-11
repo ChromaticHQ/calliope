@@ -5,10 +5,11 @@
 
 const chalk = require('chalk');
 const defaultsDeep = require('lodash.defaultsdeep');
+const log = require('fancy-log');
+
 const defaults = require('./defaults');
 
 const { env } = process;
-const log = require('fancy-log');
 
 function config(report) {
   // Load downstream configuration.

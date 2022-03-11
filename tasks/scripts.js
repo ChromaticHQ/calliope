@@ -4,11 +4,12 @@
  */
 
 const concat = require('gulp-concat');
-const config = require('../config')();
 const eslint = require('gulp-eslint-new');
 const gulpIf = require('gulp-if');
 const { src, dest } = require('gulp');
 const terser = require('gulp-terser');
+
+const config = require('../config')();
 
 const pipelineConfig = config.pipelines.scripts;
 // gulp-concat instantiation function requires a name to be passed in. In the

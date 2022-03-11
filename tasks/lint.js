@@ -7,10 +7,11 @@
 const { series, src } = require('gulp');
 
 // Load dependencies.
-const config = require('../config')();
 const eslint = require('gulp-eslint-new');
 const flattenDeep = require('lodash.flattendeep');
 const stylelint = require('gulp-stylelint');
+
+const config = require('../config')();
 
 /**
  * Lint all SCSS files inside the `./src/scss/` directory. Fail if any errors

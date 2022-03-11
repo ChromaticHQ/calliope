@@ -4,11 +4,12 @@
  * using the tasks exposed by the `build` function.
  */
 
+const gulp = require('gulp');
+const { series, watch } = require('gulp');
+
 const browsersync = require('./browsersync');
 const build = require('./build');
 const config = require('../config')();
-const gulp = require('gulp');
-const { series, watch } = require('gulp');
 
 // store pipelines for reuse
 const { pipelines } = config;

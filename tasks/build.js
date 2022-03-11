@@ -4,11 +4,12 @@
  */
 
 const chalk = require('chalk');
-const config = require('../config')();
 const gulp = require('gulp');
 const log = require('fancy-log');
 const { parallel, series } = require('gulp');
 const clean = require('./clean');
+
+const config = require('../config')();
 
 // Create array of build task names from build task register.
 const pipelines = Object.keys(config.pipelines);
