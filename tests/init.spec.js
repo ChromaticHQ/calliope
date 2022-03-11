@@ -7,7 +7,6 @@ const { parse, resolve } = require('path');
 // Path to cli relative to tmp working directory.
 const cli = '../../../cli.js';
 // Create tmp directory.
-const initCmd = `${cli} init`;
 const stdio = 'pipe';
 const expectedPackageCommands = {
   calliope: 'yarn install && calliope',
@@ -220,13 +219,11 @@ describe('init Command', () => {
           const command = `${cli} init --only-${type}`;
           const filesNotToCopy = Object.keys(files).filter((t) => t !== type);
           let cwd;
-          let error;
           const filename = files[type];
           before(() => {
             cwd = createTemporaryWorkingDirectory();
             createManifestFile(cwd);
-            // Execute command once, catching and storing any resulting error.
-            try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
+            execSync(command, { cwd, stdio });
           });
           after(() => deleteTemporaryWorkingDirectory(cwd));
 
@@ -274,7 +271,6 @@ describe('init Command', () => {
           const command = `${cli} init --only-${type}`;
           const filesNotToCopy = Object.keys(files).filter((t) => t !== type);
           let cwd;
-          let error;
           const filename = files[type];
           const prevFiles = {};
           before(() => {
@@ -291,8 +287,8 @@ describe('init Command', () => {
               );
               prevFiles[t] = readFileSync(resolve(cwd, files[t])).toString();
             });
-            // Execute command once, catching and storing any resulting error.
-            try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
+            // Execute command once.
+            execSync(command, { cwd, stdio });
           });
           after(() => deleteTemporaryWorkingDirectory(cwd));
 
@@ -323,7 +319,6 @@ describe('init Command', () => {
       describe('--only-package', () => {
         const command = `${cli} init --only-package`;
         let cwd;
-        let error;
         const prevFiles = {};
         before(() => {
           cwd = createTemporaryWorkingDirectory();
@@ -339,8 +334,8 @@ describe('init Command', () => {
             );
             prevFiles[t] = readFileSync(resolve(cwd, files[t])).toString();
           });
-          // Execute command once, catching and storing any resulting error.
-          try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
+          // Execute command once.
+          execSync(command, { cwd, stdio });
         });
         after(() => deleteTemporaryWorkingDirectory(cwd));
 

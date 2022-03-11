@@ -9,7 +9,6 @@ const defaults = require('./defaults');
 
 const { env } = process;
 const log = require('fancy-log');
-const path = require('path');
 
 function config(report) {
   // Load downstream configuration.

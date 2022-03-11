@@ -7,7 +7,7 @@ const concat = require('gulp-concat');
 const config = require('../config')();
 const eslint = require('gulp-eslint-new');
 const gulpIf = require('gulp-if');
-const { src, dest, parallel } = require('gulp');
+const { src, dest } = require('gulp');
 const terser = require('gulp-terser');
 
 const pipelineConfig = config.pipelines.scripts;

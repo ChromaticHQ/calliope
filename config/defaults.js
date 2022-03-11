@@ -3,7 +3,7 @@
  * Define configuration defaults to be overridden by downstream projects.
  */
 
-const { argv, env } = process;
+const { env } = process;
 const failLint = process.argv.indexOf('lint') > -1;
 
 // Paths used throughout our configuration objects.

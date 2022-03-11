@@ -8,7 +8,6 @@ const browsersync = require('./browsersync');
 const build = require('./build');
 const config = require('../config')();
 const gulp = require('gulp');
-const path = require('path');
 const { series, watch } = require('gulp');
 
 // store pipelines for reuse

@@ -4,14 +4,13 @@
  * to restart the watch tasks when appropriate.
  */
 
-const config = require('../config')();
 const chalk = require('chalk');
 const log = require('fancy-log');
 const path = require('path');
 const { spawn } = require('child_process');
 
 function start() {
-  const nodemon = spawn('nodemon', [
+  spawn('nodemon', [
     '--config',
     path.resolve(__dirname, '..', 'nodemon.json'),
   ], {

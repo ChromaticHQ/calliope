@@ -6,7 +6,6 @@
 const chalk = require('chalk');
 const log = require('fancy-log');
 const path = require('path');
-const find = require('../lib/find');
 
 function customPipelines(pipelines, report) {
   const tasks = {};
