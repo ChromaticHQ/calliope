@@ -49,16 +49,15 @@
     "stylelint-scss": "^3.21.0",
     "yaml": "^1.10.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^9.2.1"
+  },
   "scripts": {
-    "test": "yarn install && node tests/index.js",
+    "test": "yarn install && mocha tests",
     "update-readme-toc": "markdown-toc -i README.md",
     "update-boilerplate-readme-toc": "markdown-toc -i boilerplate/README-sample.md"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ChromaticHQ/calliope.git"
-  },
+  "repository": "git+https://github.com/ChromaticHQ/calliope.git",
   "bugs": {
     "url": "https://github.com/ChromaticHQ/calliope/issues"
   },
