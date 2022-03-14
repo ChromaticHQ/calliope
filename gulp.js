@@ -2,7 +2,7 @@ const path = require('path');
 const spawn = require('child_process').spawn;
 
 function gulp({ command, args }) {
-  spawn('gulp', [
+  spawn((process.platform === 'win32' ? 'gulp.cmd' : 'gulp') , [
     '--gulpfile',
     path.resolve(__dirname, 'gulpfile.js'),
     '--cwd',
