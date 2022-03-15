@@ -21,6 +21,14 @@ function getDownstream(report) {
     daemons = downstream.daemons || daemons;
     pipelines = downstream.pipelines || pipelines;
     plugins = downstream.plugins || plugins;
+
+    // Consider `fonts` and `images` null if they are empty objects.
+    if (pipelines.fonts && Object.keys(pipelines.fonts).length === 0) {
+      pipelines.fonts = null;
+    }
+    if (pipelines.images && Object.keys(pipelines.images).length === 0) {
+      pipelines.images = null;
+    }
   } catch (error) {
     if (error.code !== 'MODULE_NOT_FOUND') throw error;
     if (report) log.info(chalk.cyan('- No calliope.config.js file found. Going with the defaults.'));
