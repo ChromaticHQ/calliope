@@ -1,0 +1,14 @@
+---
+# This file adds additional ESLint configuration for files in the tests/
+# directory. The configuration set here is merged with the default config at
+# the root of this repo when ESLint is evaluating files within tests/.
+
+plugins:
+  - mocha
+
+extends:
+  - plugin:mocha/recommended
+
+rules:
+  mocha/no-mocha-arrows: 0
+  mocha/no-setup-in-describe: 0

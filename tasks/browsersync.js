@@ -6,8 +6,9 @@
 // Load dependencies.
 const bs = require('browser-sync').create();
 const chalk = require('chalk');
-const config = require('../config')();
 const log = require('fancy-log');
+
+const config = require('../config')();
 
 // Export task.
 module.exports = browsersync;

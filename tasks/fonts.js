@@ -4,8 +4,9 @@
  */
 
 const changed = require('gulp-changed');
+const { dest, src } = require('gulp');
+
 const config = require('../config')();
-const { dest, lastRun, src } = require('gulp');
 
 // Copy fonts to build directory.
 function fonts() {

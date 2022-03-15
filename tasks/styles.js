@@ -3,7 +3,6 @@
  * Gulp task to process stylesheets.
  */
 
-const config = require('../config')();
 const { dest, src } = require('gulp');
 const autoprefixer = require('gulp-autoprefixer');
 const gulpIf = require('gulp-if');
@@ -12,6 +11,8 @@ const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('node-sass'));
 const sassGlob = require('gulp-sass-glob');
 const stylelint = require('gulp-stylelint');
+
+const config = require('../config')();
 
 // cache destination
 const intake = config.pipelines.styles.src;
@@ -24,10 +25,10 @@ function styles() {
     .pipe(sassGlob())
     .pipe(sass(config.plugins.sass).on('error', sass.logError))
     .pipe(autoprefixer())
-    .pipe(rename(path => path.basename += '-expanded'))
+    .pipe(rename((path) => path.basename += '-expanded'))
     .pipe(dest(output))
     .pipe(cleanCss())
-    .pipe(rename(path => path.basename = path.basename.replace('-expanded', '')))
+    .pipe(rename((path) => path.basename = path.basename.replace('-expanded', '')))
     .pipe(dest(output, { sourcemaps: '.' }));
 }
 

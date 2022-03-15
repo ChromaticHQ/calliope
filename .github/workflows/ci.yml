@@ -8,26 +8,51 @@ on:  # yamllint disable-line rule:truthy
   pull_request:
 
 jobs:
-  yaml-lint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v2.4.0
-
-      - name: YAML lint
-        uses: ibiqlik/action-yamllint@v3.1
-        with:
-          config_file: .yamllint.yml
-
   lockfile:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v2.4.0
 
-      - uses: ChromaticHQ/javascript-lockfile-check-action@v1.2.1
+      - name: Check lockfile
+        uses: ChromaticHQ/javascript-lockfile-check-action@v1.2.1
         with:
           package-manager: yarn
+
+  lint-js:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2.1.7
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Lint JS
+        run: yarn lint
+
+  lint-yaml:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - name: Lint YAML
+        uses: ibiqlik/action-yamllint@v3.1
+        with:
+          config_file: .yamllint.yml
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -53,5 +78,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Run tests
+      - name: Run unit tests
         run: yarn test
