@@ -35,7 +35,7 @@ function watchSource(done) {
     if (pipelines[name].watch) {
       watchFiles = [...watchFiles, ...pipelines[name].watch];
     }
-    watch(watchFiles, { usePolling: true }, require(`./${name}`));
+    watch(watchFiles, { usePolling: true }, gulp.task(name));
   });
   done();
 }
