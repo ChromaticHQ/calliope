@@ -5,7 +5,7 @@
  */
 
 const gulp = require('gulp');
-const { series, task, watch } = require('gulp');
+const { series, watch } = require('gulp');
 
 const browsersync = require('./browsersync');
 const build = require('./build');
@@ -35,7 +35,7 @@ function watchSource(done) {
     if (pipelines[name].watch) {
       watchFiles = [...watchFiles, ...pipelines[name].watch];
     }
-    watch(watchFiles, { usePolling: true }, task(name));
+    watch(watchFiles, { usePolling: true }, gulp.task(name));
   });
   done();
 }
