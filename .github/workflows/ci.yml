@@ -55,11 +55,12 @@ jobs:
           config_file: .yamllint.yml
 
   unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.platform }}
     timeout-minutes: 15
     strategy:
       matrix:
         node: [12, 14, 16]
+        platform: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2.4.0
 
