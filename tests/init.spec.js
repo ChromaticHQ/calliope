@@ -434,5 +434,5 @@ function deleteTemporaryWorkingDirectory(cwd) {
 function sampleFilename(filename) {
   if (filename.match(/-sample/)) return filename;
   const parsedFilename = parse(filename);
-  return `${parsedFilename.name}-saple${parsedFilename.ext}`;
+  return `${parsedFilename.name}-sample${parsedFilename.ext}`;
 }
