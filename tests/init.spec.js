@@ -5,7 +5,8 @@ const {
 } = require('fs');
 const { parse, resolve } = require('path');
 // Path to cli relative to tmp working directory.
-const cli = resolve(__dirname, '../cli.js');
+const cliPath = resolve(__dirname, '../cli.js');
+const cli = `node ${cliPath}`;
 // Create tmp directory.
 const stdio = 'pipe';
 const expectedPackageCommands = {
