@@ -4,8 +4,7 @@ const {
   existsSync, mkdtempSync, readFileSync, rmdirSync,
 } = require('fs');
 const { parse, resolve } = require('path');
-// Path to cli relative to tmp working directory.
-const cli = '../../../cli.js';
+const { cli } = require('./lib/cli');
 // Create tmp directory.
 const stdio = 'pipe';
 const expectedPackageCommands = {

@@ -1,0 +1,3 @@
+---
+# Configuration options passed to Mocha when running tests.
+timeout: 3000
