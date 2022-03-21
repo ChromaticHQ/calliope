@@ -55,7 +55,7 @@ jobs:
           config_file: .yamllint.yml
 
   unit-tests:
-    runs-on: ${{ matrix.platform }}
+    runs-on: windows-latest
     timeout-minutes: 15
     strategy:
       matrix:
