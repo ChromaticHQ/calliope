@@ -28,21 +28,11 @@ const stdio = 'pipe';
       // after test is ran, delete that temporary compiled style.
       // after(() => deleteTemporaryWorkingDirectory(cwd));
       it('styles task checked');
-      // it('Styles linted.', () => {
-      //   assert.equal([1, 2, 3].indexOf(4), -1);
-      // });
-      // it('Imports using globs have run.', () => {
-      //   assert.equal([1, 2, 3].indexOf(4), -1);
-      // });
-      // it('Vendor prefixes applied.', () => {
-      //   assert.equal([1, 2, 3].indexOf(4), -1);
-      // });
-      // it('Filename changed to [X].', () => {
-      //   assert.equal([1, 2, 3].indexOf(4), -1);
-      // });
-      // it('Stylesheet is minified.', () => {
-      //   assert.equal([1, 2, 3].indexOf(4), -1);
-      // });
+      // it('Styles linted.');
+      // it('Imports using globs have run.');
+      // it('Vendor prefixes applied.');
+      // it('Filename changed to [X].');
+      // it('Stylesheet is minified.');
     });
 
   });
