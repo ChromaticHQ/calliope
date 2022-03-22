@@ -1,3 +1,12 @@
+// Breakpoints
+$mobile: 0;
+$tablet: 768px;
+$desktop: 1024px;
+$desktop-hd: 1400px;
+$mobile-only: $mobile $tablet - 1;
+$tablet-only: $tablet $desktop - 1;
+$desktop-only: $desktop $desktop-hd - 1;
+
 $color-grey--dark: #2d2d2a;
 $color-grey: rgb(76, 76, 71);
 $color-primary: #c14953;
@@ -12,11 +21,11 @@ $color-white: #fff;
 $font-weight-normal: 400;
 $font-weight-bold: 700;
 
-$header-height: (
-  'mobile': 6.7rem,
-  'tablet': 6.7rem,
-  'desktop': 13.5rem,
-  'desktop-hd': 14.5rem
+$layout-padding: (
+  'mobile': 12px 18px,
+  'tablet': 24px 32px,
+  'desktop': 32px 48px,
+  'desktop-hd': 48px 64px
 );
 
 $transition-animation: 0.2s ease-in all;

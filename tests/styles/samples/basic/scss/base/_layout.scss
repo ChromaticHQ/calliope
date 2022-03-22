@@ -2,3 +2,26 @@ body {
   margin: 0;
   padding: 0;
 }
+
+%layout {
+  max-width: 100%;
+  padding: map-get($layout-padding, 'mobile');
+
+  @include breakpoint($tablet) {
+    padding: map-get($layout-padding, 'tablet');
+  }
+
+  @include breakpoint($desktop) {
+    padding: map-get($layout-padding, 'desktop');
+    max-width: $tablet;
+  }
+
+  @include breakpoint($desktop-hd) {
+    padding: map-get($layout-padding, 'desktop-hd');
+    max-width: $desktop;
+  }
+}
+
+.layout-main {
+  max-width: $desktop-hd;
+}
