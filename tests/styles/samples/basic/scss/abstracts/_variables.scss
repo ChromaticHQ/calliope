@@ -1,0 +1,22 @@
+$color-grey--dark: #2d2d2a;
+$color-grey: rgb(76, 76, 71);
+$color-primary: #c14953;
+$color-primary--dark: darken($color-primary, 10%);
+$color-primary--light: lighten($color-primary, 0.1);
+$color-secondary: rgba(132, 143, 165, 1);
+$color-secondary--dark: darken($color-secondary, 0.1);
+$color-secondary--light: lighten($color-secondary, 10%);
+$color-off-white: #e5dcc5;
+$color-white: #fff;
+
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+$header-height: (
+  'mobile': 6.7rem,
+  'tablet': 6.7rem,
+  'desktop': 13.5rem,
+  'desktop-hd': 14.5rem
+);
+
+$transition-animation: 0.2s ease-in all;

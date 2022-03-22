@@ -1,0 +1,66 @@
+.button--primary, .button--secondary {
+  min-width: 174px;
+  transition: 0.2s ease-in all;
+  border-radius: 3px;
+}
+
+.button--primary:focus, .button--secondary:focus, .button--primary:hover, .button--secondary:hover {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+.button--primary {
+  background: #c14953;
+  color: #fff;
+}
+
+.button--primary:focus, .button--primary:hover {
+  background: #a0373f;
+}
+
+.button--secondary {
+  background: #848fa5;
+  color: #2d2d2a;
+}
+
+.button--secondary:focus, .button--secondary:hover {
+  background: #848fa5;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 52px;
+}
+
+h2 {
+  font-size: 48px;
+}
+
+h3 {
+  font-size: 36px;
+}
+
+h4 {
+  font-size: 32px;
+}
+
+h5 {
+  font-size: 24px;
+}
+
+h6 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.22;
+}
