@@ -1,4 +1,4 @@
-// Breakpoints
+// Breakpoints.
 $mobile: 0;
 $tablet: 768px;
 $desktop: 1024px;
@@ -7,6 +7,9 @@ $mobile-only: $mobile $tablet - 1;
 $tablet-only: $tablet $desktop - 1;
 $desktop-only: $desktop $desktop-hd - 1;
 
+$font-family--primary: 'Noto Serif Display', serif;
+
+// Colors.
 $color-grey--dark: #2d2d2a;
 $color-grey: rgb(76, 76, 71);
 $color-primary: #c14953;

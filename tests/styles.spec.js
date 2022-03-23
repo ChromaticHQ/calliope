@@ -18,9 +18,9 @@ const {
 const basicStylesPath = resolve(__dirname, 'styles/samples/basic/scss');
 
 describe.only('Style tasks', () => {
+  let cwd;
   describe('checks each style task', () => {
     let command = `${cli} styles`;
-    let cwd;
     // Before test is ran, needs to compile styles into css.
     before(async () => {
       cwd = createTemporaryWorkingDirectory();
@@ -35,7 +35,11 @@ describe.only('Style tasks', () => {
 
     // after test is ran, delete that temporary compiled style.
     // after(() => deleteTemporaryWorkingDirectory(cwd));
-    it('styles task checked');
+    it('styles task checked', () => {
+      // YAY!!
+      const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles-expanded.css')).toString();
+      console.log(controlFile);
+    });
     // it('Styles linted.');
     // it('Imports using globs have run.');
     // it('Vendor prefixes applied.');

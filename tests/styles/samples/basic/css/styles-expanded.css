@@ -1,10 +1,11 @@
-.button--primary, .button--secondary {
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+Display&display=swap");
+.button--primary, .button--secondary, .button--tertiary {
   min-width: 174px;
   transition: 0.2s ease-in all;
   border-radius: 3px;
 }
 
-.button--primary:focus, .button--secondary:focus, .button--primary:hover, .button--secondary:hover {
+.button--primary:focus, .button--secondary:focus, .button--tertiary:focus, .button--primary:hover, .button--secondary:hover, .button--tertiary:hover {
   text-decoration: none;
 }
 
@@ -30,9 +31,53 @@ h1, h2, h3, h4, h5, h6, p {
   background: #848fa5;
 }
 
+.button--tertiary {
+  border-color: #2d2d2a;
+  color: #2d2d2a;
+}
+
+.button--tertiary:focus, .button--tertiary:hover {
+  background: #2d2d2a;
+  color: #fff;
+}
+
 body {
   margin: 0;
   padding: 0;
+  font-family: "Noto Serif Display", serif;
+}
+
+.container {
+  max-width: 100%;
+  padding: 12px 18px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 24px 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 768px;
+    padding: 32px 48px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1024px;
+    padding: 48px 64px;
+  }
+}
+
+.layout-main {
+  max-width: 1400px;
+}
+
+.container {
+  width: 100%;
 }
 
 h1 {

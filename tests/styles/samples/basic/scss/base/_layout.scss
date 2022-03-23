@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: $font-family--primary;
 }
 
 %layout {
@@ -12,16 +13,22 @@ body {
   }
 
   @include breakpoint($desktop) {
-    padding: map-get($layout-padding, 'desktop');
     max-width: $tablet;
+    padding: map-get($layout-padding, 'desktop');
   }
 
   @include breakpoint($desktop-hd) {
-    padding: map-get($layout-padding, 'desktop-hd');
     max-width: $desktop;
+    padding: map-get($layout-padding, 'desktop-hd');
   }
 }
 
 .layout-main {
   max-width: $desktop-hd;
+}
+
+.container {
+  @include container;
+
+  @extend %layout;
 }
