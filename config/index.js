@@ -9,7 +9,7 @@ const log = require('fancy-log');
 
 const defaults = require('./defaults');
 
-const { env } = process;
+const { argv, env } = process;
 
 function config(report) {
   // Load downstream configuration.
@@ -55,8 +55,10 @@ function config(report) {
     tasks: require('./tasks')(report),
   };
 
+  const ignoreErrors = argv.includes('--ignore-errors');
+
   return {
-    custom, daemons, pipelines, plugins,
+    custom, daemons, ignoreErrors, pipelines, plugins,
   };
 }
 
