@@ -13,7 +13,6 @@ const stdio = 'pipe';
     describe('checks each style task', () => {
       let command = `${cli} styles`;
       let cwd;
-
       // Before test is ran, needs to compile styles into css.
       before(() => {
         cwd = createTemporaryWorkingDirectory();
