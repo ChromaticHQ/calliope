@@ -39,5 +39,5 @@ function createManifestFile(cwd) {
 }
 
 function createTemporaryWorkingDirectory() {
-  return mkdtempSync(resolve(__dirname, 'tmp/init-'));
+  return mkdtempSync(resolve(__dirname, 'tmp/styles-'));
 }
