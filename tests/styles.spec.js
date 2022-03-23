@@ -40,7 +40,7 @@ describe.only('Style tasks', () => {
       assert.equal(generatedFile, controlFile);
     });
 
-    it('minified style task checked', () => {
+    it('minified stylesheet checked', () => {
       const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles.css')).toString();
       const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles.css')).toString();
       assert.equal(generatedFile, controlFile);
