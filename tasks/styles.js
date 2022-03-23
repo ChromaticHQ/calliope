@@ -23,7 +23,10 @@ function styles() {
   return src(intake, { sourcemaps: true })
     .pipe(gulpIf(config.pipelines.styles.lint, stylelint(config.plugins.stylelint)))
     .pipe(sassGlob())
-    .pipe(sass(config.plugins.sass).on('error', sass.logError))
+    .pipe(sass(config.plugins.sass).on('error', function (error) {
+      sass.logError.call(this, error);
+      if (!config.ignoreErrors) process.exit(1);
+    }))
     .pipe(autoprefixer())
     .pipe(rename((path) => path.basename += '-expanded'))
     .pipe(dest(output))
