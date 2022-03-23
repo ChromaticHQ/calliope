@@ -1,13 +1,11 @@
 const assert = require('assert');
 const { execSync } = require('child_process');
-const {
-  existsSync, mkdtempSync, mkdirSync, cpSync, readFileSync, rmdirSync,
-} = require('fs');
+const { mkdirSync, cpSync, readFileSync } = require('fs');
 let copy;
 if (typeof cpSync === 'undefined') {
   copy = require('recursive-copy');
 }
-const { parse, resolve } = require('path');
+const { resolve } = require('path');
 const { cli, stdio } = require('./lib/cli');
 const {
   copyRecursively,
@@ -17,7 +15,7 @@ const {
 } = require('./lib/helpers');
 const basicStylesPath = resolve(__dirname, 'styles/samples/basic/scss');
 
-describe.only('Style tasks', () => {
+describe('Style tasks', () => {
   describe('checks entire style task', () => {
     let command = `${cli} styles`;
     let cwd;
