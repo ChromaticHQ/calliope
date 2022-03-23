@@ -1,6 +1,7 @@
 const assert = require('assert');
 const { execSync } = require('child_process');
 const { mkdirSync, cpSync, readFileSync } = require('fs');
+
 let copy;
 if (typeof cpSync === 'undefined') {
   copy = require('recursive-copy');
@@ -13,18 +14,19 @@ const {
   createTemporaryWorkingDirectory,
   deleteTemporaryWorkingDirectory,
 } = require('./lib/helpers');
+
 const basicStylesPath = resolve(__dirname, 'styles/samples/basic/scss');
 
 describe('Style tasks', () => {
   describe('checks entire style task', () => {
-    let command = `${cli} styles`;
+    const command = `${cli} styles`;
     let cwd;
     // Before test is ran, needs to compile styles into css.
     before(async () => {
       cwd = createTemporaryWorkingDirectory();
       const tmpDirStylesPath = resolve(cwd, 'src/styles');
       createManifestFile(cwd);
-      execSync(`yarn add breakpoint-sass`, { cwd, stdio });
+      execSync('yarn add breakpoint-sass', { cwd, stdio });
       mkdirSync(resolve(cwd, 'src'));
       await copyRecursively(basicStylesPath, tmpDirStylesPath);
       execSync(command, { cwd, stdio });
@@ -42,7 +44,7 @@ describe('Style tasks', () => {
       const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles.css')).toString();
       const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles.css')).toString();
       assert.equal(generatedFile, controlFile);
-    })
+    });
     // it('Styles linted.');
     // it('Vendor prefixes applied.');
     // it('Filename changed to [X].');
