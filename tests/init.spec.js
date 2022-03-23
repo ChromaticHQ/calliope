@@ -1,8 +1,12 @@
 const assert = require('assert');
 const { execSync } = require('child_process');
-const { existsSync, readFileSync } = require('fs');
+const { readFileSync } = require('fs');
 const { parse, resolve } = require('path');
 const { cli, stdio } = require('./lib/cli');
+const {
+  assertFileExists,
+  assertFileDoesNotExist,
+} = require('./lib/assertions');
 const {
   createManifestFile,
   createTemporaryWorkingDirectory,
@@ -397,20 +401,6 @@ function assertFileExistsError({ error, filename }) {
     error.message,
     new RegExp(`Your project already has a ${filename} file`),
     `Expected an error message for existing ${filename} file.`,
-  );
-}
-
-function assertFileExists({ cwd, filename }) {
-  assert.ok(
-    existsSync(resolve(cwd, filename)),
-    `Expected ${filename} to exist in ${cwd}.`,
-  );
-}
-
-function assertFileDoesNotExist({ cwd, filename }) {
-  assert.ok(
-    !existsSync(resolve(cwd, filename)),
-    `Expected ${filename} not to exist in ${cwd}.`,
   );
 }
 
