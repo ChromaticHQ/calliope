@@ -26,7 +26,7 @@ describe.only('Style tasks', () => {
       cwd = createTemporaryWorkingDirectory();
       const tmpDirStylesPath = resolve(cwd, 'src/styles');
       createManifestFile(cwd);
-      execSync(`${cli} init --only-config --only-package`, { cwd, stdio });
+      execSync(`yarn add breakpoint-sass`, { cwd, stdio });
       mkdirSync(resolve(cwd, 'src'));
       await copyRecursively(basicStylesPath, tmpDirStylesPath);
       // @TODO: Problem with yarn and gulp.
