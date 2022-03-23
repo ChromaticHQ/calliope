@@ -23,7 +23,11 @@ function styles() {
   return src(intake, { sourcemaps: true })
     .pipe(gulpIf(config.pipelines.styles.lint, stylelint(config.plugins.stylelint)))
     .pipe(sassGlob())
-    .pipe(sass(config.plugins.sass).on('error', function (error) {
+    .pipe(sass(config.plugins.sass).on('error', function handleSassError(error) {
+      // gulp-sass’s `logError` method does not adequately cause errors to get
+      // thrown, so we need to exit the process ourselves unless errors are
+      // ignored. Note that errors are only ignored while in the development
+      // start command.
       sass.logError.call(this, error);
       if (!config.ignoreErrors) process.exit(1);
     }))
