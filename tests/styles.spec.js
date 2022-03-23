@@ -34,11 +34,11 @@ describe.only('Style tasks', () => {
     });
 
     // after test is ran, delete that temporary compiled style.
-    // after(() => deleteTemporaryWorkingDirectory(cwd));
+    after(() => deleteTemporaryWorkingDirectory(cwd));
     it('styles task checked', () => {
-      // YAY!!
+      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css'));
       const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles-expanded.css')).toString();
-      console.log(controlFile);
+      assert.equal(generatedFile, controlFile);
     });
     // it('Styles linted.');
     // it('Imports using globs have run.');
