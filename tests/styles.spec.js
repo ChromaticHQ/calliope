@@ -18,9 +18,9 @@ const {
 const basicStylesPath = resolve(__dirname, 'styles/samples/basic/scss');
 
 describe.only('Style tasks', () => {
-  let cwd;
-  describe('checks each style task', () => {
+  describe('checks entire style task', () => {
     let command = `${cli} styles`;
+    let cwd;
     // Before test is ran, needs to compile styles into css.
     before(async () => {
       cwd = createTemporaryWorkingDirectory();
@@ -29,21 +29,24 @@ describe.only('Style tasks', () => {
       execSync(`yarn add breakpoint-sass`, { cwd, stdio });
       mkdirSync(resolve(cwd, 'src'));
       await copyRecursively(basicStylesPath, tmpDirStylesPath);
-      // @TODO: Problem with yarn and gulp.
       execSync(command, { cwd, stdio });
     });
 
     // after test is ran, delete that temporary compiled style.
     after(() => deleteTemporaryWorkingDirectory(cwd));
     it('styles task checked', () => {
-      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css'));
+      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css').toString());
       const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles-expanded.css')).toString();
       assert.equal(generatedFile, controlFile);
     });
+
+    it('minified style task checked', () => {
+      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles.css')).toString();
+      const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles.css')).toString();
+      assert.equal(generatedFile, controlFile);
+    })
     // it('Styles linted.');
-    // it('Imports using globs have run.');
     // it('Vendor prefixes applied.');
     // it('Filename changed to [X].');
-    // it('Stylesheet is minified.');
   });
 });
