@@ -1,12 +1,14 @@
 const assert = require('assert');
 const { execSync } = require('child_process');
-const {
-  existsSync, mkdtempSync, readFileSync, rmdirSync,
-} = require('fs');
+const { existsSync, readFileSync } = require('fs');
 const { parse, resolve } = require('path');
-const { cli } = require('./lib/cli');
-// Create tmp directory.
-const stdio = 'pipe';
+const { cli, stdio } = require('./lib/cli');
+const {
+  createManifestFile,
+  createTemporaryWorkingDirectory,
+  deleteTemporaryWorkingDirectory,
+} = require('./lib/helpers');
+
 const expectedPackageCommands = {
   calliope: 'yarn install && calliope',
   build: 'yarn calliope build',
@@ -417,18 +419,6 @@ function assertFileDoesNotExist({ cwd, filename }) {
 function backupFilename(filename) {
   const parsedFilename = parse(filename);
   return `${parsedFilename.name}-backup${parsedFilename.ext}`;
-}
-
-function createManifestFile(cwd) {
-  return execSync('yarn init -y', { cwd, stdio });
-}
-
-function createTemporaryWorkingDirectory() {
-  return mkdtempSync(resolve(__dirname, 'tmp/init-'));
-}
-
-function deleteTemporaryWorkingDirectory(cwd) {
-  return rmdirSync(cwd, { recursive: true });
 }
 
 function sampleFilename(filename) {

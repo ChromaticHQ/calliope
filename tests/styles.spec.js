@@ -4,9 +4,12 @@ const {
   existsSync, mkdtempSync, mkdirSync, cpSync, readFileSync, rmdirSync,
 } = require('fs');
 const { parse, resolve } = require('path');
-const { cli } = require('./lib/cli');
-// Create tmp directory.
-const stdio = 'pipe';
+const { cli, stdio } = require('./lib/cli');
+const {
+  createManifestFile,
+  createTemporaryWorkingDirectory,
+  deleteTemporaryWorkingDirectory,
+} = require('./lib/helpers');
 
 describe.only('Style tasks', () => {
   describe('checks each style task', () => {
@@ -33,11 +36,3 @@ describe.only('Style tasks', () => {
     // it('Stylesheet is minified.');
   });
 });
-
-function createManifestFile(cwd) {
-  return execSync('yarn init -y', { cwd, stdio });
-}
-
-function createTemporaryWorkingDirectory() {
-  return mkdtempSync(resolve(__dirname, 'tmp/styles-'));
-}
