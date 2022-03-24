@@ -38,7 +38,7 @@ describe('Style tasks', () => {
     // after test is ran, delete that temporary compiled style.
     after(() => deleteTemporaryWorkingDirectory(cwd));
     it('styles task checked', () => {
-      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css').toString());
+      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css')).toString();
       const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles-expanded.css')).toString();
       assert.equal(generatedFile, controlFile);
     });
