@@ -38,13 +38,13 @@ describe('Style tasks', () => {
     // after test is ran, delete that temporary compiled style.
     after(() => deleteTemporaryWorkingDirectory(cwd));
     it('styles task checked', () => {
-      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css')).toString();
+      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css')).toString().replace(/\r\n/g, '\n');;
       const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles-expanded.css')).toString().replace(/\r\n/g, '\n');
       assert.equal(generatedFile, controlFile);
     });
 
     it('minified stylesheet checked', () => {
-      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles.css')).toString();
+      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles.css')).toString().replace(/\r\n/g, '\n');;
       const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles.css')).toString().replace(/\r\n/g, '\n');
       assert.equal(generatedFile, controlFile);
     });
