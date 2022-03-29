@@ -18,38 +18,34 @@ const {
   deleteTemporaryWorkingDirectory,
 } = require('./lib/helpers');
 
-const basicStylesPath = resolve(__dirname, 'styles/samples/basic/scss');
+const sampleStylesPath = resolve(__dirname, 'data/styles/scss');
 
 describe('Style tasks', () => {
-  describe('checks entire style task', () => {
-    const command = `${cli} styles`;
-    let cwd;
-    // Before test is ran, needs to compile styles into css.
-    before(async () => {
-      cwd = createTemporaryWorkingDirectory();
-      const tmpDirStylesPath = resolve(cwd, 'src/styles');
-      createManifestFile(cwd);
-      execSync('yarn add breakpoint-sass', { cwd, stdio });
-      mkdirSync(resolve(cwd, 'src'));
-      await copyRecursively(basicStylesPath, tmpDirStylesPath);
-      execSync(command, { cwd, stdio });
-    });
+  const command = `${cli} styles`;
+  let cwd;
 
-    // after test is ran, delete that temporary compiled style.
-    after(() => deleteTemporaryWorkingDirectory(cwd));
-    it('styles task checked', () => {
-      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css')).toString().replace(/\r\n/g, '\n');
-      const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles-expanded.css')).toString().replace(/\r\n/g, '\n');
-      assert.equal(generatedFile, controlFile);
-    });
+  before(async () => {
+    cwd = createTemporaryWorkingDirectory();
+    const tmpDirStylesPath = resolve(cwd, 'src/styles');
+    createManifestFile(cwd);
+    // Install a third-party dependency used in sample stylesheets.
+    execSync('yarn add breakpoint-sass', { cwd, stdio });
+    mkdirSync(resolve(cwd, 'src'));
+    await copyRecursively(sampleStylesPath, tmpDirStylesPath);
+    // Generate CSS.
+    execSync(command, { cwd, stdio });
+  });
+  after(() => deleteTemporaryWorkingDirectory(cwd));
 
-    it('minified stylesheet checked', () => {
-      const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles.css')).toString().replace(/\r\n/g, '\n');
-      const controlFile = readFileSync(resolve(__dirname, 'styles/samples/basic/css/styles.css')).toString().replace(/\r\n/g, '\n');
-      assert.equal(generatedFile, controlFile);
-    });
-    // it('Styles linted.');
-    // it('Vendor prefixes applied.');
-    // it('Filename changed to [X].');
+  it('generates expanded CSS that matches our samples', () => {
+    const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css')).toString().replace(/\r\n/g, '\n');
+    const controlFile = readFileSync(resolve(__dirname, 'data/styles/css/styles-expanded.css')).toString().replace(/\r\n/g, '\n');
+    assert.equal(generatedFile, controlFile);
+  });
+
+  it('generates minified CSS that matches our samples', () => {
+    const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles.css')).toString().replace(/\r\n/g, '\n');
+    const controlFile = readFileSync(resolve(__dirname, 'data/styles/css/styles.css')).toString().replace(/\r\n/g, '\n');
+    assert.equal(generatedFile, controlFile);
   });
 });
