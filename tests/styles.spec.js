@@ -18,7 +18,7 @@ const {
   deleteTemporaryWorkingDirectory,
 } = require('./lib/helpers');
 
-const sampleStylesPath = resolve(__dirname, 'data/styles/scss');
+const basicStylesPath = resolve(__dirname, 'data/styles/scss');
 
 describe('Style tasks', () => {
   const command = `${cli} styles`;
@@ -30,7 +30,7 @@ describe('Style tasks', () => {
     // Install a third-party dependency used in sample stylesheets.
     execSync('yarn add breakpoint-sass', { cwd, stdio });
     mkdirSync(resolve(cwd, 'src'));
-    await copyRecursively(sampleStylesPath, tmpDirStylesPath);
+    await copyRecursively(basicStylesPath, tmpDirStylesPath);
     // Generate CSS.
     execSync(command, { cwd, stdio });
   });
