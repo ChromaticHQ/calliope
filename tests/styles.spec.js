@@ -23,7 +23,6 @@ const sampleStylesPath = resolve(__dirname, 'data/styles/scss');
 describe('Style tasks', () => {
   const command = `${cli} styles`;
   let cwd;
-
   before(async () => {
     cwd = createTemporaryWorkingDirectory();
     const tmpDirStylesPath = resolve(cwd, 'src/styles');
