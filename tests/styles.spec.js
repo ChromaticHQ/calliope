@@ -38,13 +38,13 @@ describe('Style tasks', () => {
 
   it('generates expanded CSS that matches our samples', () => {
     const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles-expanded.css')).toString().replace(/\r\n/g, '\n');
-    const controlFile = readFileSync(resolve(__dirname, 'data/styles/css/styles-expanded.css')).toString().replace(/\r\n/g, '\n');
+    const controlFile = readFileSync(resolve(__dirname, 'data/styles/css/basic-expanded.css')).toString().replace(/\r\n/g, '\n');
     assert.equal(generatedFile, controlFile);
   });
 
   it('generates minified CSS that matches our samples', () => {
     const generatedFile = readFileSync(resolve(cwd, 'build/styles/styles.css')).toString().replace(/\r\n/g, '\n');
-    const controlFile = readFileSync(resolve(__dirname, 'data/styles/css/styles.css')).toString().replace(/\r\n/g, '\n');
+    const controlFile = readFileSync(resolve(__dirname, 'data/styles/css/basic.css')).toString().replace(/\r\n/g, '\n');
     assert.equal(generatedFile, controlFile);
   });
 });
