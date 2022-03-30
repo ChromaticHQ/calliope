@@ -2,13 +2,6 @@ const assert = require('assert');
 const { execSync } = require('child_process');
 const { mkdirSync, cpSync, readFileSync } = require('fs');
 
-/* eslint-disable */
-let copy;
-if (typeof cpSync === 'undefined') {
-  copy = require('recursive-copy');
-}
-/* eslint-enable */
-
 const { resolve } = require('path');
 const { cli, stdio } = require('./lib/cli');
 const {
