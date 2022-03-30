@@ -1,6 +1,6 @@
 const assert = require('assert');
 const { execSync } = require('child_process');
-const { mkdirSync, cpSync, readFileSync } = require('fs');
+const { mkdirSync, readFileSync } = require('fs');
 
 const { resolve } = require('path');
 const { cli, stdio } = require('./lib/cli');
