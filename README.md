@@ -64,7 +64,7 @@ Get Calliope up and running in three easy steps!
     Run the following command wherever you intend to run your front-end tooling:
 
     ```shell
-    yarn add @chromatichq/calliope
+    yarn add @chromatic/calliope
     ```
 
 1. **Jump-start your project.**
@@ -72,7 +72,7 @@ Get Calliope up and running in three easy steps!
     Set up calliope by running the `init` command, like so:
 
     ```shell
-    npx @chromatichq/calliope init
+    npx @chromatic/calliope init
     ```
 
     Note the use of `npx` in the command above. `npx` ships with your Node installation and there is no Yarn equivalent for it. We only use `npx` for this `init` command.
@@ -89,7 +89,7 @@ Get Calliope up and running in three easy steps!
     - Create a `README.md` as a starter for your theme or project with basic information about basic Calliope commands.
     - Update your project’s `package.json` file to add common commands to be invoked with Yarn (e.g. `build`, `start`, etc.).
 
-    By default, the `init` command will not overwrite any files whose names may collide with the files detailed above. If any of those files already exist when you run this command, you will see messages indicating that files were found and instructions on how to overwrite them. In addition to this, Calliope allows you to pick and choose which of these files you want with the `--only-*` flags (`--only-config` or `--only-stylelint`, for instance). Run `npx @chromatichq/calliope init --help` for additional details on these options.
+    By default, the `init` command will not overwrite any files whose names may collide with the files detailed above. If any of those files already exist when you run this command, you will see messages indicating that files were found and instructions on how to overwrite them. In addition to this, Calliope allows you to pick and choose which of these files you want with the `--only-*` flags (`--only-config` or `--only-stylelint`, for instance). Run `npx @chromatic/calliope init --help` for additional details on these options.
     </details>
 
 1. **Configure your toolchain.**
@@ -199,7 +199,7 @@ Here’s what it might look like to override the `scripts` task (keeping in mind
  */
 
 // Get the configuration object from Calliope.
-const config = require('@chromatichq/calliope').config;
+const config = require('@chromatic/calliope').config;
 const { src, dest } = require('gulp');
 
 function scripts() {
@@ -231,7 +231,7 @@ exports.pipelines = {
 Any configuration you include in that `components` object can be accessed from your custom `components.js` file like so:
 
 ```javascript
-const config = require('@chromatichq/calliope').config;
+const config = require('@chromatic/calliope').config;
 console.log(config.pipelines.components);
 ```
 

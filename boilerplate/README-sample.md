@@ -1,6 +1,6 @@
 # My Calliope Project
 
-A project based on [`@chromatichq/calliope`](https://npmjs.com/package/@chromatichq/calliope).
+A project based on [`@chromatic/calliope`](https://npmjs.com/package/@chromatic/calliope).
 
 ## Table of Contents
 
@@ -39,11 +39,11 @@ In order to work on this project, you must have each of the following installed 
 
 # Working On This Project
 
-This project uses [`@chromatichq/calliope`](https://npmjs.com/package/@chromatichq/calliope), a Gulp-based development workflow tool. The tasks and practices documented in this document are designed to simplify on-boarding, speed up front-end development, maintain performance, and provide a consistent, reliable interface with which project assets can be built for any environment.
+This project uses [`@chromatic/calliope`](https://npmjs.com/package/@chromatic/calliope), a Gulp-based development workflow tool. The tasks and practices documented in this document are designed to simplify on-boarding, speed up front-end development, maintain performance, and provide a consistent, reliable interface with which project assets can be built for any environment.
 
 ## Available Commands
 
-In the interest of observing best practices, all relevant Calliope commands are exposed via npm scripts which we invoke via Yarn commands. The following commands are available to facilitate development. (See [`@chromatichq/calliope`](https://npmjs.com/package/@chromatichq/calliope) documentation for details on overriding these commands and creating custom commands.)
+In the interest of observing best practices, all relevant Calliope commands are exposed via npm scripts which we invoke via Yarn commands. The following commands are available to facilitate development. (See [`@chromatic/calliope`](https://npmjs.com/package/@chromatic/calliope) documentation for details on overriding these commands and creating custom commands.)
 
 Please note that explicitly installing dependencies is not necessary in this project. Each of the commands detailed below already installs dependencies by default just before it runs.
 
@@ -78,7 +78,7 @@ Usage:
 
 ## Development Settings
 
-`@chromatichq/calliope` exposes configuration that allows the developer to fine-tune their development environment. The following settings may be configured via a `.env` file wherever the `calliope.config.js` file exists.  You can use `.env-sample` as an example.
+`@chromatic/calliope` exposes configuration that allows the developer to fine-tune their development environment. The following settings may be configured via a `.env` file wherever the `calliope.config.js` file exists.  You can use `.env-sample` as an example.
 
 The `.env` file is interpreted as a series of key/value pairs. The format is as follows:
 
@@ -123,7 +123,7 @@ Whenever this documentation changes, you can run the `yarn update-readme-toc` co
 
 All configuration for calliope (except for personal [Development Settings]) is handled from the `calliope.config.js` file.
 
-Our tools and tasks should rarely have to change, but if the need arises, `@chromatichq/calliope` is designed to make existing tasks easy to override and new custom tasks easy to implement. Refer to the [`@chromatichq/calliope` documentation](https://npmjs.org/pacakge/@chromatichq/calliope) for details on overriding its default tasks and creating custom tasks.
+Our tools and tasks should rarely have to change, but if the need arises, `@chromatic/calliope` is designed to make existing tasks easy to override and new custom tasks easy to implement. Refer to the [`@chromatic/calliope` documentation](https://npmjs.org/pacakge/@chromatic/calliope) for details on overriding its default tasks and creating custom tasks.
 
 [Development Settings]: #development-settings
 [Change Reverse Proxy Target]: #change-reverse-proxy-target

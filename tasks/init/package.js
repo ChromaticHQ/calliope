@@ -34,12 +34,12 @@ function updatePackageFile({ args, names, paths }) {
     return true;
   } catch (error) {
     // TODO: Find a way to auto-create package.jsonm and auto-install the
-    // @chromatichq/calliope package. So far, all attempts with execSync and
+    // @chromatic/calliope package. So far, all attempts with execSync and
     // spawnSync fail. yarn init creates the file, but the file is never found
     // on the next run, so it just keeps looping.
     if (error.code === 'MODULE_NOT_FOUND') {
       log.error(chalk.red(`✕ No ${names.package} file was found. Some potential solutions:`));
-      log.error(chalk.cyan(`    - Starting from scratch? Run \`yarn add --dev @chromatichq/calliope\` to create ${names.package} and install Calliope on your project.`));
+      log.error(chalk.cyan(`    - Starting from scratch? Run \`yarn add --dev @chromatic/calliope\` to create ${names.package} and install Calliope on your project.`));
       log.error(chalk.cyan(`    - If you already have a ${names.package} file, make sure you are running this command in the directory where that file is located.`));
     } else {
       log.error(chalk.red(`✕ There was an error updating your ${names.package} file.`));

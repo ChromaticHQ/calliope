@@ -15,12 +15,12 @@ exports.printHelp = printHelp;
  */
 function printHelp(filesToCopy) {
   // TODO: Is there a library that can format strings like this?
-  console.log(chalk.cyan('@chromatichq/calliope init'));
+  console.log(chalk.cyan('@chromatic/calliope init'));
   console.log(chalk.grey('  A command to help set up Calliope in your project.'));
 
   console.log('');
   console.log(chalk.cyan('Usage:'));
-  console.log(chalk.white('  - npx @chromatichq/calliope init'));
+  console.log(chalk.white('  - npx @chromatic/calliope init'));
   console.log(chalk.grey(
     `    Create basic boilerplate configuration files and
     update package.json scripts. (Does not overwrite
@@ -28,7 +28,7 @@ function printHelp(filesToCopy) {
   ));
 
   console.log('');
-  console.log(chalk.white('  - npx @chromatichq/calliope init --force'));
+  console.log(chalk.white('  - npx @chromatic/calliope init --force'));
   console.log(chalk.grey(
     `    Overwrite ALL existing configuration files that
     might collide with new boilerplate files.
@@ -36,7 +36,7 @@ function printHelp(filesToCopy) {
   ));
 
   console.log('');
-  console.log(chalk.white('  - npx @chromatichq/calliope init --force-config'));
+  console.log(chalk.white('  - npx @chromatic/calliope init --force-config'));
   console.log(chalk.grey(
     `    Overwrite only specific configuration files that
     might collide with new boilerplate files. You can
@@ -46,7 +46,7 @@ function printHelp(filesToCopy) {
   ));
 
   console.log('');
-  console.log(chalk.white('  - npx @chromatichq/calliope init --only-config'));
+  console.log(chalk.white('  - npx @chromatic/calliope init --only-config'));
   console.log(chalk.grey(
     `    Create only specific configuration files,
     overwriting any files that already exist in your
