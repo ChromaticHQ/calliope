@@ -58,6 +58,9 @@
     "mocha": "^9.2.1",
     "recursive-copy": "^2.0.14"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": "git+https://github.com/ChromaticHQ/calliope.git",
   "bugs": {
     "url": "https://github.com/ChromaticHQ/calliope/issues"
