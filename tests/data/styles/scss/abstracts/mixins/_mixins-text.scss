@@ -1,0 +1,47 @@
+%normalize-spacing {
+  margin: 0;
+}
+
+@mixin paragraph {
+  @extend %normalize-spacing;
+
+  font-size: 18px;
+  line-height: 1.22;
+}
+
+@mixin h1 {
+  @extend %normalize-spacing;
+
+  font-size: 52px;
+}
+
+@mixin h2 {
+  @extend %normalize-spacing;
+
+  font-size: 48px;
+}
+
+@mixin h3 {
+  @extend %normalize-spacing;
+
+  font-size: 36px;
+}
+
+@mixin h4 {
+  @extend %normalize-spacing;
+
+  font-size: 32px;
+}
+
+@mixin h5 {
+  @extend %normalize-spacing;
+
+  font-size: 24px;
+}
+
+@mixin h6 {
+  @extend %normalize-spacing;
+
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+}

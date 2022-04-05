@@ -9,3 +9,5 @@ const cliPath = resolve(__dirname, '../../cli.js');
 const prefix = process.platform === 'win32' ? 'node ' : '';
 const cli = `${prefix}${cliPath}`;
 exports.cli = cli;
+// Export a stdio setting for command line execution.
+exports.stdio = 'pipe';

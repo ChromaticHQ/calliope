@@ -1,0 +1,47 @@
+%button--basic {
+  min-width: 174px;
+  transition: $transition-animation;
+  border-radius: 3px;
+
+  &:focus,
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+@mixin button--primary {
+  @extend %button--basic;
+
+  background: $color-primary;
+  color: $color-white;
+
+  &:focus,
+  &:hover {
+    background: $color-primary--dark;
+  }
+}
+
+@mixin button--secondary {
+  @extend %button--basic;
+
+  background: $color-secondary;
+  color: $color-grey--dark;
+
+  &:focus,
+  &:hover {
+    background: $color-secondary--dark;
+  }
+}
+
+@mixin button--tertiary {
+  @extend %button--basic;
+
+  border-color: $color-grey--dark;
+  color: $color-grey--dark;
+
+  &:focus,
+  &:hover {
+    background: $color-grey--dark;
+    color: $color-white;
+  }
+}
