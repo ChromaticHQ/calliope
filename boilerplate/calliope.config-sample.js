@@ -115,6 +115,19 @@ exports.pipelines = {
     // lint: env.CALLIOPE_LINT_JS === 'true',
 
     /**
+     * rename - Boolean
+     *
+     * Whether compressed JavaScript files should be renamed to add `.min` to
+     * the base filename. This option only takes effect when `compress` is set
+     * to `true` and `bundle` is falsy. It renames processed module files from
+     * `FILENAME.js` to `FILENAME.min.js` before saving them to the destination
+     * directory.
+     *
+     * Uncomment the next line to enable renaming.
+     */
+    // rename: true,
+
+    /**
      * src - String or Array of Strings
      *
      * A value representing one or more JavaScript files to be used as a

@@ -20,6 +20,10 @@ globals:
   Waypoint: true
 
 rules:
+  arrow-body-style:
+    - error
+    - as-needed
+    - requireReturnForObjectLiteral: true
   # Override airbnb’s default, since functions are hoisted.
   no-use-before-define:
     - error

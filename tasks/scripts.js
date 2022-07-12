@@ -6,6 +6,7 @@
 const concat = require('gulp-concat');
 const eslint = require('gulp-eslint-new');
 const gulpIf = require('gulp-if');
+const rename = require('gulp-rename');
 const { src, dest } = require('gulp');
 const terser = require('gulp-terser');
 
@@ -23,6 +24,10 @@ function scripts(bundle) {
     .pipe(gulpIf(pipelineConfig.lint, eslint.format()))
     // Compress/uglify if compression is enabled.
     .pipe(gulpIf(pipelineConfig.compress, terser()))
+    // Rename file if compression and renaming are both enabled.
+    .pipe(gulpIf((pipelineConfig.compress && pipelineConfig.rename), rename((path) => {
+      path.basename += '.min';
+    })))
     // Concatenate script files into a bundle, if a bundle name is set.
     .pipe(gulpIf(pipelineConfig.bundle, concat(bundleName)))
     // Write results to disk.
