@@ -19,7 +19,7 @@ function start() {
     if (event.type === 'restart' && event.data && event.data.length) {
       // Acknowledge changed files to the console.
       log.info(chalk.cyan(`! Detected changes:\n    - ${event.data.join('\n    - ')}`));
-      log.info(chalk.cyan('✓ Restarting toolchian…'));
+      log.info(chalk.cyan('✓ Restarting toolchain…'));
     }
   });
 }
