@@ -1,6 +1,9 @@
 {
   "name": "@chromatic/calliope",
   "version": "1.4.0",
+  "engines": {
+    "node": ">=14"
+  },
   "description": "An extensible, Gulp-based front-end toolchain designed for quick and fussless setup and maintenance.",
   "main": "calliope.js",
   "scripts": {
