@@ -112,7 +112,7 @@ exports.pipelines = {
      * they wish. That said, if your project needs to change this value,
      * uncomment the next line and edit it as needed.
      */
-    // lint: env.CALLIOPE_LINT_JS === 'true',
+    // lint: env.CALLIOPE_LINT_JS !== 'false',
 
     /**
      * rename - Boolean
@@ -165,7 +165,7 @@ exports.pipelines = {
      * they wish. That said, if your project needs to change this value,
      * uncomment the next line and edit it as needed.
      */
-    // lint: env.CALLIOPE_LINT_SCSS === 'true',
+    // lint: env.CALLIOPE_LINT_SCSS !== 'false',
 
     /**
      * src - String or Array of Strings

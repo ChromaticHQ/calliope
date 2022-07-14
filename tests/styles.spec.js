@@ -1,6 +1,6 @@
 const assert = require('assert');
 const { execSync } = require('child_process');
-const { mkdirSync, readFileSync } = require('fs');
+const { mkdirSync, readFileSync, writeFileSync } = require('fs');
 
 const { resolve } = require('path');
 const { cli, stdio } = require('./lib/cli');
@@ -24,6 +24,8 @@ describe('Style tasks', () => {
     execSync('yarn add breakpoint-sass', { cwd, stdio });
     mkdirSync(resolve(cwd, 'src'));
     await copyRecursively(basicStylesPath, tmpDirStylesPath);
+    // Create .env file that disables linting.
+    writeFileSync(`${cwd}/.env`, 'CALLIOPE_LINT_SCSS=false');
     // Generate CSS.
     execSync(command, { cwd, stdio });
   });
@@ -39,5 +41,19 @@ describe('Style tasks', () => {
     const generatedFile = readFileSync(resolve(cwd, 'build/styles/basic.css')).toString().replace(/\r\n/g, '\n');
     const controlFile = readFileSync(resolve(__dirname, 'data/styles/css/basic.css')).toString().replace(/\r\n/g, '\n');
     assert.equal(generatedFile, controlFile);
+  });
+
+  it('lints source files during development', () => {
+    let error;
+    // Delete .env file.
+    execSync('rm .env', { cwd, stdio });
+    // Run command.
+    try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
+    // Assert error due to missing stylelint config file.
+    assert.match(
+      error.message,
+      /No configuration provided/,
+      'Expected an error message for non-existent Stylelint config.',
+    );
   });
 });

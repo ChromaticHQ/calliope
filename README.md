@@ -142,13 +142,13 @@ The `images` moves image files from the source directory to the destination dire
 
 The `scripts` task handles operations related to JavaScript processing and optimization. It provides linting, uglification/compression (via [`terser`](https://npmjs.com/package/terser)), and concatenation. All of these operations are configurable to some degree.
 
-By default, this task does not lint JS files, but linting can be enabled via an `.env` file. See [Developer Personalization] for details.
+By default, this task lints JS files by default, but linting can be disabled via an `.env` file. See [Developer Personalization] for details.
 
 ### `styles` - Pre-process Stylesheets
 
 The `styles` task generates CSS from your project’s `.scss` files using [`node-sass`](https://npmjs.com/package/node-sass). It includes a few affordances, such as [`gulp-sass-glob`](https://npmjs.com/package/gulp-sass-glob), [`gulp-autoprefixer`](https://www.npmjs.com/package/gulp-autoprefixer), and [`gulp-clean-css`](https://www.npmjs.com/package/gulp-clean-css). This task generates both minified and expanded (i.e. not minified) CSS stylesheets. Minified stylesheets will be named after your SCSS files, and expanded stylesheets will have the suffix `-expanded` attached to the filename. So if your stylesheet is named `main.scss`, Calliope will produce two files: `main.css` and `main-expanded.css`.
 
-By default, this task does not lint SCSS files, but linting can be enabled via an `.env` file. See [Developer Personalization] for details.
+By default, this task lints SCSS files by default, but linting can be disabled via an `.env` file. See [Developer Personalization] for details.
 
 ## Daemons
 
@@ -172,7 +172,7 @@ Calliope works out of the box without much configuration, outside of setting you
 
 # Developer Personalization
 
-In addition to the configuration options available in your project’s `calliope.config.js`, individual developers may modify parts of the tooling behavior according to their personal preferences. Developers may opt into JS and SCSS linting, and modify the reverse proxy’s URL (or opt out of reverse proxying altogether) by creating a `.env` file in their project and setting variables according to their needs. See the [`.env-sample`] file in this project’s repo for reference.
+In addition to the configuration options available in your project’s `calliope.config.js`, individual developers may modify parts of the tooling behavior according to their personal preferences. Developers may opt out of JS and SCSS linting, and modify the reverse proxy’s URL (or opt out of reverse proxying altogether) by creating a `.env` file in their project and setting variables according to their needs. See the [`.env-sample`] file in this project’s repo for reference.
 
 # Customization
 

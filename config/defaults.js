@@ -22,7 +22,7 @@ exports.pipelines = {
   scripts: {
     bundle: false,
     compress: true,
-    lint: env.CALLIOPE_LINT_JS === 'true',
+    lint: env.CALLIOPE_LINT_JS !== 'false',
     src: [
       `${paths.SRC}/scripts/**/*.js`,
       `${paths.SRC}/components/**/*.js`,
@@ -31,7 +31,7 @@ exports.pipelines = {
     dest: `${paths.DEST}/scripts`,
   },
   styles: {
-    lint: env.CALLIOPE_LINT_SCSS === 'true',
+    lint: env.CALLIOPE_LINT_SCSS !== 'false',
     src: [
       `${paths.SRC}/styles/**/*.scss`,
     ],
