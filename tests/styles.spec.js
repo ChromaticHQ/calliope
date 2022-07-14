@@ -1,6 +1,6 @@
 const assert = require('assert');
 const { execSync } = require('child_process');
-const { mkdirSync, readFileSync } = require('fs');
+const { mkdirSync, readFileSync, writeFileSync } = require('fs');
 
 const { resolve } = require('path');
 const { cli, stdio } = require('./lib/cli');
@@ -25,7 +25,7 @@ describe('Style tasks', () => {
     mkdirSync(resolve(cwd, 'src'));
     await copyRecursively(basicStylesPath, tmpDirStylesPath);
     // Create .env file that disables linting.
-    execSync('echo "CALLIOPE_LINT_SCSS=false" > .env', { cwd, stdio });
+    writeFileSync(`${cwd}/.env`, 'CALLIOPE_LINT_SCSS=false');
     // Generate CSS.
     execSync(command, { cwd, stdio });
   });
