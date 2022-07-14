@@ -4,7 +4,7 @@
  */
 
 const { execSync } = require('child_process');
-const { cpSync, mkdtempSync, rmdirSync } = require('fs');
+const { cpSync, mkdtempSync, rmSync } = require('fs');
 const { resolve } = require('path');
 const { stdio } = require('./cli');
 
@@ -35,5 +35,5 @@ exports.createTemporaryWorkingDirectory = function createTemporaryWorkingDirecto
 };
 
 exports.deleteTemporaryWorkingDirectory = function deleteTemporaryWorkingDirectory(cwd) {
-  return rmdirSync(cwd, { recursive: true });
+  return rmSync(cwd, { recursive: true });
 };
