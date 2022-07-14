@@ -18,7 +18,7 @@ A project based on [`@chromatic/calliope`](https://npmjs.com/package/@chromatic/
     + [Building Project Assets: `yarn build`](#building-project-assets-yarn-build)
     + [Linting SCSS and JS: `yarn lint`](#linting-scss-and-js-yarn-lint)
   * [Development Settings](#development-settings)
-    + [Enable Linting During Development](#enable-linting-during-development)
+    + [Disable Linting During Development](#disable-linting-during-development)
     + [Change Reverse Proxy Target](#change-reverse-proxy-target)
   * [Keeping Documentation Up-to-date](#keeping-documentation-up-to-date)
     + [Updating the Table of Contents](#updating-the-table-of-contents)
@@ -86,13 +86,13 @@ The `.env` file is interpreted as a series of key/value pairs. The format is as 
 ENV_VAR_NAME=some value
 ```
 
-### Enable Linting During Development
+### Disable Linting During Development
 
-If you would like to lint SCSS and JS files during development uncomment the following lines in the `.env` file.
+If you would like to skip linting SCSS and/or JS files during development uncomment the following lines in the `.env` file.
 
 ```
-  # CALLIOPE_LINT_SCSS=true
-  # CALLIOPE_LINT_JS=true
+  # CALLIOPE_LINT_SCSS=false
+  # CALLIOPE_LINT_JS=false
 ```
 
 ### Change Reverse Proxy Target

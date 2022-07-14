@@ -24,6 +24,8 @@ describe('Style tasks', () => {
     execSync('yarn add breakpoint-sass', { cwd, stdio });
     mkdirSync(resolve(cwd, 'src'));
     await copyRecursively(basicStylesPath, tmpDirStylesPath);
+    // Create .env file that disables linting.
+    execSync('echo "CALLIOPE_LINT_SCSS=false" > .env', { cwd, stdio });
     // Generate CSS.
     execSync(command, { cwd, stdio });
   });
