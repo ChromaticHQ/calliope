@@ -42,4 +42,18 @@ describe('Style tasks', () => {
     const controlFile = readFileSync(resolve(__dirname, 'data/styles/css/basic.css')).toString().replace(/\r\n/g, '\n');
     assert.equal(generatedFile, controlFile);
   });
+
+  it('lints source files during development', () => {
+    let error;
+    // Delete .env file.
+    execSync('rm .env', { cwd, stdio });
+    // Run command.
+    try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
+    // Assert error due to missing stylelint config file.
+    assert.match(
+      error.message,
+      /No configuration provided/,
+      'Expected an error message for non-existent Stylelint config.',
+    );
+  });
 });
