@@ -4,6 +4,7 @@
  */
 
 const concat = require('gulp-concat');
+/* eslint-disable-next-line import/no-unresolved */
 const eslint = require('gulp-eslint-new');
 const gulpIf = require('gulp-if');
 const rename = require('gulp-rename');

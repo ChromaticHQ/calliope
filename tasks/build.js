@@ -33,7 +33,7 @@ const tasks = [
       // If the issue is not that the module is missing, throw the error.
       if (error.code !== 'MODULE_NOT_FOUND') throw error;
       log.error(chalk.redBright(`✕ ERROR: Configuration ${pipelineName} detected, but task file '${pipelineName}.js' cannot be found.`));
-      log.error(`    If you have a custom task with this name, be sure to add the module for it in your project at 'tasks/${pipelineName}.js'.`);
+      log.error(`    If you have a custom task with this name, be sure to add the module for it in your project at 'pipelines/${pipelineName}.js'.`);
       process.exit(1);
     }
 
