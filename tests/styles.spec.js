@@ -21,7 +21,7 @@ describe('Style tasks', () => {
     const tmpDirStylesPath = resolve(cwd, 'src/styles');
     createManifestFile(cwd);
     // Install a third-party dependency used in sample stylesheets.
-    execSync('yarn add breakpoint-sass@2', { cwd, stdio });
+    execSync('yarn add breakpoint-sass', { cwd, stdio });
     mkdirSync(resolve(cwd, 'src'));
     await copyRecursively(basicStylesPath, tmpDirStylesPath);
     // Create .env file that disables linting.
