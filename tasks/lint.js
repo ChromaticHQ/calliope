@@ -7,6 +7,7 @@
 const { series, src } = require('gulp');
 
 // Load dependencies.
+/* eslint-disable-next-line import/no-unresolved */
 const eslint = require('gulp-eslint-new');
 const flattenDeep = require('lodash.flattendeep');
 const stylelint = require('gulp-stylelint');
