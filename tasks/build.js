@@ -7,9 +7,16 @@ const chalk = require('chalk');
 const gulp = require('gulp');
 const log = require('fancy-log');
 const { parallel, series } = require('gulp');
-const clean = require('./clean');
-
 const config = require('../config')();
+
+console.log(config.custom.tasks);
+let clean = config.custom.tasks.filter((task) => task.name === 'clean')[0];
+console.log(clean);
+if (clean) {
+  clean = require(clean.path);
+} else {
+  clean = require('./clean');
+}
 
 // Create array of build task names from build task register.
 const pipelines = Object.keys(config.pipelines);
