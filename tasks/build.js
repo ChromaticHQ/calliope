@@ -9,9 +9,7 @@ const log = require('fancy-log');
 const { parallel, series } = require('gulp');
 const config = require('../config')();
 
-console.log(config.custom.tasks);
 let clean = config.custom.tasks.filter((task) => task.name === 'clean')[0];
-console.log(clean);
 if (clean) {
   clean = require(clean.path);
 } else {
