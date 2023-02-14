@@ -188,7 +188,7 @@ Calliope is just a fancy wrapper around Gulp, so all tasks that you may need to 
 
 ## Overriding Default Pipelines
 
-Any of Calliope’s pipeline tasks can be overridden by creating an appropriately-named module file in the `calliope/pipelines/` directory within your project. Your task file should have the same name as the task you intend to override (e.g. `scripts.js` overrides the `scripts` task, `fonts.js` overrides `fonts`, etc.). Your override file should export a function to be used by Gulp instead of the default function provided by Calliope:
+Any of Calliope’s pipeline tasks can be overridden by creating an appropriately-named module file in the `calliope/pipelines/` or `calliope/tasks/` directories within your project. Your task file should have the same name as the task you intend to override (e.g. `calliope/pipelines/scripts.js` overrides the `scripts` task, `calliope/tasks/clean.js` overrides `clean`, etc.). Your override file should export a function to be used by Gulp instead of the default function provided by Calliope:
 
 Here’s what it might look like to override the `scripts` task (keeping in mind this is a highly-contrived example that merely moves JS files without modifying them in any way):
 
