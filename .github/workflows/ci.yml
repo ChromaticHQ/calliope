@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.5.1
 
       - name: Check lockfile
         uses: ChromaticHQ/javascript-lockfile-check-action@v1.2.1
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.5.1
 
       - uses: actions/setup-node@v3
         with:
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.5.1
 
       - name: Lint YAML
         uses: ibiqlik/action-yamllint@v3.1
@@ -62,7 +62,7 @@ jobs:
         node: [14, 16, 18]
         platform: [ubuntu-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.5.1
 
       - uses: actions/setup-node@v3
         with:
