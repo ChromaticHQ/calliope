@@ -20,7 +20,7 @@
   "dependencies": {
     "breakpoint-sass": "^3.0.0",
     "browser-sync": "^2.27.7",
-    "chalk": "^4.0.0",
+    "chalk": "^5.3.0",
     "dart-sass": "^1.25.0",
     "del": "^6.0.0",
     "dotenv": "^16.0.0",
