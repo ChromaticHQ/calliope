@@ -22,7 +22,7 @@
     "browser-sync": "^2.27.7",
     "chalk": "^4.0.0",
     "dart-sass": "^1.25.0",
-    "del": "^6.0.0",
+    "del": "^7.1.0",
     "dotenv": "^16.0.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "^2.25.3",
