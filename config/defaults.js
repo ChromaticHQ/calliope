@@ -68,8 +68,6 @@ exports.plugins = {
   },
   stylelint: {
     failAfterError: failLint,
-    reporters: [
-      { formatter: 'string', console: true },
-    ],
+    formatter: 'string',
   },
 };
