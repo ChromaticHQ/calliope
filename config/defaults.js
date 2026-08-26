@@ -18,7 +18,6 @@ const paths = {
 
 exports.pipelines = {
   fonts: null,
-  images: null,
   scripts: {
     bundle: false,
     compress: true,

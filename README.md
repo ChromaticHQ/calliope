@@ -21,7 +21,6 @@ An extensible, Gulp-based front-end toolchain designed for quick and fussless se
 - [Default Tasks](#default-tasks)
   * [Pipelines](#pipelines)
     + [`fonts` - Move Font Files](#fonts---move-font-files)
-    + [`images` - Optimize Images](#images---optimize-images)
     + [`scripts` - Optimize JavaScript](#scripts---optimize-javascript)
     + [`styles` - Pre-process Stylesheets](#styles---pre-process-stylesheets)
   * [Daemons](#daemons)
@@ -51,7 +50,7 @@ In order to use this tool, you must have each of the following installed in your
 
 # Introduction
 
-Calliope is a front-end task runner based on Gulp. It is designed to provide reasonable defaults that will get most web projects up and running with minimal setup or maintenance. Common tasks include image processing, JavaScript compression, Sass compilation, linting, watching for changes, and starting a reverse proxy that will refresh the browser anytime assets change. These tasks can be configured to suit your project’s needs.
+Calliope is a front-end task runner based on Gulp. It is designed to provide reasonable defaults that will get most web projects up and running with minimal setup or maintenance. Common tasks include JavaScript compression, Sass compilation, linting, watching for changes, and starting a reverse proxy that will refresh the browser anytime assets change. These tasks can be configured to suit your project’s needs.
 
 This tool also exposes a simple API for customization. Default tasks can be overridden and custom tasks can be registered to be run in a variety of scenarios.
 
@@ -131,12 +130,6 @@ Your project’s build is defined by its pipeline tasks. These tasks are concern
 The `fonts` task merely moves font files from your source directory to the destination directory without any additional processing.
 
 **`fonts` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`calliope.config-sample.js`] for configuration details.**
-
-### `images` - Optimize Images
-
-The `images` moves image files from the source directory to the destination directory. It also provides simple image optimization for SVGs via [`gulp-imagemin`](https://npmjs.com/package/gulp-imagemin).
-
-**`images` is disabled by default, but can be easily enabled by adding a configuration object for it in your project’s `calliope.config.js` file. See [`calliope.config-sample.js`] for configuration details.**
 
 ### `scripts` - Optimize JavaScript
 
