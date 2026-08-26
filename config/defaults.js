@@ -61,8 +61,10 @@ exports.daemons = {
 exports.plugins = {
   nodemon: require('../nodemon.json'),
   sass: {
-    outputStyle: 'expanded',
-    errLogToConsole: true,
+    style: 'expanded',
+    // Allows `@import`s (e.g. of npm-installed Sass libraries) to be
+    // written relative to the project root, matching prior behavior.
+    loadPaths: [process.cwd()],
   },
   stylelint: {
     failAfterError: failLint,
