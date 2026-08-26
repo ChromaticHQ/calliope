@@ -10,6 +10,9 @@
  * significance beyond this file; it is merely here to avoid duplication of
  * source and destination paths in the configuration values used below.
  */
+/* eslint-disable-next-line no-unused-vars -- Only referenced by the
+ * currently-commented-out sample lines below; kept so downstream projects
+ * have something to uncomment. */
 const paths = {
   // Source.
   SRC: 'src',
