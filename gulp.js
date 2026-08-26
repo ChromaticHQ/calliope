@@ -1,8 +1,8 @@
 const path = require('path');
-const { spawn } = require('child_process');
+const spawn = require('cross-spawn');
 
 function gulp({ command, args }) {
-  spawn((process.platform === 'win32' ? 'gulp.cmd' : 'gulp'), [
+  spawn('gulp', [
     '--gulpfile',
     path.resolve(__dirname, 'gulpfile.js'),
     '--cwd',
