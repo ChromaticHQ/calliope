@@ -43,7 +43,7 @@ An extensible, Gulp-based front-end toolchain designed for quick and fussless se
 # System Requirements
 
 In order to use this tool, you must have each of the following installed in your system:
-- [Node.js](https://nodejs.org/en/) v12+
+- [Node.js](https://nodejs.org/en/) v20.19.0+
 - [Yarn](https://yarnpkg.com/) v1+
 
 ---
