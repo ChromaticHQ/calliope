@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // Breakpoints.
 $mobile: 0;
 $tablet: 768px;
@@ -13,11 +15,11 @@ $font-family--primary: 'Noto Serif Display', serif;
 $color-grey--dark: #2d2d2a;
 $color-grey: rgb(76, 76, 71);
 $color-primary: #c14953;
-$color-primary--dark: darken($color-primary, 10%);
-$color-primary--light: lighten($color-primary, 0.1);
+$color-primary--dark: color.adjust($color-primary, $lightness: -10%);
+$color-primary--light: color.adjust($color-primary, $lightness: 0.1%);
 $color-secondary: rgba(132, 143, 165, 1);
-$color-secondary--dark: darken($color-secondary, 0.1);
-$color-secondary--light: lighten($color-secondary, 10%);
+$color-secondary--dark: color.adjust($color-secondary, $lightness: -0.1%);
+$color-secondary--light: color.adjust($color-secondary, $lightness: 10%);
 $color-off-white: #e5dcc5;
 $color-white: #fff;
 

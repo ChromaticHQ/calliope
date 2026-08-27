@@ -18,7 +18,6 @@ const paths = {
 
 exports.pipelines = {
   fonts: null,
-  images: null,
   scripts: {
     bundle: false,
     compress: true,
@@ -62,13 +61,11 @@ exports.daemons = {
 exports.plugins = {
   nodemon: require('../nodemon.json'),
   sass: {
-    outputStyle: 'expanded',
-    errLogToConsole: true,
+    style: 'expanded',
+    loadPaths: [process.cwd()],
   },
   stylelint: {
     failAfterError: failLint,
-    reporters: [
-      { formatter: 'string', console: true },
-    ],
+    formatter: 'string',
   },
 };

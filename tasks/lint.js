@@ -10,9 +10,9 @@ const { series, src } = require('gulp');
 /* eslint-disable-next-line import/no-unresolved */
 const eslint = require('gulp-eslint-new');
 const flattenDeep = require('lodash.flattendeep');
-const stylelint = require('gulp-stylelint');
 
 const config = require('../config')();
+const lintStyles = require('../lib/lint-styles');
 
 /**
  * Lint all SCSS files inside the `./src/scss/` directory. Fail if any errors
@@ -28,9 +28,8 @@ function lintScss() {
   }
 
   // Since `src` and `watch` values can be strings or arrays, flatten them
-  // before passing them to Gulp.
-  return src(flattenDeep(fullSrc))
-    .pipe(stylelint(config.plugins.stylelint));
+  // before passing them to Stylelint.
+  return lintStyles(flattenDeep(fullSrc), config.plugins.stylelint);
 }
 
 /**
