@@ -123,7 +123,7 @@ Calliope ships with a few basic tasks that most projects will need. This section
 
 ## Pipelines
 
-Your project’s build is defined by its pipeline tasks. These tasks are concerned with processing your project’s static assets (JS, CSS, images, etc) and are run every time you run the `build` or `start` commands.
+Your project’s build is defined by its pipeline tasks. These tasks are concerned with processing your project’s static assets (JS and CSS) and are run every time you run the `build` or `start` commands.
 
 ### `fonts` - Move Font Files
 
@@ -175,7 +175,7 @@ Calliope will serve the needs of most of our projects out of the box, but if you
 
 Calliope is just a fancy wrapper around Gulp, so all tasks that you may need to create will be just standard Gulp tasks. However, there are three different types of tasks within Calliope, some of which get special treatment.
 
-1. **Pipelines:** These are typically tasks that process static assets, e.g. compiling styles, compressing JavaScript, processing images, moving fonts around, etc. If your custom task or override is intended to be run as part of each build, it goes in `calliope/pipelines/`. In addition to creating custom pipelines, Calliope supports overriding its default pipelines if your project requires this. See [Overriding Default Pipelines] below for details.
+1. **Pipelines:** These are typically tasks that process static assets, e.g. compiling styles, compressing JavaScript, moving fonts around, etc. If your custom task or override is intended to be run as part of each build, it goes in `calliope/pipelines/`. In addition to creating custom pipelines, Calliope supports overriding its default pipelines if your project requires this. See [Overriding Default Pipelines] below for details.
 1. **Daemons:** Daemons are long-running processes that you want Calliope to run _alongside_ any watched tasks. Anytime you run `yarn calliope start`, Calliope will not only build assets and start watching for changes, but also run any daemons that may be available. If you need to run a service during development (a component library server, an API stubs server, etc.), it belongs in `calliope/daemons/`. While you may create custom daemons to run in parallel to build and watched tasks during development, the default reverse proxy daemon may not be overridden at this time.
 1. **Tasks:** These are generic tasks that may be used as needed. They are standard Gulp taks that are only run when you explicitly invoke them in the command line. e.g. if you have a `calliope/tasks/build-patterns.js` file in your project, you can use `yarn calliope build-patterns` to run it. You can create as many custom generic tasks as your project needs, but existing ones are not currently overrideable.
 
