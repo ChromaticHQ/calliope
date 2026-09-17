@@ -139,9 +139,9 @@ By default, this task lints JS files by default, but linting can be disabled via
 
 ### `styles` - Pre-process Stylesheets
 
-The `styles` task generates CSS from your project’s `.scss` files using [`node-sass`](https://npmjs.com/package/node-sass). It includes a few affordances, such as [`gulp-sass-glob`](https://npmjs.com/package/gulp-sass-glob), [`gulp-autoprefixer`](https://www.npmjs.com/package/gulp-autoprefixer), and [`gulp-clean-css`](https://www.npmjs.com/package/gulp-clean-css). This task generates both minified and expanded (i.e. not minified) CSS stylesheets. Minified stylesheets will be named after your SCSS files, and expanded stylesheets will have the suffix `-expanded` attached to the filename. So if your stylesheet is named `main.scss`, Calliope will produce two files: `main.css` and `main-expanded.css`.
+The `styles` task generates CSS from your project’s `.scss` files using [`sass`](https://npmjs.com/package/sass) (Dart Sass). It includes a few affordances, such as [`gulp-sass-glob`](https://npmjs.com/package/gulp-sass-glob), [`gulp-autoprefixer`](https://www.npmjs.com/package/gulp-autoprefixer), and [`gulp-clean-css`](https://www.npmjs.com/package/gulp-clean-css). This task generates both minified and expanded (i.e. not minified) CSS stylesheets. Minified stylesheets will be named after your SCSS files, and expanded stylesheets will have the suffix `-expanded` attached to the filename. So if your stylesheet is named `main.scss`, Calliope will produce two files: `main.css` and `main-expanded.css`.
 
-By default, this task lints SCSS files by default, but linting can be disabled via an `.env` file. See [Developer Personalization] for details.
+By default, this task lints SCSS files, but linting can be disabled via an `.env` file. See [Developer Personalization] for details.
 
 ## Daemons
 
@@ -157,7 +157,7 @@ Generic tasks are tasks that are not part of the build and are not run alongside
 
 ### `lint` - Lint JS and SCSS
 
-The `lint` tasks uses [`gulp-eslint-new`](https://npmjs.com/package/gulp-eslint-new) and [`gulp-stylelint`](https://npmjs.com/package/gulp-stylelint) to lint your project’s JS and SCSS (respectively). It uses the `src` and (optional) `watch` settings of the `scripts` and `styles` configuration to determine which files should be linted, and relies on your project’s `.eslintrc.yml` and `.stylelintrc.yml` files to define the rules with which to lint your source files.
+The `lint` tasks uses [`gulp-eslint-new`](https://npmjs.com/package/gulp-eslint-new) and [`stylelint`](https://npmjs.com/package/stylelint) to lint your project’s JS and SCSS (respectively). It uses the `src` and (optional) `watch` settings of the `scripts` and `styles` configuration to determine which files should be linted, and relies on your project’s `.eslintrc.yml` and `.stylelintrc.yml` files to define the rules with which to lint your source files.
 
 # Configuration
 
