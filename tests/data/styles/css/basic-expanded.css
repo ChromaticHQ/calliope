@@ -17,15 +17,15 @@ p, h6, h5, h4, h3, h2, h1 {
   color: #fff;
 }
 .button--primary:focus, .button--primary:hover {
-  background: #a0373f;
+  background: rgb(62.8897460624%, 21.4239794278%, 24.8794599807%);
 }
 
 .button--secondary {
-  background: #848fa5;
+  background: rgb(132, 143, 165);
   color: #2d2d2a;
 }
 .button--secondary:focus, .button--secondary:hover {
-  background: #848fa5;
+  background: rgb(51.6492129246%, 55.9732670533%, 64.6213753107%);
 }
 
 .button--tertiary {

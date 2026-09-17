@@ -10,6 +10,9 @@
  * significance beyond this file; it is merely here to avoid duplication of
  * source and destination paths in the configuration values used below.
  */
+/* eslint-disable-next-line no-unused-vars -- Only referenced by the
+ * currently-commented-out sample lines below; kept so downstream projects
+ * have something to uncomment. */
 const paths = {
   // Source.
   SRC: 'src',
@@ -48,29 +51,6 @@ exports.pipelines = {
      * Uncomment the next line and edit it as necessary.
      */
     // dest: `${ paths.DEST }/fonts`,
-  },
-  images: {
-    /**
-     * src - String or Array of Strings
-     *
-     * A value representing one or more image files to be used as a source. It
-     * may be a path to a single file or a glob matching one or more files, or
-     * an array of said strings.
-     *
-     * Uncomment the next few lines and edit them as necessary.
-     */
-    // src: [
-    //   `${ paths.SRC }/images/**/*`,
-    // ],
-
-    /**
-     * dest - String
-     *
-     * The directory to which processed image files will be saved.
-     *
-     * Uncomment the next line and edit it as necessary.
-     */
-    dest: `${paths.DEST}/images`,
   },
   scripts: {
     /**

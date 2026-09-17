@@ -5,23 +5,25 @@
 
 const { dest, src } = require('gulp');
 const autoprefixer = require('gulp-autoprefixer');
-const gulpIf = require('gulp-if');
 const cleanCss = require('gulp-clean-css');
 const rename = require('gulp-rename');
-const sass = require('gulp-sass')(require('dart-sass'));
+const sass = require('gulp-sass')(require('sass'));
 const sassGlob = require('gulp-sass-glob');
-const stylelint = require('gulp-stylelint');
 
 const config = require('../config')();
+const lintStyles = require('../lib/lint-styles');
 
 // cache destination
 const intake = config.pipelines.styles.src;
 const output = config.pipelines.styles.dest;
 
 // styles task
-function styles() {
+async function styles() {
+  if (config.pipelines.styles.lint) {
+    await lintStyles(intake, config.plugins.stylelint);
+  }
+
   return src(intake, { sourcemaps: true })
-    .pipe(gulpIf(config.pipelines.styles.lint, stylelint(config.plugins.stylelint)))
     .pipe(sassGlob())
     .pipe(sass(config.plugins.sass).on('error', function handleSassError(error) {
       // gulp-sass’s `logError` method does not adequately cause errors to get

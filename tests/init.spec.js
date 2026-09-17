@@ -37,11 +37,13 @@ describe('init Command', () => {
     describe('in a clean directory w/package.json', () => {
       const command = `${cli} init`;
       let cwd;
+
       before(() => {
         cwd = createTemporaryWorkingDirectory();
         createManifestFile(cwd);
         execSync(command, { cwd, stdio });
       });
+
       after(() => deleteTemporaryWorkingDirectory(cwd));
 
       // Assert that each boilerplate file is copied to the downstream project.
@@ -64,6 +66,7 @@ describe('init Command', () => {
       const command = `${cli} init`;
       let cwd;
       let error;
+
       before(() => {
         cwd = createTemporaryWorkingDirectory();
         createManifestFile(cwd);
@@ -74,6 +77,7 @@ describe('init Command', () => {
         // Execute command again, catch the resulting error, and store it.
         try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
       });
+
       after(() => deleteTemporaryWorkingDirectory(cwd));
 
       it('Exit code matches the number of errors', () => {
@@ -101,6 +105,7 @@ describe('init Command', () => {
       const command = `${cli} init`;
       let cwd;
       let error;
+
       before(() => {
         cwd = createTemporaryWorkingDirectory();
         createManifestFile(cwd);
@@ -109,6 +114,7 @@ describe('init Command', () => {
         // Execute command again, catch the resulting error, and store it.
         try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
       });
+
       after(() => deleteTemporaryWorkingDirectory(cwd));
 
       it('Exit code matches the number of errors', () => {
@@ -133,6 +139,7 @@ describe('init Command', () => {
         let error;
         const filename = files[type];
         let prevFile;
+
         before(() => {
           cwd = createTemporaryWorkingDirectory();
           createManifestFile(cwd);
@@ -147,6 +154,7 @@ describe('init Command', () => {
           // Execute command again, catch the resulting error, and store it.
           try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
         });
+
         after(() => deleteTemporaryWorkingDirectory(cwd));
 
         it('Exit code matches the number of errors', () => {
@@ -176,6 +184,7 @@ describe('init Command', () => {
       let cwd;
       let error;
       const prevFiles = {};
+
       before(() => {
         cwd = createTemporaryWorkingDirectory();
         createManifestFile(cwd);
@@ -193,6 +202,7 @@ describe('init Command', () => {
         // Execute command again, storing the results for later retrieval.
         try { execSync(command, { cwd, stdio }); } catch (err) { error = err; }
       });
+
       after(() => deleteTemporaryWorkingDirectory(cwd));
 
       it('No errors should be produced', () => {
@@ -224,11 +234,13 @@ describe('init Command', () => {
           const filesNotToCopy = Object.keys(files).filter((t) => t !== type);
           let cwd;
           const filename = files[type];
+
           before(() => {
             cwd = createTemporaryWorkingDirectory();
             createManifestFile(cwd);
             execSync(command, { cwd, stdio });
           });
+
           after(() => deleteTemporaryWorkingDirectory(cwd));
 
           it(`Copies ${filename} to the downstream project.`, () => {
@@ -246,11 +258,13 @@ describe('init Command', () => {
       describe('--only-package', () => {
         const command = `${cli} init --only-package`;
         let cwd;
+
         before(() => {
           cwd = createTemporaryWorkingDirectory();
           createManifestFile(cwd);
           execSync(command, { cwd, stdio });
         });
+
         after(() => deleteTemporaryWorkingDirectory(cwd));
 
         // Assert that each command is added to the downstream package.json file.
@@ -277,6 +291,7 @@ describe('init Command', () => {
           let cwd;
           const filename = files[type];
           const prevFiles = {};
+
           before(() => {
             cwd = createTemporaryWorkingDirectory();
             createManifestFile(cwd);
@@ -294,6 +309,7 @@ describe('init Command', () => {
             // Execute command once.
             execSync(command, { cwd, stdio });
           });
+
           after(() => deleteTemporaryWorkingDirectory(cwd));
 
           it(`Copies ${filename} to the downstream project.`, () => {
@@ -324,6 +340,7 @@ describe('init Command', () => {
         const command = `${cli} init --only-package`;
         let cwd;
         const prevFiles = {};
+
         before(() => {
           cwd = createTemporaryWorkingDirectory();
           createManifestFile(cwd);
@@ -341,6 +358,7 @@ describe('init Command', () => {
           // Execute command once.
           execSync(command, { cwd, stdio });
         });
+
         after(() => deleteTemporaryWorkingDirectory(cwd));
 
         // Assert that each command is added to the downstream package.json file.

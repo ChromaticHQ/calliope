@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 body {
   margin: 0;
   padding: 0;
@@ -6,20 +8,20 @@ body {
 
 %layout {
   max-width: 100%;
-  padding: map-get($layout-padding, 'mobile');
+  padding: map.get($layout-padding, 'mobile');
 
   @include breakpoint($tablet) {
-    padding: map-get($layout-padding, 'tablet');
+    padding: map.get($layout-padding, 'tablet');
   }
 
   @include breakpoint($desktop) {
     max-width: $tablet;
-    padding: map-get($layout-padding, 'desktop');
+    padding: map.get($layout-padding, 'desktop');
   }
 
   @include breakpoint($desktop-hd) {
     max-width: $desktop;
-    padding: map-get($layout-padding, 'desktop-hd');
+    padding: map.get($layout-padding, 'desktop-hd');
   }
 }
 
